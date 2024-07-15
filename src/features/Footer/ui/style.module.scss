@@ -1,0 +1,98 @@
+
+.footer {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding-left: 20%;
+  padding-right: 20%;
+  color: #333;
+}
+.subscribeSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+
+  span {
+    flex: 1;
+    margin-right: 10px;
+  }
+}
+
+.inputEmail {
+  flex: 2;
+  max-width: 50%;  
+}
+
+.column {
+  margin-bottom: 20px;
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.LogoContainer{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  padding: 5px;
+}
+
+.Logo{
+  background-color: #fec10d;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.conteiner{
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+
+  .footer {
+    padding-left: 0;
+    padding-right: 0; 
+  }
+
+  .subscribeSection {
+    flex-direction: column;
+    align-items: stretch;
+
+    span {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  .LogoContainer{
+    width: 100%;
+  }
+
+  .conteiner{
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .inputEmail {
+    width: 100%;
+  }
+
+  .column {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+}

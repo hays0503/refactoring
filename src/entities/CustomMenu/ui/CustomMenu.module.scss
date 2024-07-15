@@ -1,0 +1,23 @@
+@import '@/shared/mixin/mobileOrDesctop.module.scss'; 
+
+.HeaderMenuTop{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 850px) {
+        flex-direction: column;        
+    }
+}
+
+
+.HeaderMenuButton{
+    width: calc(90dvw);
+}
+
+
+.MenuImg{
+
+}

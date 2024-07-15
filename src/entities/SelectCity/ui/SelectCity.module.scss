@@ -1,0 +1,30 @@
+.sityPlace {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+
+
+@media screen and (min-width: 1px) and (max-width: 768px) {
+    .menu {
+        width: 100%;        
+    }
+    
+
+    .sityPlace {
+        width: 100%;
+    }
+
+}

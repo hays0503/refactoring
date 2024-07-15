@@ -1,0 +1,26 @@
+.Container{
+    width: 1400px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #e5e5e554;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (max-width: 1400px){
+        width: 100%;
+        
+    }
+}
+
+.GridContainer{
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(3,1fr);
+    width: 100%;
+    
+    @media screen and (max-width: 768px){
+        grid-template-columns: 1fr;        
+    }
+}

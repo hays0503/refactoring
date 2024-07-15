@@ -1,0 +1,53 @@
+.container {
+    width: 45dvw;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    @media (min-width: 1440px) and (max-width: 2560px) {
+        width: 70dvw;
+    }
+
+    @media (min-width: 1201px) and (max-width: 1440px) {
+        width: 95dvw;
+    }
+
+    @media (min-width: 769px) and (max-width: 1200px) {
+        width: 95dvw;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 95dvw;
+    }
+}
+
+
+.slideStyle{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+
+
+    height: 400px;
+    // width: 80dvw;
+    padding: 5rem;
+    gap:1.5rem;
+
+    background: rgb(29,23,129);
+    background: linear-gradient(140deg, rgba(29,23,129,1) 9%, rgba(9,9,121,1) 26%, rgba(0,212,255,1) 100%);
+    color: #000;
+
+    @media screen and (max-width: 768px) { /* adjust this value based on your desired breakpoint */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        // height: 30vh; /* adjust this value to fit your mobile layout needs */
+        // width: 90vw; /* adjust this value to fit your mobile layout needs */
+    
+        background-size: cover; /* add this property to scale the gradient */
+        background-position: center; /* add this property to center the gradient */
+      }
+}

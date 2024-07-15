@@ -1,0 +1,25 @@
+.Container{
+    width: 1400px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #e5e5e554;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (max-width: 1400px){
+        width: 100%;
+        
+    }
+}
+
+.HorizontalScrollWraper{
+    display: flex;
+    width: calc(100%);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    gap: 100px;
+    padding: 10px;
+}
