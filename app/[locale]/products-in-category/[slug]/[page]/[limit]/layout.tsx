@@ -13,17 +13,15 @@ interface Params {
 
 
 export async function generateStaticParams() {
-  const url = "http://185.100.67.246:8888/api/v1/category";
-  const dataCatalog: Category[] = await (await fetch(url,{ cache: 'force-cache' })).json();
 
-  // console.log();
-  // console.log("------------------");
-  // console.log("Данные по категориям  ",slug);
-  // console.log("------------------")
-
-  const slug = buildFlatCategory(dataCatalog)
-
-  return slug;
+  try {
+    const url = "http://185.100.67.246:8888/api/v1/category/";
+    const dataCatalog: Category[] = await (await fetch(url,{ cache: 'force-cache' })).json();
+    const slug = buildFlatCategory(dataCatalog)
+    return slug
+  } catch (error) {
+    console.log("Ошибка при получении категорий");    
+  }
 }
 
 export default function Layout({

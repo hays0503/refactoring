@@ -75,7 +75,7 @@
   "rating": "Rating",
   "parametry-tovara": "Product parameters",
   "reiting": "Rating",
-  "otzyvov": "reviews",
+  "otzyvov": "Review:",
   "dnya-nazad": "days ago",
   "podpishites-na-rassylku-chtoby-byt-v-kurse-akcii": "Subscribe to the newsletter to stay updated on promotions!",
   "vvedite-vash-e-mail": "Enter your E-mail",
@@ -152,5 +152,6 @@
   "do-10-000-dostavka-stoit-1000kzt": "Up to 10,000, delivery costs 1000₸.",
   "dostavka-besplatnaya-pri-zakaze-ot-10-000kzt": "Delivery is free for orders over 10,000₸.",
   "dostavka-v-cherte-goroda-0": "Delivery within the city",
-  "1px-solid-f0f0f0": "1px solid #f0f0f0"
+  "1px-solid-f0f0f0": "1px solid #f0f0f0",
+  "opisanie": "Description"
 }

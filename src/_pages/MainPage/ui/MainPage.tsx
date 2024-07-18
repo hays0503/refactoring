@@ -20,15 +20,15 @@ export function MainPage() {
     return data;
   };
 
-  const [products, setProducts] = useState<Populates[]>([]);
+  const [populates, setPopulates] = useState<Populates[]>([]);
 
   useEffect(() => {
     fetchPopularProduct().then((data) => {
-      setProducts(data);
+      setPopulates(data);
     });
   }, []);
 
-  if (products.length === 0) {
+  if (populates.length === 0) {
     return <div>Загрузка...</div>;
   }
 
@@ -44,7 +44,7 @@ export function MainPage() {
             {/* Место для баннера */}
             <BannerProduct />
             {/* Популярные продукты */}
-            <PopularProduct products={products} /> 
+            <PopularProduct populates={populates} /> 
           </section>
           <Footer/>
         </Content>

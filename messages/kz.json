@@ -75,7 +75,7 @@
   "рейтинг": "Рейтинг",
   "parametry-tovara": "Өнімнің параметрлері",
   "reiting": "Рейтинг",
-  "otzyvov": "шолулар",
+  "otzyvov": "Шолу:",
   "dnya-nazad": "күн бұрын",
   "podpishites-na-rassylku-chtoby-byt-v-kurse-akcii": "Науқандардан хабардар болу үшін ақпараттық бюллетеньге жазылыңыз!",
   "vvedite-vash-e-mail": "Электрондық поштаңызды енгізіңіз",
@@ -151,5 +151,6 @@
   "do-10-000-dostavka-stoit-1000kzt": "10000-ға дейін жеткізу құны 1000₸.",
   "dostavka-v-naselennye-punkty-nakhodyashiesya-vne-cherty-goroda": "Қала шегінен тыс елді мекендерге жеткізу",
   "dostavka-platnaya-i-rasschityvaetsya-operatorami": "Жеткізу операторлармен төленеді және есептеледі.",
-  "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Жеткізу құнын бізбен байланысып немесе тапсырыс бергеннен кейін оператордың қоңырауын күту арқылы тексеруге болады."
+  "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Жеткізу құнын бізбен байланысып немесе тапсырыс бергеннен кейін оператордың қоңырауын күту арқылы тексеруге болады.",
+  "opisanie": "Сипаттама"
 }

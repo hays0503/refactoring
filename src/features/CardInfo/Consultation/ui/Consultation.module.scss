@@ -1,0 +1,38 @@
+// Стили для ПК
+
+.ConsultationContainer {
+    display: flex;
+    flex-direction: column;
+    //background-color: saddlebrown;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.Consultation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5px;
+    padding: 5px;
+}
+
+// Стили для мобильных устройств
+@media screen and (max-width: 768px) {
+
+    .ConsultationContainer {
+        display: flex;
+        flex-direction: column;
+        //background-color: saddlebrown;
+        border-radius: 15px;
+    }
+
+    .Consultation {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 5px;
+        padding: 5px;
+    }
+}

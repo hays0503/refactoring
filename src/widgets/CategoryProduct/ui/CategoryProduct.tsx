@@ -96,8 +96,8 @@ export default function CategoryProduct(
             <div><Title level={5}>{nameCategory}</Title></div>
             <Flex justify='center' align='center' gap={'5px'}>
                 <ChangeListViewDropdown currentItem={params.limit<=0?12:params.limit} items={items}/>
-                <Button onClick={()=>setVertical(false)}><Image src='/HorizontalList.svg' width={24} height={24} alt='HorizontalList'/></Button>
-                <Button onClick={()=>setVertical(true)}><Image src='/VerticalList.svg' width={24} height={24} alt='VerticalList'/></Button>                
+                <Button id={Style.desktop} onClick={()=>setVertical(false)}><Image src='/HorizontalList.svg' width={24} height={24} alt='HorizontalList'/></Button>
+                <Button id={Style.desktop} onClick={()=>setVertical(true)}><Image src='/VerticalList.svg' width={24} height={24} alt='VerticalList'/></Button>                
             </Flex>
           </Flex>
 

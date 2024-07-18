@@ -25,6 +25,11 @@ const nextConfig = {
             },
 
             {
+                source: '/api/v1/products/by_ids/:ids',
+                destination: 'http://185.100.67.246:8888/api/v1/products/by_ids/:ids/'
+            },
+
+            {
                 source: '/api/v1/products/:slug',
                 destination: 'http://185.100.67.246:8888/api/v1/products/:slug/'
             },
@@ -67,6 +72,20 @@ const nextConfig = {
             {
                 source: '/api/v1/reviews',
                 destination:'http://185.100.67.246:8888/api/v1/reviews/'
+            },
+            {
+                source: '/api/v1/reviews/filter_by_prod/:prod_pk',
+                destination:'http://185.100.67.246:8888/api/v1/reviews/filter_by_prod/:prod_pk/'
+            },
+
+            {
+                source: '/api/v1/descrip/filter_by_prod/:prod_pk',
+                destination:'http://185.100.67.246:8888/api/v1/descrip/filter_by_prod/:prod_pk/'
+            },
+
+            {
+                source: '/api/v1/specif/filter_by_prod/:prod_pk',
+                destination:'http://185.100.67.246:8888/api/v1/specif/filter_by_prod/:prod_pk/'
             },
 
             {

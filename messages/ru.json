@@ -73,7 +73,7 @@
   "foto-i-video-otzyvy": "Фото и видео отзывы",
   "polzovatelei-rekomenduyut-etot-produkt": "пользователей рекомендуют этот продукт",
   "reiting": "Рейтинг",
-  "otzyvov": "отзывов",
+  "otzyvov": "Отзывов:",
   "dnya-nazad": "дня назад",
   "podpishites-na-rassylku-chtoby-byt-v-kurse-akcii": "Подпишитесь на рассылку, чтобы быть в курсе акций!",
   "vvedite-vash-e-mail": "Введите Ваш E-mail",
@@ -149,5 +149,6 @@
   "do-10-000-dostavka-stoit-1000kzt": "До 10 000 доставка стоит 1000₸.",
   "dostavka-v-naselennye-punkty-nakhodyashiesya-vne-cherty-goroda": "Доставка в населенные пункты находящиеся вне черты города",
   "dostavka-platnaya-i-rasschityvaetsya-operatorami": "Доставка платная и рассчитывается операторами.",
-  "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Вы можете уточнить стоимость доставки связавшись с нами или дождавшись звонка от оператора после оформления заказа."
+  "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Вы можете уточнить стоимость доставки связавшись с нами или дождавшись звонка от оператора после оформления заказа.",
+  "opisanie": "Описание"
 }

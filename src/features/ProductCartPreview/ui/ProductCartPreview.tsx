@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { CSSProperties, Key, useEffect, useState } from 'react';
 import { Products, TagProd } from '@/shared/types/products';
 import { selectDataByLangProducts } from '@/shared/tool/selectDataByLang';
+import Link from 'next/link';
 
 
 const { Title, Text } = Typography
@@ -51,7 +52,7 @@ const ReviewsUser = ({ product }: { product: Products }) => {
 
   return <Popover
     title={'Отзывы пользователей'}
-    trigger={'click'}
+    // trigger={'click'}
     content={
       <Flex gap={'10px'} vertical={true} style={{ width: '500px', height: '200px', overflowY: 'scroll' }}>
         {
@@ -93,7 +94,7 @@ const Description = ({ product, city }: { product: Products, city: string }) => 
     <Flex vertical={true} gap={'10px'}>
       <Flex gap={'5px'}> <Text strong>{PriceProduct}</Text>  <Text type="secondary" delete>{FakePrice}</Text></Flex>
       <Flex gap={'25px'}>
-        <Rate allowHalf defaultValue={product?.average_rating ? product?.average_rating : randomInteger(3,5)} onChange={() => {
+        <Rate disabled allowHalf defaultValue={product?.average_rating?product?.average_rating:0} onChange={() => {
           message.success({
             content: <Flex gap={'5px'}><Text>{`Спасибо за вашу оценку !`}</Text><SmileOutlined style={{ color: 'green' }} /> </Flex>
           })
@@ -170,9 +171,10 @@ export default function ProductCartPreview({ product, city,isVertical=false }: {
   }
 
   return (
-    <>
+    <div style={{padding:'10px'}}>
       <BuildAllTag TagsProd={TagProduct}>
         <InstallTag TagProd={TagProductSale} index={3}>
+          <Link href={`/${localActive}/products/${product.slug}`}>
           <Card
             hoverable
             style={StyleCard}
@@ -192,8 +194,9 @@ export default function ProductCartPreview({ product, city,isVertical=false }: {
               description={<Description product={product} city={city} />}
             />
           </Card>
+          </Link>
         </InstallTag>
       </BuildAllTag>
-    </>
+    </div>
   )
 }

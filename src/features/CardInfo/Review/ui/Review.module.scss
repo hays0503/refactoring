@@ -1,0 +1,61 @@
+.RatingContainerPhotoVideo {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #0000002f;
+    border-radius: 10px;
+    background-color: #f1f1f1cc;
+    box-shadow: 3px 3px 5px 1px rgba(0, 0, 0, 0.2);
+
+    @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.RatingContainerPhotoVideoItem{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    //background-color: antiquewhite;
+    height: 100%;
+    padding: 3px;
+
+    img {
+        width: 52px;
+        height: 52px;
+    }
+
+    @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        //background-color: antiquewhite;
+        height: 100%;
+        padding: 3px;
+
+        img {
+            width: 52px;
+            height: 52px;
+        }
+    }
+}
+
+.RatingContainerReview {
+    display: flex;
+    flex-direction: column;
+    //background-color: darkslategrey;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+
+    @media screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        //background-color: darkslategrey;
+        border-radius: 10px;
+        margin: 5px;
+        padding: 5px;
+    }
+}
+
+.RatingContainerReviewHeader{}

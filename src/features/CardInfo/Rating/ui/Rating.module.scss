@@ -1,0 +1,103 @@
+// Стили для ПК
+
+
+.RatingContainerContent {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 5px;
+    //background-color: rgb(100, 237, 207);
+    width: 100%;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+}
+
+.RatingContainerColumn {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+
+
+
+
+.RatingRecomender {
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+}
+
+.RatingValue{
+    display: flex;
+    flex-direction: row;
+}
+
+.RatingRecomenderText {
+    display: flex;
+    // width: 85%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+// Стили для мобильных устройств
+@media screen and (max-width: 768px) {
+
+    .RatingContainerContent {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 5px;
+        //background-color: rgb(100, 237, 207);
+        width: 100%;
+        flex-wrap: nowrap;
+        border-radius: 10px;
+    }
+
+    .RatingContainerColumn {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+
+
+    .RatingRecomender {
+        display: flex;
+        gap: 5px;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .RatingRecomenderText {
+        display: flex;
+        // width: 85%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -1,8 +1,6 @@
-import { Product } from './product';
-
 export interface Populates {
     readonly id:        number;
-    readonly products:  Product[];
+    readonly products:  number[];
     readonly name_set:  string;
     readonly activ_set: boolean;
 }

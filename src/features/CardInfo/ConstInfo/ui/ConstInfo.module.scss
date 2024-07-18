@@ -1,0 +1,112 @@
+// Styles for desktop
+.CostContainer {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 30%;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: stretch;
+    height: fit-content;
+    border: 1px solid #0000002f;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    background: #eeece0b7 no-repeat center;
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    padding: 5px;
+}
+
+.ConstLineSpaceBetween {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 5px;
+}
+
+.ConstLine {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.Bonus {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin: 5px;
+}
+
+.Credit {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 5px;
+}
+
+.CreditLine {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.CostBuy {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #0000002f;
+    border-radius: 10px;
+    background-color: #ffa600cc !important;
+}
+
+// Styles for mobile devices
+@media screen and (max-width: 768px) {
+    .CostContainer {
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .ConstLineSpaceBetween {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .ConstLine {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .Bonus {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        margin: 5px;
+    }
+
+    .Credit {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 5px;
+    }
+
+    .CreditLine {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .CostBuy {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #0000002f;
+        border-radius: 10px;
+        background-color: #ffa600cc !important;
+    }
+}
