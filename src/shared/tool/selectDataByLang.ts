@@ -1,6 +1,7 @@
 import { Category } from "../types/category";
 import { iDescription } from "../types/descriptionProduct";
 import { Products } from "../types/products";
+import { ProductsDetail } from "../types/productsDetail";
 import { Specification } from "../types/specification";
 
 const selectDataByLangCategory = (
@@ -21,7 +22,7 @@ const selectDataByLangCategory = (
 };
 
 const selectDataByLangProducts = (
-  object: Products | null,
+  object: ProductsDetail | null,
   currentLang: "ru" | "en" | "kz" | string
 ) => {
   if (!object) return "";

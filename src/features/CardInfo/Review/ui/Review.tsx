@@ -47,7 +47,7 @@ export default function Review({ productId }: { productId: number }) {
 
   /* Фото и видео отзывы */
   return (
-    <div className={style.RatingContainerPhotoVideo}>
+    <div id='Review' className={style.RatingContainerPhotoVideo}>
       <Flex gap={10} style={{ padding: "10px" }} align="baseline">
         <Title level={5}>{t("foto-i-video-otzyvy")}</Title>
         <Text strong type="success">{'[ '}{t("otzyvov")}</Text>

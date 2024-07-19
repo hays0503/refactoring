@@ -3,16 +3,23 @@ import { Products } from "./products";
 export interface ProductsDetail {
     readonly id:                number;
     readonly tag_prod:          TagProd[];
-    readonly price:             { [key: string]: number };
+    readonly price:             { [key: string]: number }|null ;
     readonly average_rating:    number;
     readonly reviews_count:     number;
+    readonly discount_amount_p: string|null;
+    readonly discount_amount_c: string|null;
     readonly category:          Category;
     readonly brand:             Brand;
-    readonly present:           Present[];
+    readonly present:           Configuration[];
+    readonly services:          Service[];
+    readonly related_product:   Configuration[];
+    readonly configuration:     Configuration[];
+    readonly old_price_p:       { [key: string]: number }|null;
+    readonly old_price_c:       { [key: string]: number }|null;
     readonly additional_data:   AdditionalData;
     readonly slug:              string;
+    readonly vendor_code:       string;
     readonly name_product:      string;
-    readonly related_product:   Products[];
     readonly list_url_to_image: string[];
 }
 
@@ -41,17 +48,20 @@ export interface Category {
     readonly list_url_to_baner: any[];
 }
 
-export interface Present {
+export interface Configuration {
     readonly id:                number;
     readonly tag_prod:          TagProd[];
     readonly price:             { [key: string]: number };
     readonly additional_data:   AdditionalData;
     readonly slug:              string;
+    readonly vendor_code:       string;
     readonly name_product:      string;
     readonly category:          number;
     readonly brand:             number;
+    readonly configuration:     number[];
     readonly related_product:   number[];
     readonly present:           number[];
+    readonly services:          number[];
     readonly list_url_to_image: string[];
 }
 
@@ -61,4 +71,19 @@ export interface TagProd {
     readonly tag_text:        string;
     readonly font_color:      string;
     readonly fill_color:      string;
+}
+
+export interface Service {
+    readonly id:              number;
+    readonly cities:          City[];
+    readonly additional_data: AdditionalData;
+    readonly name:            string;
+    readonly description:     string;
+    readonly price:           string;
+}
+
+export interface City {
+    readonly id:              number;
+    readonly additional_data: AdditionalData;
+    readonly name_city:       string;
 }
