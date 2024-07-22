@@ -7,12 +7,13 @@ import { useLocale } from 'next-intl';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useRouter } from 'next/navigation';
-import { Products } from '@/shared/types/products';
 import { Category } from '@/shared/types/category';
 import useCityStore from '@/_app/store/city';
 import { selectDataByLangCategory } from '@/shared/tool/selectDataByLang';
 import Image from 'next/image';
 import { useState } from 'react';
+import { ProductsDetail } from '@/shared/types/productsDetail';
+import { Products } from '@/shared/types/products';
 
 const { Title } = Typography
 
@@ -88,7 +89,8 @@ export default function CategoryProduct(
           alignItems: 'center',
           justifyContent: 'center',
           gap: '20px',
-          width: '100%',
+          width: '50%',
+          // backgroundColor:'tan'
         }}>
         <div className={Style.Container}
         >

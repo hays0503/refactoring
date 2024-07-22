@@ -19,10 +19,10 @@ const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
         </div>
         <div className={style.ColorImageContainer}>
           <div className={style.ColorImage}>
-            <Image src='/cat404.svg' />
+            <Image src='/cat404.svg' alt='cat404'/>
           </div>
           <div className={style.ColorImage}>
-            <Image src='/cat404.svg' />
+            <Image src='/cat404.svg' alt='cat404' />
           </div>
         </div>
 

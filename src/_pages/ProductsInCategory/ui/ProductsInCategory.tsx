@@ -10,8 +10,10 @@ import { buildFlatCategory } from "@/shared/tool/buildFlatCategory";
 
 import { Category } from "@/shared/types/category";
 import { Products } from "@/shared/types/products";
+import { ProductsDetail } from "@/shared/types/productsDetail";
 import { BannerProduct } from "@/widgets/BannerProduct";
 import { CategoryProduct } from "@/widgets/CategoryProduct";
+import { Filter } from "@/widgets/Filter";
 import { ConfigProvider, Flex, Layout, Pagination } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useLocale } from "next-intl";
@@ -116,7 +118,7 @@ export default function ProductsInCategory({
         setPaginationData({ defaultCurrent: page, total: data.length });
       }
     });
-  }, [categories,limit, page, setCategoryTab, setCurrentCategories,slug]);
+  }, [categories, limit, page, setCategoryTab, setCurrentCategories, slug]);
 
   const pageCurrent = (page: number) => {
     if (page <= 0) {
@@ -138,11 +140,25 @@ export default function ProductsInCategory({
             {/* Место для баннера */}
             <BannerProduct />
             {/* Продукты определённой категории */}
-            <CategoryProduct
-              products={products}
-              currentCategory={currentCategory}
-              params={params}
-            />
+            <Flex
+              justify={"center"}
+              style={{ width: "100%",
+                //  backgroundColor: "red"
+
+               }}
+            >
+              <div style={{ width: "20%",
+                //  backgroundColor: "green" 
+                 }}>
+                {currentCategory.id && <Filter slug_category={slug} id_category={currentCategory.id}/>}
+              </div>
+              <CategoryProduct
+                products={products}
+                currentCategory={currentCategory}
+                params={params}
+              />
+            </Flex>
+
             <Flex justify="center">
               <Pagination
                 showSizeChanger

@@ -5,24 +5,23 @@ import { ProductCartPreview } from "@/features/ProductCartPreview";
 import style from "./PopularProduct.module.scss";
 import { Products } from "@/shared/types/products";
 import useCityStore from "@/_app/store/city";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo,memo } from "react";
 import { Populates } from "@/shared/types/populates";
 import { FetchProductbyId } from "@/features/FetchProductbyId";
 
 const { Title } = Typography;
 
-export default function PopularProduct({
+function PopularProduct({
   populates,
 }: {
   populates: Populates[];
 }) {
 
-  const flatProductId: number[] = populates
-    // .filter((product) => product.activ_set === true)
-    .map((product) => product.products)
-    .flat();
+  const flatProductId = useMemo(() => { return populates.map((product) => product.products).flat();}, [populates]);
 
   const currentCity = useCityStore((state) => state.currentCity);
+
+  //console.count("PopularProduct");
 
   return (
     <>
@@ -47,3 +46,4 @@ export default function PopularProduct({
     </>
   );
 }
+export default memo(PopularProduct);

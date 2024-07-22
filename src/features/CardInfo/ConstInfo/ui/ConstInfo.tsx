@@ -31,7 +31,7 @@ const RatingSmall = ({ product }: { product: ProductsDetail | null }) => {
     })
       .then((response) => response.json())
       .then((data) => setReviews(data));
-  }, []);
+  }, [product?.id]);
 
   return (
     <div

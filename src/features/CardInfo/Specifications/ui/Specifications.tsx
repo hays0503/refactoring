@@ -50,7 +50,7 @@ export default function Specifications({ productId }: { productId: number }) {
   useEffect(() => {
     fetch(`/api/v1/specif/filter_by_prod/${productId}`).then((response) =>
       response.json().then((data)=>setSpecifications(data)));    
-  }, []);
+  }, [productId]);
 
   return (
     <Collapse

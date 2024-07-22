@@ -15,7 +15,7 @@ function ReviewItem({ item }: { item: Reviews }) {
     fetch(`/auth_api/v1/auth_user/${item.user_id}`)
       .then((response) => response.json())
       .then((data: User) => setUserData(data));
-  }, []);
+  }, [item.user_id]);
 
   return (
     <div className={style.RatingContainerReview}>
@@ -43,7 +43,7 @@ export default function Review({ productId }: { productId: number }) {
     fetch(`/api/v1/reviews/filter_by_prod/${productId}`)
       .then((response) => response.json())
       .then((data: Reviews[]) => setReviewData(data));
-  }, []);
+  }, [productId]);
 
   /* Фото и видео отзывы */
   return (

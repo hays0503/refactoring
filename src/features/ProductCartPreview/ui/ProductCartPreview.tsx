@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { useLocale } from "next-intl";
 import Image from "next/image";
-import { CSSProperties, Key, useEffect, useState } from "react";
+import { CSSProperties, Key, Suspense, useEffect, useState } from "react";
 import { Products, TagProd } from "@/shared/types/products";
 import { selectDataByLangProducts } from "@/shared/tool/selectDataByLang";
 import Link from "next/link";
@@ -42,12 +42,6 @@ type ReviewType = {
   };
   product: number;
 };
-
-function randomInteger(min: number, max: number) {
-  // случайное число от min до (max+1)
-  let rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
-}
 
 const ReviewsUser = ({ product }: { product: Products }) => {
   const [dataReviewsUser, setDataReviewsUser] = useState<ReviewType[]>([]);
@@ -133,7 +127,7 @@ const Description = ({
   product,
   city,
 }: {
-  product: ProductsDetail;
+  product: Products;
   city: string;
 }) => {
   // Цена устанавливается исходя из города пользователя
@@ -168,7 +162,9 @@ const Description = ({
               });
             }}
           />
-          <ReviewsUser product={product} />
+
+            <ReviewsUser product={product} />
+
         </Flex>
         <Popover
           placement="topLeft"
@@ -252,16 +248,20 @@ export default function ProductCartPreview({
   city,
   isVertical = false,
 }: {
-  product: ProductsDetail;
+  product: Products;
   city: string;
   isVertical: boolean;
 }) {
+  //console.count("ProductCartPreview");
+
   //Выбранный язык пользователя
   const localActive = useLocale();
 
   if (!product) return null;
 
   if (!city) return null;
+
+  if (!product.price) return null;
 
   if (product.price[city] === undefined) return null;
 
@@ -294,14 +294,6 @@ export default function ProductCartPreview({
     fill_color: "#FF0000",
   };
 
-  // min-width: 250px;
-  // height: 350px;
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: space-around;
-  // align-items: center;
-  // flex-wrap: nowrap;
-
   const StyleCard: CSSProperties = {
     minWidth: 250,
     height: 320,
@@ -311,8 +303,9 @@ export default function ProductCartPreview({
     alignItems: `${isVertical ? "center" : "row"}`,
   };
 
-  const Body = () => (
-    <Link href={`/${localActive}/products/${product.slug}`}>
+  const Body = () => {
+    //console.count("Body");
+    return <Link href={`/${localActive}/products/${product.slug}`}>
       <Card
         hoverable
         style={StyleCard}
@@ -333,7 +326,8 @@ export default function ProductCartPreview({
         />
       </Card>
     </Link>
-  );
+  };
+
 
   return (
     <div style={{ padding: "10px" }}>

@@ -1,3 +1,4 @@
+import { Brands } from "../types/brend";
 import { Category } from "../types/category";
 import { iDescription } from "../types/descriptionProduct";
 import { Products } from "../types/products";
@@ -21,8 +22,22 @@ const selectDataByLangCategory = (
   }
 };
 
+const selectDataByLangBrands = (object:Brands, currentLang:"ru" | "en" | "kz" | string) => {
+  if (!object) return "";
+  switch (currentLang) {
+    case "ru":
+      return object.name_brand;
+    case "en":
+      return object.additional_data.EN;
+    case "kz":
+      return object.additional_data.KZ;
+    default:
+      return object.name_brand;
+  }
+}
+
 const selectDataByLangProducts = (
-  object: ProductsDetail | null,
+  object: ProductsDetail | Products | null,
   currentLang: "ru" | "en" | "kz" | string
 ) => {
   if (!object) return "";
@@ -113,4 +128,5 @@ export {
   selectDataByLangDescriptionBody,
   selectDataByLangNameSpecification,
   selectDataByLangValueSpecification,
+  selectDataByLangBrands,
 };

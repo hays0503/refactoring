@@ -12,11 +12,14 @@ import { Content } from "antd/es/layout/layout";
 import { useState, useEffect } from "react";
 
 export function MainPage() {
+  
+  //console.count("MainPage");
+
   const { CurrentTheme } = useTheme();
 
   const fetchPopularProduct = async () => {
     const limit = 16;
-    const data = await (await fetch(`/api/v1/populates/?limit=${limit}`)).json() as Populates[];
+    const data = await (await fetch(`/api/v1/populates/?limit=${limit}`,{cache:'force-cache'})).json() as Populates[];
     return data;
   };
 
@@ -31,6 +34,8 @@ export function MainPage() {
   if (populates.length === 0) {
     return <div>Загрузка...</div>;
   }
+
+
 
   return (
     <ConfigProvider theme={CurrentTheme}>

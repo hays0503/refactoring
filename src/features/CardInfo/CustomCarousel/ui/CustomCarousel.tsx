@@ -27,6 +27,7 @@ const CustomCarousel = ({ images }: { images: string[] | null }) => {
         {images && <Image 
         className={style.MainImg}
         src={images[SelectImage]}
+        alt='product'
         preview={true} 
         // width={'20rem'}
         // height={'auto'} 

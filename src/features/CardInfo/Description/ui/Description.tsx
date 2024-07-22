@@ -48,7 +48,7 @@ export default function Description({ productId }: { productId: number }) {
     fetch(`/api/v1/descrip/filter_by_prod/${productId}`).then((response) =>
       response.json().then(setDescription)
     );
-  }, []);
+  }, [productId]);
 
   return (
     <Collapse

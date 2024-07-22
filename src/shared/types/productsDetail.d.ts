@@ -10,10 +10,10 @@ export interface ProductsDetail {
     readonly discount_amount_c: string|null;
     readonly category:          Category;
     readonly brand:             Brand;
-    readonly present:           Configuration[];
+    readonly present:           Products[];
     readonly services:          Service[];
-    readonly related_product:   Configuration[];
-    readonly configuration:     Configuration[];
+    readonly related_product:   Products[];
+    readonly configuration:     Products[];
     readonly old_price_p:       { [key: string]: number }|null;
     readonly old_price_c:       { [key: string]: number }|null;
     readonly additional_data:   AdditionalData;

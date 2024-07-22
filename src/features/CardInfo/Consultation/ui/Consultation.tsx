@@ -16,9 +16,9 @@ export default function Consultation() {
     </div>
     <Divider style={{ margin: '5px 0' }} />
     <div className={style.Consultation}>
-      <Image src='/instagram.png' preview={false} width={24} height={24} />
-      <Image src='/telegram.png' preview={false} width={24} height={24} />
-      <Image src='/whatsapp.png' preview={false} width={24} height={24} />
+      <Image src='/instagram.png' preview={false} width={24} height={24} alt='instagram'/>
+      <Image src='/telegram.png' preview={false} width={24} height={24} alt='telegram'/>
+      <Image src='/whatsapp.png' preview={false} width={24} height={24} alt='whatsapp'/>
     </div>
   </div>
   )
