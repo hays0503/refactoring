@@ -3,8 +3,9 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    background-color: aqua;
-    max-width: 200px;
+    border-radius:1%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    max-width: 270px;
 
     @media screen and (max-width: 768px){
         max-width: 100%;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import {
   Collapse,
   Slider,
@@ -9,6 +9,7 @@ import {
   Select,
   Button,
   Flex,
+  Typography,
 } from "antd";
 import { Category } from "@/shared/types/category";
 import {
@@ -27,6 +28,7 @@ import {
 } from "@/shared/types/specification";
 import ucFirst from "@/shared/tool/ucFirst";
 import style from "./Filter.module.scss";
+import useThemeStore from "@/_app/store/theme";
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -58,6 +60,8 @@ const processData = (data: Specification[]) => {
   return result;
 };
 
+const { Text } = Typography;
+
 const Filter = ({
   slug_category,
   id_category,
@@ -68,7 +72,9 @@ const Filter = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brands[]>([]);
   const [specification, setSpecification] = useState<FilterProps>();
-  const [specificationValue, setSpecificationValue] = useState<{name:string,value:string}[]>([]);
+  const [specificationValue, setSpecificationValue] = useState<
+    { name: string; value: string }[]
+  >([]);
   const [priceRange, setPriceRange] = useState([10, 1699990]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
@@ -114,12 +120,16 @@ const Filter = ({
     alert(JSON.stringify(filterData));
   };
 
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+
+  const darkMode: CSSProperties = {
+    backgroundColor: isDarkMode ? 'rgb(94, 94, 94)' : 'white',
+  } 
+
   return (
-    <div className={style.FilterContainer}>
-      <Collapse
-        style={{ width: "100%" }}
-      >
-        <Panel header="Подкатегории" key="1">
+    <div className={style.FilterContainer} style={darkMode}>
+      <Collapse ghost expandIconPosition='end' style={{ width: "100%" }} defaultActiveKey={["1","2","3"]}>
+        <Panel header={`Подкатегории (${categories.length})`} key="1">
           <Select
             mode="multiple"
             allowClear
@@ -140,31 +150,40 @@ const Filter = ({
             style={{
               display: "flex",
               justifyContent: "space-between",
+              flexDirection: "column",
               marginBottom: 10,
             }}
           >
-            <InputNumber
+            <Slider
+              range
+              value={priceRange}
               min={10}
               max={1699990}
-              value={priceRange[0] ?? 0}
-              onChange={(value) => setPriceRange([value ?? 0, priceRange[1]])}
+              onChange={setPriceRange}
             />
-            <InputNumber
-              min={10}
-              max={1699990}
-              value={priceRange[1]}
-              onChange={(value) => setPriceRange([priceRange[0], value ?? 0])}
-            />
+            <Flex justify="center" align="baseline" gap={5}>
+            <Flex justify="center" align="baseline" gap={5}>
+              <Text>От</Text>
+              <InputNumber
+                min={10}
+                max={1699990}
+                value={priceRange[0] ?? 0}
+                onChange={(value) => setPriceRange([value ?? 0, priceRange[1]])}
+              />
+            </Flex>
+            <Flex justify="center" align="baseline" gap={5}>
+              <Text>До</Text>
+              <InputNumber
+                min={10}
+                max={1699990}
+                value={priceRange[1]}
+                onChange={(value) => setPriceRange([priceRange[0], value ?? 0])}
+              />
+            </Flex>
+            </Flex>
           </div>
-          <Slider
-            range
-            value={priceRange}
-            min={10}
-            max={1699990}
-            onChange={setPriceRange}
-          />
         </Panel>
-        <Panel header="Бренды" key="3">
+        <Panel header={`Бренды (${brands.length})`} key="3">
           <Select
             mode="multiple"
             allowClear
@@ -182,22 +201,31 @@ const Filter = ({
 
         {specification &&
           Object.keys(specification).map((key) => {
-            const header = ucFirst(selectDataByLangNameSpecification(
-              specification[key].key,
-              localActive
-            ));
+            const header = ucFirst(
+              selectDataByLangNameSpecification(
+                specification[key].key,
+                localActive
+              )
+            );
             return (
-              <Panel header={header} key={header}>
+              <Panel
+                header={`${header} (${specification[key].value.length})`}
+                key={header}
+              >
                 <Select
                   style={{ width: "100%" }}
                   placeholder={`${t("select")} ${header}`}
                   mode="multiple"
-                  onSelect={(value,option) => {
-                      const data = [...specificationValue,{
-                        name:specification[key].key.name_specification,
-                        value:value}]
-                      console.log(data)
-                      setSpecificationValue(data);  
+                  onSelect={(value, option) => {
+                    const data = [
+                      ...specificationValue,
+                      {
+                        name: specification[key].key.name_specification,
+                        value: value,
+                      },
+                    ];
+                    console.log(data);
+                    setSpecificationValue(data);
                   }}
                 >
                   {specification[key].value.map((item) => (
@@ -205,7 +233,9 @@ const Filter = ({
                       key={item.value_specification}
                       value={item.value_specification}
                     >
-                      {ucFirst(selectDataByLangValueSpecification(item, localActive))}
+                      {ucFirst(
+                        selectDataByLangValueSpecification(item, localActive)
+                      )}
                     </Option>
                   ))}
                 </Select>
@@ -217,7 +247,7 @@ const Filter = ({
       <Button type="primary" onClick={handleFilter}>
         Применить фильтр
       </Button>
-      </div>
+    </div>
   );
 };
 
