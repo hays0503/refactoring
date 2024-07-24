@@ -29,6 +29,9 @@ import {
 import ucFirst from "@/shared/tool/ucFirst";
 import style from "./Filter.module.scss";
 import useThemeStore from "@/_app/store/theme";
+import { DeleteOutlined } from "@ant-design/icons";
+import { json } from "stream/consumers";
+
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -54,7 +57,11 @@ const processData = (data: Specification[]) => {
     if (result[name].value.length === 0) {
       result[name].key = item.name_specification;
     }
-    result[name].value.push(value);
+    // Если такого значения нет, то добавляем 
+    if (!result[name].value.find((item) => item.value_specification === value.value_specification)){
+        result[name].value.push(value);
+    }
+
   });
 
   return result;
@@ -65,9 +72,13 @@ const { Text } = Typography;
 const Filter = ({
   slug_category,
   id_category,
+  filtredProductIds,
+  setFiltredProductIds,
 }: {
   slug_category: string;
   id_category: number;
+  filtredProductIds: number[];
+  setFiltredProductIds: (value: number[]) => void;
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [brands, setBrands] = useState<Brands[]>([]);
@@ -79,6 +90,7 @@ const Filter = ({
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [selectedColors, setSelectedColors] = useState([]);
+  const [loadings, setLoadings] = useState<boolean>(false);
 
   const localActive = useLocale();
 
@@ -110,25 +122,59 @@ const Filter = ({
   }, [id_category, slug_category]);
 
   const handleFilter = () => {
-    const filterData = {
-      category: id_category,
-      brand: selectedBrand,
-      price_min: priceRange[0],
-      price_max: priceRange[1],
-      specifications: specificationValue,
-    };
-    alert(JSON.stringify(filterData));
+    setLoadings(true);
+    let filterData = {};
+    if (selectedCategory) {
+      filterData = { ...filterData, category: selectedCategory };
+    }
+    if (selectedBrand) {
+      filterData = { ...filterData, brand: selectedBrand };
+    }
+    if (priceRange[0] !== 10 || priceRange[1] !== 1699990) {
+      filterData = {
+        ...filterData,
+        price_min: priceRange[0],
+        price_max: priceRange[1],
+      };
+    }
+    if (specificationValue.length > 0) {
+      filterData = { ...filterData, specifications: specificationValue };
+    }
+
+    console.log("filterData ", filterData);
+
+    fetch("/api/v1/products/set/filter", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filterData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setLoadings(false);
+        setFiltredProductIds(
+          data.map((item: { id: number; slug: string }) => item.id)
+        );
+      })
+      .catch((error) => console.error("Error fetching colors:", error));
   };
 
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
 
   const darkMode: CSSProperties = {
-    backgroundColor: isDarkMode ? 'rgb(94, 94, 94)' : 'white',
-  } 
+    backgroundColor: isDarkMode ? "rgb(94, 94, 94)" : "white",
+  };
 
   return (
     <div className={style.FilterContainer} style={darkMode}>
-      <Collapse ghost expandIconPosition='end' style={{ width: "100%" }} defaultActiveKey={["1","2","3"]}>
+      <Collapse
+        ghost
+        expandIconPosition="end"
+        style={{ width: "100%" }}
+        defaultActiveKey={["1", "2", "3"]}
+      >
         <Panel header={`Подкатегории (${categories.length})`} key="1">
           <Select
             mode="multiple"
@@ -138,7 +184,7 @@ const Filter = ({
             onChange={(value) => setSelectedCategory(value || null)}
           >
             {categories.map((cat) => (
-              <Option key={cat.slug} value={cat.slug}>
+              <Option key={cat.id} value={cat.id}>
                 {selectDataByLangCategory(cat, localActive)}
               </Option>
             ))}
@@ -162,24 +208,28 @@ const Filter = ({
               onChange={setPriceRange}
             />
             <Flex justify="center" align="baseline" gap={5}>
-            <Flex justify="center" align="baseline" gap={5}>
-              <Text>От</Text>
-              <InputNumber
-                min={10}
-                max={1699990}
-                value={priceRange[0] ?? 0}
-                onChange={(value) => setPriceRange([value ?? 0, priceRange[1]])}
-              />
-            </Flex>
-            <Flex justify="center" align="baseline" gap={5}>
-              <Text>До</Text>
-              <InputNumber
-                min={10}
-                max={1699990}
-                value={priceRange[1]}
-                onChange={(value) => setPriceRange([priceRange[0], value ?? 0])}
-              />
-            </Flex>
+              <Flex justify="center" align="baseline" gap={5}>
+                <Text>От</Text>
+                <InputNumber
+                  min={10}
+                  max={1699990}
+                  value={priceRange[0] ?? 0}
+                  onChange={(value) =>
+                    setPriceRange([value ?? 0, priceRange[1]])
+                  }
+                />
+              </Flex>
+              <Flex justify="center" align="baseline" gap={5}>
+                <Text>До</Text>
+                <InputNumber
+                  min={10}
+                  max={1699990}
+                  value={priceRange[1]}
+                  onChange={(value) =>
+                    setPriceRange([priceRange[0], value ?? 0])
+                  }
+                />
+              </Flex>
             </Flex>
           </div>
         </Panel>
@@ -198,6 +248,8 @@ const Filter = ({
             ))}
           </Select>
         </Panel>
+
+        <div>{JSON.stringify(specificationValue)}</div>
 
         {specification &&
           Object.keys(specification).map((key) => {
@@ -227,6 +279,13 @@ const Filter = ({
                     console.log(data);
                     setSpecificationValue(data);
                   }}
+                  onDeselect={(value, option) => {
+                    const data = specificationValue.filter(
+                      (item) => item.value !== value
+                    );
+                    console.log(data);
+                    setSpecificationValue(data);
+                  }}
                 >
                   {specification[key].value.map((item) => (
                     <Option
@@ -244,9 +303,20 @@ const Filter = ({
           })}
       </Collapse>
 
-      <Button type="primary" onClick={handleFilter}>
-        Применить фильтр
-      </Button>
+      <Flex
+        justify="center"
+        style={{ marginBottom: 10 }}
+        vertical={true}
+        gap={"10px"}
+      >
+        <Button type="primary" loading={loadings} onClick={handleFilter}>
+          Применить фильтр
+        </Button>
+
+        <Button onClick={() => setFiltredProductIds([])}>
+          Сбросить <DeleteOutlined />
+        </Button>
+      </Flex>
     </div>
   );
 };

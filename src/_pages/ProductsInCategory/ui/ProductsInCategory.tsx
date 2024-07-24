@@ -21,12 +21,19 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import style from "./ProductsInCategory.module.scss";
 
-const fetchPopularProduct = async (slug: string) => {
+const fetchByCatProduct = async (slug: string) => {
   const data = (await (
     await fetch(`/api/v1/products/filter_by_cat/${slug}`)
   ).json()) as Products[];
   return [...data];
 };
+
+const fetchProductByIds = async (ids: number[]) => {
+  const data = (await (
+    await fetch(`/api/v1/products/by_ids/${ids.join(",")}`)
+  ).json()) as Products[];
+  return data;
+}
 
 const fetchCurrentCategory = async (slug: string) => {
   const currentCategory = await (
@@ -76,6 +83,8 @@ export default function ProductsInCategory({
     total: 1,
   } as { defaultCurrent: number; total: number });
 
+  const [filtredProductIds,setFiltredProductIds] = useState<number[]>([])
+
   const {
     categories,
     currentCategory,
@@ -103,21 +112,30 @@ export default function ProductsInCategory({
         if (root) setCategoryTab(root);
       }
     });
-    fetchPopularProduct(slug).then((data) => {
-      if (page <= -1 || limit <= 0) {
-        setProducts(data.slice(0, 12));
-        setPaginationData({
-          defaultCurrent: 0,
-          total: Math.round(data.length / 12),
-        });
-      } else {
-        const start: number = Number(page) * Number(limit);
-        const end: number = start + Number(limit);
-        setProducts(data.slice(start, end));
-        setPaginationData({ defaultCurrent: page, total: data.length });
-      }
-    });
-  }, [categories, limit, page, setCategoryTab, setCurrentCategories, slug]);
+    if(filtredProductIds.length === 0){
+      fetchByCatProduct(slug).then((data) => {
+        if (page <= -1 || limit <= 0) {
+          setProducts(data.slice(0, 12));
+          setPaginationData({
+            defaultCurrent: 0,
+            total: Math.round(data.length / 12),
+          });
+        } else {
+          const start: number = Number(page) * Number(limit);
+          const end: number = start + Number(limit);
+          setProducts(data.slice(start, end));
+          setPaginationData({ defaultCurrent: page, total: data.length });
+        }
+      });
+    }else{
+      fetchProductByIds(filtredProductIds).then((data) => {
+        setProducts(data);
+      });
+    }
+
+  }, [filtredProductIds,categories, limit, page, setCategoryTab, setCurrentCategories, slug]);
+
+
 
   const pageCurrent = (page: number) => {
     if (page <= 0) {
@@ -141,7 +159,10 @@ export default function ProductsInCategory({
             {/* Продукты определённой категории */}
             <div className={style.ContainerProductsInCategory}>
               {currentCategory.id && (
-                <Filter slug_category={slug} id_category={currentCategory.id} />
+                <Filter 
+                slug_category={slug} id_category={currentCategory.id}
+                filtredProductIds={filtredProductIds} setFiltredProductIds={setFiltredProductIds}
+                />
               )}
               {currentCategory.id && (
                 <CategoryProduct
