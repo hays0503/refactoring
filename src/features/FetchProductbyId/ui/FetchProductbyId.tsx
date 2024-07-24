@@ -37,7 +37,6 @@ function FetchProductbyId({ ids, currentCity }: FetchProductbyIdProps) {
   }, [products, currentCity]);
 
   if (loading || !products) {
-    //console.count("FetchProductbyId-Skeleton");
     return (
       <>
         <Card
@@ -56,7 +55,6 @@ function FetchProductbyId({ ids, currentCity }: FetchProductbyIdProps) {
     );
   }
 
-  //console.count("FetchProductbyId-Render");
 
   return <>{renderedProducts}</>;
 }

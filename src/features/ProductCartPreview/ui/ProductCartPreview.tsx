@@ -28,6 +28,7 @@ import { selectDataByLangProducts } from "@/shared/tool/selectDataByLang";
 import Link from "next/link";
 import { ProductsDetail } from "@/shared/types/productsDetail";
 import beautifulCost from "@/shared/tool/beautifulCost";
+import style from "./ProductCartPreview.module.scss";
 
 const { Title, Text } = Typography;
 
@@ -63,7 +64,6 @@ const ReviewsUser = ({ product }: { product: Products }) => {
           const flitredData = data.filter(
             (item: { product: number }) => item.product === product.id
           );
-          // console.log("data ", flitredData);
           setDataReviewsUser(flitredData);
         });
       });
@@ -163,8 +163,7 @@ const Description = ({
             }}
           />
 
-            <ReviewsUser product={product} />
-
+          <ReviewsUser product={product} />
         </Flex>
         <Popover
           placement="topLeft"
@@ -207,7 +206,6 @@ const InstallTag = ({
   index: number;
   children: any;
 }) => {
-  // console.log("TagProd.tag_text ",TagProd.tag_text)
   return (
     <Badge.Ribbon
       text={TagProd.tag_text}
@@ -239,7 +237,6 @@ const BuildAllTag = ({
       </InstallTag>
     );
   });
-  // console.log("Content ",Content)
   return <>{Content}</>;
 };
 
@@ -252,8 +249,6 @@ export default function ProductCartPreview({
   city: string;
   isVertical: boolean;
 }) {
-  //console.count("ProductCartPreview");
-
   //Выбранный язык пользователя
   const localActive = useLocale();
 
@@ -294,40 +289,33 @@ export default function ProductCartPreview({
     fill_color: "#FF0000",
   };
 
-  const StyleCard: CSSProperties = {
-    minWidth: 250,
-    height: 320,
-    display: `${isVertical ? "block" : "flex"}`,
-    flexDirection: `${isVertical ? "column" : "row"}`,
-    justifyContent: `${isVertical ? "space-around" : "row"}`,
-    alignItems: `${isVertical ? "center" : "row"}`,
-  };
+  const cardStyle = isVertical? style.StyleCardVertical :  style.StyleCardHorizontal;
 
   const Body = () => {
-    //console.count("Body");
-    return <Link href={`/${localActive}/products/${product.slug}`}>
-      <Card
-        hoverable
-        style={StyleCard}
-        cover={
-          <Image
-            priority={true}
-            alt="example"
-            src={product.list_url_to_image[0]}
-            width={150}
-            height={150}
-            style={{ objectFit: "contain", padding: "10px" }}
+    return (
+      <Link href={`/${localActive}/products/${product.slug}`}>
+        <Card
+          hoverable
+          className={cardStyle}
+          cover={
+            <Image
+              priority={true}
+              alt="example"
+              src={product.list_url_to_image[0]}
+              width={150}
+              height={150}
+              style={{ objectFit: "contain", padding: "10px" }}
+            />
+          }
+        >
+          <Card.Meta
+            title={NameProduct}
+            description={<Description product={product} city={city} />}
           />
-        }
-      >
-        <Card.Meta
-          title={NameProduct}
-          description={<Description product={product} city={city} />}
-        />
-      </Card>
-    </Link>
+        </Card>
+      </Link>
+    );
   };
-
 
   return (
     <div style={{ padding: "10px" }}>

@@ -12,8 +12,6 @@ import { Content } from "antd/es/layout/layout";
 import { useState, useEffect } from "react";
 
 export function MainPage() {
-  
-  //console.count("MainPage");
 
   const { CurrentTheme } = useTheme();
 

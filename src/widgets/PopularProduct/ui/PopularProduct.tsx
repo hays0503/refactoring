@@ -21,8 +21,6 @@ function PopularProduct({
 
   const currentCity = useCityStore((state) => state.currentCity);
 
-  //console.count("PopularProduct");
-
   return (
     <>
       <div

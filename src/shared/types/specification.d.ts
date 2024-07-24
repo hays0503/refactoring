@@ -1,4 +1,6 @@
-export interface Specification {
+
+
+export type Specification  = {
     id:                  number;
     name_specification:  NameSpecification;
     value_specification: ValueSpecification;
@@ -21,3 +23,14 @@ export interface ValueSpecification {
     additional_data:     AdditionalData;
     value_specification: string;
 }
+
+
+export type SpecificationNameSpecificationProps = {
+    (object:Specification | null,currentLang: "ru" | "en" | "kz" | string): string;
+    (object:NameSpecification,currentLang: "ru" | "en" | "kz" | string): string;
+};
+
+export type SpecificationValueSpecificationProps = {
+    (object:Specification | null,currentLang: "ru" | "en" | "kz" | string): string;
+    (object:ValueSpecification,currentLang: "ru" | "en" | "kz" | string): string;
+};

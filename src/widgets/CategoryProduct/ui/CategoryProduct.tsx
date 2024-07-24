@@ -83,15 +83,7 @@ export default function CategoryProduct(
 
   return (
     <>
-      <div style={
-        {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '20px',
-          width: '50%',
-          // backgroundColor:'tan'
-        }}>
+      {/* <div className={Style.MainContainer}> */}
         <div className={Style.Container}
         >
           <Flex justify='space-between' style={{width:'100%'}}>
@@ -106,8 +98,7 @@ export default function CategoryProduct(
           <Divider orientation='center' type='horizontal' />
           {/* ///////////////////////////////// */}
           <div
-            style={{gridTemplateColumns:`${isVertical?'repeat(3,1fr)':'1fr'}`}}
-            className={Style.GridContainer}
+            className={isVertical?Style.GridContainerVertical:Style.GridContainerHorizontal}
           >
             {/* Если продуктов нет то пишем товар закончился */}
             {products && products.length === 0 && <div>Товар закончился</div>}
@@ -122,7 +113,7 @@ export default function CategoryProduct(
             }
           </div>
         </div>
-      </div>
+      {/* </div> */}
 
     </>
   )

@@ -19,19 +19,18 @@ import { Content } from "antd/es/layout/layout";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import style from "./ProductsInCategory.module.scss";
 
 const fetchPopularProduct = async (slug: string) => {
   const data = (await (
-    await fetch(`/api/v1/products/filter_by_cat/${slug}`, {
-      cache: "force-cache",
-    })
+    await fetch(`/api/v1/products/filter_by_cat/${slug}`)
   ).json()) as Products[];
   return [...data];
 };
 
 const fetchCurrentCategory = async (slug: string) => {
   const currentCategory = await (
-    await fetch(`/api/v1/category/${slug}`, { cache: "force-cache" })
+    await fetch(`/api/v1/category/${slug}`)
   ).json();
   return currentCategory;
 };
@@ -136,29 +135,22 @@ export default function ProductsInCategory({
             <Header />
             <HeaderMenu />
           </header>
-          <section style={{ padding: "10px", minHeight: "calc(100vh)" }}>
+          <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>
             {/* Место для баннера */}
             <BannerProduct />
             {/* Продукты определённой категории */}
-            <Flex
-              justify={"center"}
-              style={{ width: "100%",
-                //  backgroundColor: "red"
-
-               }}
-            >
-              <div style={{ width: "20%",
-                //  backgroundColor: "green" 
-                 }}>
-                {currentCategory.id && <Filter slug_category={slug} id_category={currentCategory.id}/>}
-              </div>
-              <CategoryProduct
-                products={products}
-                currentCategory={currentCategory}
-                params={params}
-              />
-            </Flex>
-
+            <div className={style.ContainerProductsInCategory}>
+              {currentCategory.id && (
+                <Filter slug_category={slug} id_category={currentCategory.id} />
+              )}
+              {currentCategory.id && (
+                <CategoryProduct
+                  products={products}
+                  currentCategory={currentCategory}
+                  params={params}
+                />
+              )}
+            </div>
             <Flex justify="center">
               <Pagination
                 showSizeChanger

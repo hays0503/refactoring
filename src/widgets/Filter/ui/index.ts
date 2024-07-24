@@ -1,3 +1,3 @@
-import Filter from './Filter.tsx'
+import Filter from './Filter'
 
 export { Filter }

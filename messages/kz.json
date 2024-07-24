@@ -153,5 +153,6 @@
   "dostavka-platnaya-i-rasschityvaetsya-operatorami": "Жеткізу операторлармен төленеді және есептеледі.",
   "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Жеткізу құнын бізбен байланысып немесе тапсырыс бергеннен кейін оператордың қоңырауын күту арқылы тексеруге болады.",
   "opisanie": "Сипаттама",
-  "cost": "Бағасы:"
+  "cost": "Бағасы:",
+  "select": "Таңдаңыз"
 }

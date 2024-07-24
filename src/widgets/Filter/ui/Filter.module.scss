@@ -1,0 +1,14 @@
+.FilterContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: aqua;
+    max-width: 200px;
+
+    @media screen and (max-width: 768px){
+        max-width: 100%;
+        width: 85dvw;
+    }
+
+}

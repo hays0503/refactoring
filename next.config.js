@@ -98,6 +98,11 @@ const nextConfig = {
             },
 
             {
+                source: '/api/v1/specif/by_category/:cat_pk',
+                destination:'http://185.100.67.246:8888/api/v1/specif/by_category/:cat_pk/'
+            },
+
+            {
                 source: '/auth_api/v1/auth_user/:id',
                 destination:'http://pimenov.kz:5001/auth_api/v1/auth_user/:id'
             }

@@ -20,7 +20,6 @@ function useGetCurrentCity():GetCurrentCity {
       (pos) => {
         const { latitude, longitude } = pos.coords;
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-        // console.log(url)
         setPos({ latitude, longitude });
         fetch(url, { cache: "force-cache" })
           .then((res) => res.json())
@@ -34,8 +33,6 @@ function useGetCurrentCity():GetCurrentCity {
             "Вы отменили запрос на геолокацию или ваш браузер не поддерживает геолокацию установите город вручную",
           duration: 15,
         });
-        // }
-        // console.log(err)
         setCurrentSity("Астана");
         setPos({ latitude: 43.258866, longitude: 76.905113 });
       }
