@@ -142,7 +142,8 @@ const Filter = ({
     }
 
     console.log("filterData ", filterData);
-
+    alert(JSON.stringify(filterData));
+    
     fetch("/api/v1/products/set/filter", {
       method: "POST",
       headers: {
@@ -248,8 +249,6 @@ const Filter = ({
             ))}
           </Select>
         </Panel>
-
-        <div>{JSON.stringify(specificationValue)}</div>
 
         {specification &&
           Object.keys(specification).map((key) => {
