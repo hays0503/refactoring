@@ -1,7 +1,6 @@
 "use client";
 
 import useCategoryStore from "@/_app/store/category";
-import { AllCategory } from "@/entities/AllCategory";
 import { Footer } from "@/features/Footer";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
@@ -10,7 +9,6 @@ import { buildFlatCategory } from "@/shared/tool/buildFlatCategory";
 
 import { Category } from "@/shared/types/category";
 import { Products } from "@/shared/types/products";
-import { ProductsDetail } from "@/shared/types/productsDetail";
 import { BannerProduct } from "@/widgets/BannerProduct";
 import { CategoryProduct } from "@/widgets/CategoryProduct";
 import { Filter } from "@/widgets/Filter";
@@ -20,6 +18,7 @@ import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import style from "./ProductsInCategory.module.scss";
+import useCityStore from "@/_app/store/city";
 
 const fetchByCatProduct = async (slug: string) => {
   const data = (await (
@@ -69,9 +68,9 @@ const findRootCategoryId = (
 export default function ProductsInCategory({
   params,
 }: {
-  params: { slug: string; page: number; limit: number };
+  params: { slug: string; page: number; limit: number,sort:string };
 }) {
-  const { slug, page, limit } = params;
+  const { slug, page, limit,sort } = params;
 
   const { CurrentTheme } = useTheme();
   const route = useRouter();
@@ -88,10 +87,8 @@ export default function ProductsInCategory({
   const {
     categories,
     currentCategory,
-    categoryTab,
     setCategoryTab,
     setCurrentCategories,
-    setCategoryBanner,
   } = useCategoryStore((store) => {
     return {
       categories: store.categories,
@@ -102,6 +99,8 @@ export default function ProductsInCategory({
       setCategoryBanner: store.setCategoryBanner,
     };
   });
+
+  const currentCity = useCityStore((store) => store.currentCity);
 
   useEffect(() => {
     fetchCurrentCategory(slug).then((data) => {
@@ -115,7 +114,8 @@ export default function ProductsInCategory({
     if(filtredProductIds.length === 0){
       fetchByCatProduct(slug).then((data) => {
         if (page <= -1 || limit <= 0) {
-          setProducts(data.slice(0, 12));
+          const productData = data.slice(0, 12);
+          setProducts(productData);
           setPaginationData({
             defaultCurrent: 0,
             total: Math.round(data.length / 12),
@@ -123,13 +123,27 @@ export default function ProductsInCategory({
         } else {
           const start: number = Number(page) * Number(limit);
           const end: number = start + Number(limit);
-          setProducts(data.slice(start, end));
+          const productData = data.slice(start, end);
+          setProducts(productData);
           setPaginationData({ defaultCurrent: page, total: data.length });
         }
       });
     }else{
       fetchProductByIds(filtredProductIds).then((data) => {
-        setProducts(data);
+        if (page <= -1 || limit <= 0) {
+          const productData = data.slice(0, 12);
+          setProducts(productData);
+          setPaginationData({
+            defaultCurrent: 0,
+            total: Math.round(data.length / 12),
+          });
+        } else {
+          const start: number = Number(page) * Number(limit);
+          const end: number = start + Number(limit);
+          const productData = data.slice(start, end);
+          setProducts(productData);
+          setPaginationData({ defaultCurrent: page, total: data.length });
+        }
       });
     }
 
@@ -144,6 +158,45 @@ export default function ProductsInCategory({
       return page + 1;
     }
   };
+
+  const sortFunction = {
+    "unpopular-first": (a: Products, b: Products)=>{
+      if(Number(a.average_rating)>Number(b.average_rating)){return 1}
+      if(Number(a.average_rating)<Number(b.average_rating)){return -1}
+      return 0
+        
+    },
+    "popular-first": (a: Products, b: Products)=>{
+      if(Number(a.average_rating)>Number(b.average_rating)){return -1}
+      if(Number(a.average_rating)<Number(b.average_rating)){return 1}
+      return 0
+    },
+    "cheaper-first": (a: Products, b: Products)=>{
+      if(Number(a.price?.[currentCity])>Number(b.price?.[currentCity])){return 1}
+      if(Number(a.price?.[currentCity])<Number(b.price?.[currentCity])){return -1}
+      return 0
+        
+    },
+    "expensive-first": (a: Products, b: Products)=>{
+      if(Number(a.price?.[currentCity])>Number(b.price?.[currentCity])){return -1}
+      if(Number(a.price?.[currentCity])<Number(b.price?.[currentCity])){return 1}
+      return 0
+    }
+  }
+
+  const getSortFunc = (sort:string) =>{
+    switch(sort){
+      case "popular-first":
+        return sortFunction["popular-first"]
+      case "unpopular-first":
+        return sortFunction["unpopular-first"]
+      case "cheaper-first":
+        return sortFunction["cheaper-first"]
+      case "expensive-first":
+        return sortFunction["expensive-first"]
+    }
+      
+  }
 
   return (
     <ConfigProvider theme={CurrentTheme}>
@@ -166,7 +219,7 @@ export default function ProductsInCategory({
               )}
               {currentCategory.id && (
                 <CategoryProduct
-                  products={products}
+                  products={products.sort(getSortFunc(sort))}
                   currentCategory={currentCategory}
                   params={params}
                 />
