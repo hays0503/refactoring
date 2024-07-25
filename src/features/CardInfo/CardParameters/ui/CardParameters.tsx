@@ -32,10 +32,6 @@ const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
   const t = useTranslations();
   const localActive = useLocale();
 
-  useEffect(() => {
-    if (!product) return;
-  }, [product?.id]);
-
   return (
     <>
       <div className={style.Container}>

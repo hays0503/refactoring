@@ -54,6 +54,7 @@ export default function Description({ productId }: { productId: number }) {
     <Collapse
       items={CollapseItems}
       bordered={false}
+      defaultActiveKey={["1"]}
       style={{ width: "100%" }}
     />
   );

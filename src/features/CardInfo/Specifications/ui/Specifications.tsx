@@ -56,6 +56,7 @@ export default function Specifications({ productId }: { productId: number }) {
     <Collapse
       items={CollapseItems}
       bordered={false}
+      defaultActiveKey={["1"]}
       style={{ width: "100%" }}
     />
   );
