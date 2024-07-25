@@ -138,13 +138,13 @@ const selectDataByLangValueSpecification = (
   if ((<Specification>object).product) {
     switch (currentLang) {
       case "ru":
-        return (<Specification>object).name_specification.name_specification;
+        return (<Specification>object).value_specification.value_specification;
       case "en":
-        return (<Specification>object).name_specification.additional_data.EN || (<Specification>object).name_specification.name_specification;
+        return (<Specification>object).value_specification.additional_data.EN || (<Specification>object).value_specification.value_specification;
       case "kz":
-        return (<Specification>object).name_specification.additional_data.KZ || (<Specification>object).name_specification.name_specification;
+        return (<Specification>object).value_specification.additional_data.KZ || (<Specification>object).value_specification.value_specification;
       default:
-        return (<Specification>object).name_specification.name_specification;
+        return (<Specification>object).value_specification.value_specification;
     }
   }
   if((<ValueSpecification>object).additional_data){
