@@ -155,5 +155,6 @@
   "1px-solid-f0f0f0": "1px solid #f0f0f0",
   "opisanie": "Description",
   "cost": "Cost:",
-  "select": "Select"
+  "select": "Select",
+  "varianty-ispolneniya-komplektacii": "Execution options (Options)"
 }

@@ -152,5 +152,6 @@
   "vy-mozhete-utochnit-stoimost-dostavki-svyazavshis-s-nami-ili-dozhdavshis-zvonka-ot-operatora-posle-oformleniya-zakaza": "Вы можете уточнить стоимость доставки связавшись с нами или дождавшись звонка от оператора после оформления заказа.",
   "opisanie": "Описание",
   "cost": "Цена:",
-  "select": "Выбирете"
+  "select": "Выбирете",
+  "varianty-ispolneniya-komplektacii": "Варианты исполнения (Комплектации)"
 }
