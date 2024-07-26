@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { Review } from "@/features/CardInfo/Review";
 import { Description } from "@/features/CardInfo/Description";
 import { Specifications } from "@/features/CardInfo/Specifications";
+import CardPresent from "@/features/CardInfo/CardPresent/ui/CardPresent";
 
 export default function ProductCardDetail({
   product,
@@ -64,8 +65,12 @@ export default function ProductCardDetail({
               </div>
 
               {/* Описание цены*/}
-              <ConstInfo product={product} />
+              <Flex vertical={true} style={{width:'30%'}}>
+                <ConstInfo product={product}/>
+                <CardPresent product={product}/>
+              </Flex>
             </div>
+            
 
             {/* Описание товара */}
             <div className={style.Info}>

@@ -113,36 +113,38 @@ export default function ProductsInCategory({
     });
     if(filtredProductIds.length === 0){
       fetchByCatProduct(slug).then((data) => {
+        const sortData = data.sort(getSortFunc(sort))
         if (page <= -1 || limit <= 0) {
-          const productData = data.slice(0, 12);
+          const productData = sortData.slice(0, 12);
           setProducts(productData);
           setPaginationData({
             defaultCurrent: 0,
-            total: Math.round(data.length / 12),
+            total: Math.round(sortData.length / 12),
           });
         } else {
           const start: number = Number(page) * Number(limit);
           const end: number = start + Number(limit);
-          const productData = data.slice(start, end);
+          const productData = sortData.slice(start, end);
           setProducts(productData);
-          setPaginationData({ defaultCurrent: page, total: data.length });
+          setPaginationData({ defaultCurrent: page, total: sortData.length });
         }
       });
     }else{
       fetchProductByIds(filtredProductIds).then((data) => {
+        const sortData = data.sort(getSortFunc(sort))
         if (page <= -1 || limit <= 0) {
-          const productData = data.slice(0, 12);
+          const productData = sortData.slice(0, 12);
           setProducts(productData);
           setPaginationData({
             defaultCurrent: 0,
-            total: Math.round(data.length / 12),
+            total: Math.round(sortData.length / 12),
           });
         } else {
           const start: number = Number(page) * Number(limit);
           const end: number = start + Number(limit);
-          const productData = data.slice(start, end);
+          const productData = sortData.slice(start, end);
           setProducts(productData);
-          setPaginationData({ defaultCurrent: page, total: data.length });
+          setPaginationData({ defaultCurrent: page, total: sortData.length });
         }
       });
     }
@@ -219,7 +221,7 @@ export default function ProductsInCategory({
               )}
               {currentCategory.id && (
                 <CategoryProduct
-                  products={products.sort(getSortFunc(sort))}
+                  products={products}
                   currentCategory={currentCategory}
                   params={params}
                 />

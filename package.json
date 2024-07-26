@@ -7,7 +7,8 @@
     "devTurbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deployBuild":"ssh localhost -f"
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.0",
