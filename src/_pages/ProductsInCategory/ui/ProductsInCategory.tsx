@@ -131,7 +131,7 @@ export default function ProductsInCategory({
       });
     } else {
       fetchProductByIds(filtredProductIds).then((data) => {
-        const sortData = data.sort(getSortFunc(sort,City));
+        const sortData = data.sort(getSortFunc(sort));
         const a = sortData.map((i)=>{return i?.price});
         if (page <= -1 || limit <= 0) {
           const productData = sortData.slice(0, 12);
@@ -224,18 +224,6 @@ export default function ProductsInCategory({
           <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>
             {/* Место для баннера */}
             <BannerProduct />
-
-            <ul>
-                {productsSort.map((i) => (
-                  <li>{JSON.stringify(i.price)}</li>
-                ))}
-            </ul>
-            <Divider/>
-            <ul>
-                {products.map((i) => (
-                  <li>{JSON.stringify(i.price)}</li>
-                ))}
-            </ul>
 
             {/* Продукты определённой категории */}
             <div className={style.ContainerProductsInCategory}>
