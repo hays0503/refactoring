@@ -110,7 +110,7 @@ const nextConfig = {
         destination:
           "http://185.100.67.246:8888/api/v1/specif/by_category/:cat_pk/",
       },
-      
+
       {
         source: "/api/v1/products/set/filter",
         destination: "http://185.100.67.246:8888/api/v1/products/set/filter",
@@ -123,6 +123,15 @@ const nextConfig = {
     ];
   },
   pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/ru",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

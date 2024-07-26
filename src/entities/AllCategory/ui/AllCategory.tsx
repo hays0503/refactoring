@@ -80,7 +80,7 @@ function BuildCategoryWidgetPopUp({
                     }}
                     onClick={() =>
                       router.replace(
-                        `/${localActive}/products-in-category/${item.slug}/0/12`
+                        `/${localActive}/products-in-category/${item.slug}/0/12/popular-first`
                       )
                     }
                     // onMouseLeave={() => _setSelectRootCategory(null)}

@@ -237,7 +237,7 @@ export default function ProductsInCategory({
                   route.replace(
                     `/${localActive}/products-in-category/${slug}/${
                       page - 1
-                    }/${pageSize}`
+                    }/${pageSize}/${sort}`
                   );
                 }}
               />

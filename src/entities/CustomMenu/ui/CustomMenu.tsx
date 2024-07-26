@@ -75,7 +75,7 @@ const SelectMenuByLanguage = ({
   const arr = Category.map((item) => {
     const select = selectDataByLangCategory(item, localActive);
 
-    const url = `/${localActive}/products-in-category/${item.slug}/0/12`;
+    const url = `/${localActive}/products-in-category/${item.slug}/0/12/popular-first`;
 
 
     return {
@@ -90,7 +90,7 @@ const SelectMenuByLanguage = ({
           // href={url}
           onClick={() =>{
             // alert(url);
-            router.replace(`/${localActive}/products-in-category/${item.slug}/0/12`)
+            router.replace(`/${localActive}/products-in-category/${item.slug}/0/12/popular-first`)
           }}
         >
           {item.list_url_to_image[0] && (
