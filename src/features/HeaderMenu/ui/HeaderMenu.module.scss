@@ -17,7 +17,8 @@
 .HeaderMenuTop{
     display: flex;
     justify-content: center;
-    width: 100%;
+
+    width: 30%;
     padding-left: 15px;
     padding-right: 15px;
     flex-direction: row;
@@ -35,7 +36,7 @@
 .HeaderMenuTopTabs{
     display: flex;
     flex-direction: row;
-    min-width: 65dvw;
+    min-width: 60dvw;
     justify-content: space-around;
     padding-left: 10px;
     padding-right: 10px;

@@ -121,7 +121,7 @@ function HeaderMenu() {
 
                 <Search
                   placeholder="Что будем искать ?"
-                  style={{ width: isMobile?"100%":"35%" }}
+                  style={{ width: isMobile?"100%":"60%" }}
                 />
 
                 <Flex
@@ -183,7 +183,7 @@ function HeaderMenu() {
                   </div>
                 </Dropdown>
               </Flex>
-              <Flex style={{ width: "75%" }}>
+              <Flex style={{ width: "100%" }}>
                 {componentButtonMenu}
                 <SaleLink />
               </Flex>
