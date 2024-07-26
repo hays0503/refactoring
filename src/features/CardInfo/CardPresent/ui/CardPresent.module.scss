@@ -1,8 +1,5 @@
 .Container{
     position: relative;
-    // width: 40%;
-    height: 220px;
-    // background: url('https://www.w3schools.com/cssref/klematis.jpg') no-repeat center;
     background: #eeece0b7 no-repeat center;
     background-size: cover;
     align-items: center;
@@ -56,6 +53,11 @@
     display: flex;
 }
 
+.ItemContainer{
+    overflow: auto;
+    height: 170px;
+}
+
 .ListUl{
     list-style-type: none;
     padding: 0;
@@ -101,8 +103,4 @@
     align-content: center;
     flex-direction: row;
     flex-wrap: wrap;
-}
-
-.ParamButton{
-
 }

@@ -65,10 +65,10 @@ export default function ProductCardDetail({
               </div>
 
               {/* Описание цены*/}
-              <Flex vertical={true} style={{width:'30%'}}>
+              <div className={style.ConstainerComponentProductPageMainContentCostAndPresent}>
                 <ConstInfo product={product}/>
                 <CardPresent product={product}/>
-              </Flex>
+              </div>
             </div>
             
 

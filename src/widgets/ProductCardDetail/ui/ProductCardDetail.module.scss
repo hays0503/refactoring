@@ -48,6 +48,16 @@
     align-items: center;
 }
 
+.ConstainerComponentProductPageMainContentCostAndPresent{
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+    @media screen and (max-width: 950px) {
+        width: 100%;
+    }
+
+}
+
 .Content {
     display: flex;
     flex-direction: row;
@@ -55,7 +65,6 @@
     width: 98%;
     height: 100%;
     gap: 5px;
-    //background-color: deeppink;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
 }
@@ -65,12 +74,14 @@
     flex-direction: row;
     width: 100%;
     gap: 5px;
-    //background-color: rgb(0, 255, 0);
     flex-wrap: nowrap;
     align-content: center;
     justify-content: space-around;
-    //background-color: bisque;
-    border-radius: 10px;
+    border-radius: 10px;    
+
+    @media screen and (max-width: 950px) {
+        flex-direction: column;
+    }
 }
 
 .MainInfo{
@@ -78,8 +89,10 @@
     flex-direction: row;
     border-radius: 10px;
     width: 70%;
-    // box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
     gap: 5px;
+    @media screen and (max-width: 950px) {
+        width: 100%;
+    }
 }
 
 .Info {

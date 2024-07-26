@@ -47,7 +47,7 @@ const CardPresent = ({ product }: { product: ProductsDetail | null }) => {
           <div className={style.ColorHeader}>
             <Text strong>{t("v-podarok")}</Text>
           </div>
-          <div className={style.ColorImageContainer}>
+          <div className={style.ItemContainer}>
             <ul className={style.ListUl}>
               {product?.present && (
                 <Radio.Group 

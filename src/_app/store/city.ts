@@ -8,7 +8,7 @@ interface iCityStore {
 }
 
 const city = (set: any) => ({
-  currentCity: "Семей",
+  currentCity: "",
   setCurrentCity: (currentCity: string) =>
     set({ currentCity }, false, { type: "setCurrentCity" }),
 });

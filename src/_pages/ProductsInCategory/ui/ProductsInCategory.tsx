@@ -12,7 +12,7 @@ import { Products } from "@/shared/types/products";
 import { BannerProduct } from "@/widgets/BannerProduct";
 import { CategoryProduct } from "@/widgets/CategoryProduct";
 import { Filter } from "@/widgets/Filter";
-import { ConfigProvider, Flex, Layout, Pagination } from "antd";
+import { ConfigProvider, Divider, Flex, Layout, Pagination } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ const fetchProductByIds = async (ids: number[]) => {
     await fetch(`/api/v1/products/by_ids/${ids.join(",")}`)
   ).json()) as Products[];
   return data;
-}
+};
 
 const fetchCurrentCategory = async (slug: string) => {
   const currentCategory = await (
@@ -68,39 +68,38 @@ const findRootCategoryId = (
 export default function ProductsInCategory({
   params,
 }: {
-  params: { slug: string; page: number; limit: number,sort:string };
+  params: { slug: string; page: number; limit: number; sort: string };
 }) {
-  const { slug, page, limit,sort } = params;
+  const { slug, page, limit, sort } = params;
 
   const { CurrentTheme } = useTheme();
   const route = useRouter();
   const localActive = useLocale();
 
   const [products, setProducts] = useState<Products[]>([]);
+
+  const [productsSort, setProductsSort] = useState<Products[]>([]);
+
   const [paginationData, setPaginationData] = useState({
     defaultCurrent: 1,
     total: 1,
   } as { defaultCurrent: number; total: number });
 
-  const [filtredProductIds,setFiltredProductIds] = useState<number[]>([])
+  const [filtredProductIds, setFiltredProductIds] = useState<number[]>([]);
 
-  const {
-    categories,
-    currentCategory,
-    setCategoryTab,
-    setCurrentCategories,
-  } = useCategoryStore((store) => {
-    return {
-      categories: store.categories,
-      currentCategory: store.currentCategories,
-      categoryTab: store.categoryTab,
-      setCategoryTab: store.setCategoryTab,
-      setCurrentCategories: store.setCurrentCategories,
-      setCategoryBanner: store.setCategoryBanner,
-    };
-  });
+  const { categories, currentCategory, setCategoryTab, setCurrentCategories } =
+    useCategoryStore((store) => {
+      return {
+        categories: store.categories,
+        currentCategory: store.currentCategories,
+        categoryTab: store.categoryTab,
+        setCategoryTab: store.setCategoryTab,
+        setCurrentCategories: store.setCurrentCategories,
+        setCategoryBanner: store.setCategoryBanner,
+      };
+    });
 
-  const currentCity = useCityStore((store) => store.currentCity);
+  const City = useCityStore((store) => store.currentCity);
 
   useEffect(() => {
     fetchCurrentCategory(slug).then((data) => {
@@ -111,9 +110,10 @@ export default function ProductsInCategory({
         if (root) setCategoryTab(root);
       }
     });
-    if(filtredProductIds.length === 0){
+    if (filtredProductIds.length === 0) {
       fetchByCatProduct(slug).then((data) => {
-        const sortData = data.sort(getSortFunc(sort))
+        const sortData = data.sort(getSortFunc(sort));
+        const a = sortData.map((i)=>{return i?.price});
         if (page <= -1 || limit <= 0) {
           const productData = sortData.slice(0, 12);
           setProducts(productData);
@@ -129,9 +129,10 @@ export default function ProductsInCategory({
           setPaginationData({ defaultCurrent: page, total: sortData.length });
         }
       });
-    }else{
+    } else {
       fetchProductByIds(filtredProductIds).then((data) => {
-        const sortData = data.sort(getSortFunc(sort))
+        const sortData = data.sort(getSortFunc(sort,City));
+        const a = sortData.map((i)=>{return i?.price});
         if (page <= -1 || limit <= 0) {
           const productData = sortData.slice(0, 12);
           setProducts(productData);
@@ -148,10 +149,16 @@ export default function ProductsInCategory({
         }
       });
     }
-
-  }, [filtredProductIds,categories, limit, page, setCategoryTab, setCurrentCategories, slug]);
-
-
+  }, [
+    filtredProductIds,
+    categories,
+    limit,
+    page,
+    setCategoryTab,
+    setCurrentCategories,
+    slug,
+    City
+  ]);
 
   const pageCurrent = (page: number) => {
     if (page <= 0) {
@@ -162,43 +169,49 @@ export default function ProductsInCategory({
   };
 
   const sortFunction = {
-    "unpopular-first": (a: Products, b: Products)=>{
-      if(Number(a.average_rating)>Number(b.average_rating)){return 1}
-      if(Number(a.average_rating)<Number(b.average_rating)){return -1}
-      return 0
-        
+    "unpopular-first": (a: Products, b: Products) => {
+      const ratingA = Number(a.average_rating);
+      const ratingB = Number(b.average_rating);
+      return ratingA - ratingB;
     },
-    "popular-first": (a: Products, b: Products)=>{
-      if(Number(a.average_rating)>Number(b.average_rating)){return -1}
-      if(Number(a.average_rating)<Number(b.average_rating)){return 1}
-      return 0
+    "popular-first": (a: Products, b: Products) => {
+      const ratingA = Number(a.average_rating);
+      const ratingB = Number(b.average_rating);
+      return ratingB - ratingA;
     },
-    "cheaper-first": (a: Products, b: Products)=>{
-      if(Number(a.price?.[currentCity])>Number(b.price?.[currentCity])){return 1}
-      if(Number(a.price?.[currentCity])<Number(b.price?.[currentCity])){return -1}
-      return 0
-        
+    "cheaper-first": (a: Products, b: Products) => {
+      if (a.price?.[City] !== undefined && b.price?.[City] !== undefined) {
+        return Number(a.price[City]) - Number(b.price[City]);
+      }
+      // Handle cases where price or price[currentCity] is missing
+      if (a.price?.[City] !== undefined) return -1;
+      if (b.price?.[City] !== undefined) return 1;
+      return 0;
     },
-    "expensive-first": (a: Products, b: Products)=>{
-      if(Number(a.price?.[currentCity])>Number(b.price?.[currentCity])){return -1}
-      if(Number(a.price?.[currentCity])<Number(b.price?.[currentCity])){return 1}
-      return 0
-    }
-  }
+    "expensive-first": (a: Products, b: Products,) => {
+      console.log("City",City)
+      if (a.price?.[City] !== undefined && b.price?.[City] !== undefined) {
+        return Number(b.price[City]) - Number(a.price[City]);
+      }
+      // Handle cases where price or price[currentCity] is missing
+      if (a.price?.[City] !== undefined) return 1;
+      if (b.price?.[City] !== undefined) return -1;
+      return 0;
+    },
+  };
 
-  const getSortFunc = (sort:string) =>{
-    switch(sort){
+  const getSortFunc = (sort: string) => {
+    switch (sort) {
       case "popular-first":
-        return sortFunction["popular-first"]
+        return sortFunction["popular-first"];
       case "unpopular-first":
-        return sortFunction["unpopular-first"]
+        return sortFunction["unpopular-first"];
       case "cheaper-first":
-        return sortFunction["cheaper-first"]
+        return sortFunction["cheaper-first"];
       case "expensive-first":
-        return sortFunction["expensive-first"]
+        return sortFunction["expensive-first"];
     }
-      
-  }
+  };
 
   return (
     <ConfigProvider theme={CurrentTheme}>
@@ -211,14 +224,30 @@ export default function ProductsInCategory({
           <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>
             {/* Место для баннера */}
             <BannerProduct />
+
+            <ul>
+                {productsSort.map((i) => (
+                  <li>{JSON.stringify(i.price)}</li>
+                ))}
+            </ul>
+            <Divider/>
+            <ul>
+                {products.map((i) => (
+                  <li>{JSON.stringify(i.price)}</li>
+                ))}
+            </ul>
+
             {/* Продукты определённой категории */}
             <div className={style.ContainerProductsInCategory}>
               {currentCategory.id && (
-                <Filter 
-                slug_category={slug} id_category={currentCategory.id}
-                filtredProductIds={filtredProductIds} setFiltredProductIds={setFiltredProductIds}
+                <Filter
+                  slug_category={slug}
+                  id_category={currentCategory.id}
+                  filtredProductIds={filtredProductIds}
+                  setFiltredProductIds={setFiltredProductIds}
                 />
               )}
+
               {currentCategory.id && (
                 <CategoryProduct
                   products={products}
