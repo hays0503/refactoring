@@ -5,21 +5,16 @@ import { ProductCartPreview } from "@/features/ProductCartPreview";
 import style from "./PopularProduct.module.scss";
 import { Products } from "@/shared/types/products";
 import useCityStore from "@/_app/store/city";
-import { useState, useEffect, useMemo,memo } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { Populates } from "@/shared/types/populates";
 import { FetchProductbyId } from "@/features/FetchProductbyId";
 
 const { Title } = Typography;
 
-function PopularProduct({
-  populates,
-}: {
-  populates: Populates[];
-}) {
+function PopularProduct({ populates }: { populates: Products[] }) {
+  // const flatProductId = useMemo(() => { return populates.map((product) => product.products).flat();}, [populates]);
 
-  const flatProductId = useMemo(() => { return populates.map((product) => product.products).flat();}, [populates]);
-
-  const currentCity = useCityStore((state) => state.currentCity);
+  const currentCity = useCityStore((state) => state.currentCity) || "Астана";
 
   return (
     <>
@@ -37,7 +32,15 @@ function PopularProduct({
           <Divider orientation="center" type="horizontal" />
 
           <div className={style.HorizontalScrollWraper}>
-            <FetchProductbyId ids={flatProductId} currentCity={currentCity} />
+            {/* <FetchProductbyId ids={flatProductId} currentCity={currentCity} /> */}
+            {populates.map((i) => (
+              <ProductCartPreview
+                city={currentCity}
+                isVertical={true}
+                key={i.id}
+                product={i}
+              />
+            ))}
           </div>
         </div>
       </div>
