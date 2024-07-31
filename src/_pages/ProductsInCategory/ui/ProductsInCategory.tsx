@@ -18,7 +18,7 @@ import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import style from "./ProductsInCategory.module.scss";
-import useCityStore from "@/_app/store/city";
+import { iCity } from "@/shared/types/city";
 
 const fetchByCatProduct = async (slug: string) => {
   const data = (await (
@@ -67,18 +67,26 @@ const findRootCategoryId = (
 
 export default function ProductsInCategory({
   params,
+  Cities
 }: {
-  params: { slug: string; page: number; limit: number; sort: string };
+  params: {
+    slug: string;
+    city: string;
+    page: number;
+    limit: number;
+    sort: string;
+  };
+  Cities:iCity[]
 }) {
-  const { slug, page, limit, sort } = params;
+  const { slug, city, page, limit, sort } = params;
+
+  const currentCity:string = Cities.find((i) => i.additional_data['EN'] === params.city)?.name_city||"Ошибка";
 
   const { CurrentTheme } = useTheme();
   const route = useRouter();
   const localActive = useLocale();
 
   const [products, setProducts] = useState<Products[]>([]);
-
-  const [productsSort, setProductsSort] = useState<Products[]>([]);
 
   const [paginationData, setPaginationData] = useState({
     defaultCurrent: 1,
@@ -99,7 +107,6 @@ export default function ProductsInCategory({
       };
     });
 
-  const City = useCityStore((store) => store.currentCity);
 
   useEffect(() => {
     fetchCurrentCategory(slug).then((data) => {
@@ -113,7 +120,9 @@ export default function ProductsInCategory({
     if (filtredProductIds.length === 0) {
       fetchByCatProduct(slug).then((data) => {
         const sortData = data.sort(getSortFunc(sort));
-        const a = sortData.map((i)=>{return i?.price});
+        const a = sortData.map((i) => {
+          return i?.price;
+        });
         if (page <= -1 || limit <= 0) {
           const productData = sortData.slice(0, 12);
           setProducts(productData);
@@ -132,7 +141,9 @@ export default function ProductsInCategory({
     } else {
       fetchProductByIds(filtredProductIds).then((data) => {
         const sortData = data.sort(getSortFunc(sort));
-        const a = sortData.map((i)=>{return i?.price});
+        const a = sortData.map((i) => {
+          return i?.price;
+        });
         if (page <= -1 || limit <= 0) {
           const productData = sortData.slice(0, 12);
           setProducts(productData);
@@ -157,7 +168,7 @@ export default function ProductsInCategory({
     setCategoryTab,
     setCurrentCategories,
     slug,
-    City
+    city,
   ]);
 
   const pageCurrent = (page: number) => {
@@ -180,22 +191,22 @@ export default function ProductsInCategory({
       return ratingB - ratingA;
     },
     "cheaper-first": (a: Products, b: Products) => {
-      if (a.price?.[City] !== undefined && b.price?.[City] !== undefined) {
-        return Number(a.price[City]) - Number(b.price[City]);
+      if (a.price?.[city] !== undefined && b.price?.[city] !== undefined) {
+        return Number(a.price[city]) - Number(b.price[city]);
       }
-      // Handle cases where price or price[currentCity] is missing
-      if (a.price?.[City] !== undefined) return -1;
-      if (b.price?.[City] !== undefined) return 1;
+
+      if (a.price?.[city] !== undefined) return -1;
+      if (b.price?.[city] !== undefined) return 1;
       return 0;
     },
-    "expensive-first": (a: Products, b: Products,) => {
-      console.log("City",City)
-      if (a.price?.[City] !== undefined && b.price?.[City] !== undefined) {
-        return Number(b.price[City]) - Number(a.price[City]);
+    "expensive-first": (a: Products, b: Products) => {
+      console.log("city", city);
+      if (a.price?.[city] !== undefined && b.price?.[city] !== undefined) {
+        return Number(b.price[city]) - Number(a.price[city]);
       }
-      // Handle cases where price or price[currentCity] is missing
-      if (a.price?.[City] !== undefined) return 1;
-      if (b.price?.[City] !== undefined) return -1;
+
+      if (a.price?.[city] !== undefined) return 1;
+      if (b.price?.[city] !== undefined) return -1;
       return 0;
     },
   };
@@ -219,7 +230,7 @@ export default function ProductsInCategory({
         <Content>
           <header>
             <Header />
-            <HeaderMenu />
+            <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
           <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>
             {/* Место для баннера */}
@@ -240,6 +251,7 @@ export default function ProductsInCategory({
                 <CategoryProduct
                   products={products}
                   currentCategory={currentCategory}
+                  currentCity={currentCity}
                   params={params}
                 />
               )}

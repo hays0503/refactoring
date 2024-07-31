@@ -1,7 +1,7 @@
 import { MainPage } from "@/_pages/MainPage";
+import { iCity } from "@/shared/types/city";
 import { Populates } from "@/shared/types/populates";
 import { Products } from "@/shared/types/products";
-import { revalidateTag } from 'next/cache'
 
 const fetchPopularProduct = async () => {
   const limit = 16;
@@ -9,7 +9,7 @@ const fetchPopularProduct = async () => {
     await fetch(`http://185.100.67.246:8888/api/v1/populates/?limit=${limit}`, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ['fetchPopularProduct']}
+      next: { tags: ["fetchPopularProduct"],revalidate:1 },
     })
   ).json()) as Populates[];
   return data;
@@ -22,15 +22,35 @@ const fetchProductByIds = async (ids: number[]) => {
       {
         mode: "cors",
         credentials: "include",
-        next: { tags: ['fetchProductByIds']}
+        next: { tags: ["fetchProductByIds"],revalidate:60 },
       }
     )
   ).json()) as Products[];
   return data;
 };
 
+const fetchCities = async () => {
+  return [
+    {
+      id: 1,
+      additional_data: {
+        EN: "Petropavlovsk",
+        KZ: "",
+      },
+      name_city: "Петропавловск",
+    },
+    {
+      id: 2,
+      additional_data: {
+        EN: "Astana",
+        KZ: "",
+      },
+      name_city: "Астана",
+    },
+  ];
+};
 
-async function MPage() {
+async function MPage({ params }: { params: any }) {
   const populatesId: Populates[] = await fetchPopularProduct();
 
   const flatProductId: number[] = populatesId
@@ -39,11 +59,13 @@ async function MPage() {
 
   const populatest = await fetchProductByIds(flatProductId);
 
-  return <MainPage populates={populatest} />;
+  const Cities:iCity[] = await fetchCities();
+
+  return <MainPage params={params} populates={populatest} Cities={Cities} />;
 }
 
-const Page = async ({}) => {
-  return <MPage />;
+const Page = async ({ params }: { params: any }) => {
+  return <MPage params={params} />;
 };
 
 export default Page;

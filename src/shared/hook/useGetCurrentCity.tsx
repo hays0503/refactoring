@@ -13,7 +13,7 @@ function useGetCurrentCity():GetCurrentCity {
   const [currentCity, setCurrentSity] = useState("");
   const [pos, setPos] = useState({ latitude: 0, longitude: 0 });
   const [api, contextHolder] = notification.useNotification();
-  const _currentCity = useCityStore((state)=>state.currentCity);
+  // const _currentCity = useCityStore((state)=>state.currentCity);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(

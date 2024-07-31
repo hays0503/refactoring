@@ -20,17 +20,20 @@ import { Review } from "@/features/CardInfo/Review";
 import { Description } from "@/features/CardInfo/Description";
 import { Specifications } from "@/features/CardInfo/Specifications";
 import CardPresent from "@/features/CardInfo/CardPresent/ui/CardPresent";
+import { iCity } from "@/shared/types/city";
 
 export default function ProductCardDetail({
   product,
+  params,
+  currentCity
 }: {
   product: ProductsDetail | null;
+  params: any;
+  currentCity:string
 }) {
   const t = useTranslations();
 
-  const currentCity = useCityStore((state) => state.currentCity);
-
-
+  // const currentCity = useCityStore((state) => state.currentCity);
 
   return (
     <div className={style.ConstainerComponentProductPage}>
@@ -65,16 +68,19 @@ export default function ProductCardDetail({
               </div>
 
               {/* Описание цены*/}
-              <div className={style.ConstainerComponentProductPageMainContentCostAndPresent}>
-                <ConstInfo product={product}/>
-                <CardPresent product={product}/>
+              <div
+                className={
+                  style.ConstainerComponentProductPageMainContentCostAndPresent
+                }
+              >
+                <ConstInfo product={product} currentCity={currentCity}/>
+                <CardPresent product={product} />
               </div>
             </div>
-            
 
             {/* Описание товара */}
             <div className={style.Info}>
-              <Flex vertical={true} style={{width:'100%'}}>
+              <Flex vertical={true} style={{ width: "100%" }}>
                 {product && <Description productId={product?.id} />}
                 {product && <Specifications productId={product?.id} />}
               </Flex>
@@ -93,8 +99,8 @@ export default function ProductCardDetail({
                     label: t("reiting-i-otzyvy"),
                     children: (
                       <>
-                        {product && <Rating rating={product.average_rating}/>}
-                        {product && <Review productId={product.id}/>}
+                        {product && <Rating rating={product.average_rating} />}
+                        {product && <Review productId={product.id} />}
                       </>
                     ),
                   },
@@ -116,6 +122,7 @@ export default function ProductCardDetail({
                     <div key={index}>
                       <ProductCartPreview
                         product={item}
+                        urlCity={params.city}
                         city={currentCity}
                         isVertical={true}
                       />

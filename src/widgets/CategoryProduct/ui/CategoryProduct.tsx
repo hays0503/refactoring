@@ -76,16 +76,18 @@ export default function CategoryProduct({
   products,
   currentCategory,
   params,
+  currentCity
 }: {
   products: Products[];
   currentCategory: Category | null;
   params: any;
+  currentCity:string
 }) {
   const route = useRouter();
 
   const localActive = useLocale();
 
-  const currentCity = useCityStore((store) => store.currentCity);
+  // const currentCity = useCityStore((store) => store.currentCity);
 
   const nameCategory = selectDataByLangCategory(currentCategory, localActive);
 
@@ -97,7 +99,7 @@ export default function CategoryProduct({
       label: "Показать 12 товаров",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/12/${params.sort}`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/12/${params.sort}`
         ),
     },
     {
@@ -105,7 +107,7 @@ export default function CategoryProduct({
       label: "Показать 15 товаров",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/15/${params.sort}`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/15/${params.sort}`
         ),
     },
     {
@@ -113,7 +115,7 @@ export default function CategoryProduct({
       label: "Показать 18 товаров",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/18/${params.sort}`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/18/${params.sort}`
         ),
     },
   ];
@@ -124,7 +126,7 @@ export default function CategoryProduct({
       label: "Сначало: более популярных",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/${params.limit}/popular-first`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/${params.limit}/popular-first`
         ),
     },
     {
@@ -132,7 +134,7 @@ export default function CategoryProduct({
       label: "Сначало: менее популярных",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/${params.limit}/unpopular-first`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/${params.limit}/unpopular-first`
         ),
     },
     {
@@ -140,7 +142,7 @@ export default function CategoryProduct({
       label: "Сначало: более дорогие",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/${params.limit}/expensive-first`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/${params.limit}/expensive-first`
         ),
     },
     {
@@ -148,7 +150,7 @@ export default function CategoryProduct({
       label: "Сначало: менее дорогие",
       onClick: () =>
         route.replace(
-          `/${localActive}/products-in-category/${params.slug}/${params.page}/${params.limit}/cheaper-first`
+          `/${localActive}/${params.city}/products-in-category/${params.slug}/${params.page}/${params.limit}/cheaper-first`
         ),
     },
   ];
@@ -215,6 +217,7 @@ export default function CategoryProduct({
                 key={index}
                 product={product}
                 city={currentCity}
+                urlCity={params.city}
                 isVertical={isVertical}
               />
             );

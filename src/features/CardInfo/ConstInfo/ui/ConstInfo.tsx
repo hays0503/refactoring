@@ -95,8 +95,8 @@ const Credit = () => {
   );
 };
 
-const ConstInfo = ({ product }: { product: ProductsDetail | null }) => {
-  const City = useCityStore((state) => state.currentCity);
+const ConstInfo = ({ product,currentCity }: { product: ProductsDetail | null,currentCity:string }) => {
+  // const City = useCityStore((state) => state.currentCity);
 
   const t = useTranslations();
 
@@ -108,7 +108,7 @@ const ConstInfo = ({ product }: { product: ProductsDetail | null }) => {
         <RatingSmall product={product} />
       </div>
 
-      <Discount product={product} City={City} />
+      <Discount product={product} City={currentCity} />
 
       {/* <Bonus /> */}
 

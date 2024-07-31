@@ -8,86 +8,24 @@ import { SaleLink } from "@/entities/SaleLink";
 import { AllCategory } from "@/entities/AllCategory";
 import type { MenuProps } from "antd";
 import Image from "next/image";
+import { Basket } from "@/entities/Basket";
+import { Suspense } from "react";
 
 const { Search } = Input;
 const { Text } = Typography;
 
 const { useBreakpoint } = Grid;
 
-function HeaderMenu() {
-  const [componentTopMenu, componentButtonMenu] = CustomMenu();
+function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
+  const [componentTopMenu, componentButtonMenu] = CustomMenu(urlCity);
 
   const { isDarkTheme, isDarkThemeImage } = useTheme();
 
-  const itemsCart: MenuProps["items"] = [
-    {
-      key: "1",
-      label: (
-        <div
-          style={{
-            width: "290px",
-          }}
-        >
-          <div className={styles.row}>
-            <span className={styles.left}>
-              <div style={{ width: "max-content" }}>Товар 1</div>
-            </span>
-            <span className={styles.separator}></span>
-            <span className={styles.right}>
-              <div style={{ width: "max-content" }}> 100000 ₸</div>
-            </span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <div
-          style={{
-            width: "290px",
-          }}
-        >
-          <div className={styles.row}>
-            <span className={styles.left}>
-              <div style={{ width: "max-content" }}>Товар 2</div>
-            </span>
-            <span className={styles.separator}></span>
-            <span className={styles.right}>
-              <div style={{ width: "max-content" }}> 200000 ₸</div>
-            </span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <div
-          style={{
-            width: "290px",
-            borderTop: "6px dashed #f0f0f0",
-            paddingTop: "10px",
-          }}
-        >
-          <div className={styles.row}>
-            <span className={styles.left}>
-              <div style={{ width: "max-content" }}>Итог</div>
-            </span>
-            <span className={styles.separator}></span>
-            <span className={styles.right}>
-              <div style={{ width: "max-content" }}> 300000 ₸</div>
-            </span>
-          </div>
-        </div>
-      ),
-    },
-  ];
 
   const screens = useBreakpoint();
   const isMobile = screens['xs'] || screens['sm'] && !screens['md'] && !screens['lg'] && !screens['xl'] ;
 
-  console.log(screens)
+  // console.log(screens)
 
   return (
     <>
@@ -95,10 +33,10 @@ function HeaderMenu() {
         <div className={styles.HeaderMenuTop} style={isDarkTheme}>
           <Flex vertical={true} gap={15}>
             <Flex justify="center">
-            <Logo />
+            <Logo  urlCity={urlCity}/>
             </Flex>
             <div className={styles.HeaderMenuLine2ContainerCategory}>
-              <AllCategory />
+              <AllCategory city={city} urlCity={urlCity}/>
             </div>
           </Flex>
 
@@ -145,43 +83,15 @@ function HeaderMenu() {
                     style={isDarkThemeImage}
                   />
                 </Flex>
-
-                <Flex align="center" justify="center" vertical={true}>
+                  <Basket city={city}/>
+                <Flex align="center" justify="center" vertical={true} style={{minWidth:'fit-content'}}>
                   <Text>
                     <a href="tel:+7(495) 55-55-55">+7(495) 55-55-55</a>
                   </Text>
                   <Text>9:00 - 22:00</Text>
                   <Text> без выходных </Text>
                 </Flex>
-                <Dropdown
-                  menu={{ items: itemsCart }}
-                  trigger={["hover"]}
-                  placement="top"
-                >
-                  <div className={styles.HeaderMenuLine1TabsСartContainer}>
-                    <div
-                      className={styles.HeaderMenuLine1TabsСartContainerContent}
-                    >
-                      <Badge count={5}>
-                        <Image
-                          src="/cart.svg"
-                          alt="cart"
-                          width={48}
-                          height={48}
-                          style={isDarkThemeImage}
-                        />
-                      </Badge>
-                      <div
-                        className={
-                          styles.HeaderMenuLine1TabsСartContainerContentData
-                        }
-                      >
-                        <Text>Корзина</Text>
-                        <Text>123456789 ₸</Text>
-                      </div>
-                    </div>
-                  </div>
-                </Dropdown>
+
               </Flex>
               <Flex style={{ width: "100%" }}>
                 {componentButtonMenu}

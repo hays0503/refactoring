@@ -64,10 +64,12 @@ const SelectMenuByLanguage = ({
   Category,
   localActive,
   isDarkThemeImage,
+  urlCity
 }: {
   Category: Category[];
   localActive: string;
   isDarkThemeImage: CSSProperties;
+  urlCity:string
 }) => {
 
   const router = useRouter();
@@ -75,7 +77,7 @@ const SelectMenuByLanguage = ({
   const arr = Category.map((item) => {
     const select = selectDataByLangCategory(item, localActive);
 
-    const url = `/${localActive}/products-in-category/${item.slug}/0/12/popular-first`;
+    const url = `/${localActive}/${urlCity}/products-in-category/${item.slug}/0/12/popular-first`;
 
 
     return {
@@ -87,10 +89,8 @@ const SelectMenuByLanguage = ({
             justifyContent: "center",
             height: "50px",
           }}
-          // href={url}
           onClick={() =>{
-            // alert(url);
-            router.replace(`/${localActive}/products-in-category/${item.slug}/0/12/popular-first`)
+            router.replace(url)
           }}
         >
           {item.list_url_to_image[0] && (
@@ -116,10 +116,12 @@ function ButtomMenu({
   CurrentTab,
   localActive,
   isDarkThemeImage,
+  urlCity
 }: {
   CurrentTab: Category[];
   localActive: string;
   isDarkThemeImage: CSSProperties;
+  urlCity:string
 }) {
   return (
     <>
@@ -131,6 +133,7 @@ function ButtomMenu({
               Category: CurrentTab,
               localActive: localActive,
               isDarkThemeImage: isDarkThemeImage,
+              urlCity
             })}
             mode="horizontal"
           />
@@ -140,7 +143,7 @@ function ButtomMenu({
   );
 }
 
-export default function CustomMenu() {
+export default function CustomMenu(urlCity:string) {
   const categories = useGetCategory();
   // const currentCategories = useCategoryStore((store)=>store.currentCategories);
   const {categoryTab,setCategoryTab} = useCategoryStore((store)=>{
@@ -170,6 +173,7 @@ export default function CustomMenu() {
       CurrentTab={categoryTab}
       isDarkThemeImage={isDarkThemeImage}
       localActive={localActive}
+      urlCity={urlCity}
     />
   );
 

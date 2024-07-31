@@ -4,42 +4,39 @@ import { Footer } from "@/features/Footer";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
 import useTheme from "@/shared/hook/useTheme";
-import { Populates } from "@/shared/types/populates";
+import { iCity } from "@/shared/types/city";
 import { Products } from "@/shared/types/products";
 import { BannerProduct } from "@/widgets/BannerProduct";
 import { PopularProduct } from "@/widgets/PopularProduct";
 import { ConfigProvider, Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { useState, useEffect } from "react";
 
-export function MainPage({ populates }: { populates: Products[] }) {
+export function MainPage({
+  params,
+  Cities,
+  populates,
+}: {
+  params: any;
+  Cities: iCity[];
+  populates: Products[];
+}) {
   const { CurrentTheme } = useTheme();
 
-  // const [populates, setPopulates] = useState<Populates[]>([]);
-
-  // useEffect(() => {
-  //   fetchPopularProduct().then((data) => {
-  //     setPopulates(data);
-  //   });
-  // }, []);
-
-  // if (populates.length === 0) {
-  //   return <div>Загрузка...</div>;
-  // }
-
+  const currentCity:string = Cities.find((i) => i.additional_data['EN'] === params.city)?.name_city||"Ошибка";
+ 
   return (
     <ConfigProvider theme={CurrentTheme}>
       <Layout>
         <Content>
           <header>
             <Header />
-            <HeaderMenu />
+            <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
           <section style={{ padding: "10px", height: "calc(100dvh+10px)" }}>
             {/* Место для баннера */}
             <BannerProduct />
             {/* Популярные продукты */}
-            <PopularProduct populates={populates} />
+            <PopularProduct city={currentCity} urlCity={params.city} populates={populates} />
           </section>
           <Footer />
         </Content>
@@ -47,5 +44,3 @@ export function MainPage({ populates }: { populates: Products[] }) {
     </ConfigProvider>
   );
 }
-
-

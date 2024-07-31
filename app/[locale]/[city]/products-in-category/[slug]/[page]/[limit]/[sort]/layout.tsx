@@ -29,10 +29,10 @@ export async function generateStaticParams() {
 
 export default function Layout({
   children,
-  params: { locale, slug, page, limit,sort },
+  params: { locale,city, slug, page, limit,sort },
 }: {
   children: React.ReactNode;
-  params: { locale: string; slug: string; page: number; limit: number,sort:string };
+  params: { locale: string;city:string,slug: string; page: number; limit: number,sort:string };
 }) {
   unstable_setRequestLocale(locale);
   return (<Providers>{children}</Providers>

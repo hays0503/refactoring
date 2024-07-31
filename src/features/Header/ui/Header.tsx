@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 import Link from 'next/link'
 import Image from 'next/image';
 import { LangSwitcher } from '@/entities/LangSwitcher';
- import { SelectCity } from '@/entities/SelectCity';
+import { SelectCity } from '@/entities/SelectCity';
 
  import type { MenuProps } from 'antd';
  import { Menu } from 'antd';
@@ -18,7 +18,7 @@ import useTheme from '@/shared/hook/useTheme';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-export default function Header() {
+export default function Header({params,currentCity}:any) {
 
   const t = useTranslations();
   
@@ -33,12 +33,9 @@ export default function Header() {
   { label: <Link href={`/${localActive}/about`}>{t('o-nas-0')}</Link>, key: 'about' },
   { label: <Link href={`/${localActive}/delivery`}>{t('dostavka')}</Link>, key: 'delivery' },
   { label: <Link href={`/${localActive}/about-pays`}>{t('oplata')}</Link>, key: 'payment' },
-  // { label: <Link href={`/${localActive}/about-сonnecting-equipment`}>{t('podklyuchenie-tekhniki')}</Link>, key: 'connecting' },
-  // { label: <Link href={`/${localActive}/about-additional-services`}>{t('dop-servisy')}</Link>, key: 'additional-services' },
   { label: <Link href={`/${localActive}/about-our-guarantees`}>{t('nashi-garantii')}</Link>, key: 'our-guarantees' },
   { label: <Link href={`/${localActive}/about-why-we`}>{t('pochemu-my')}</Link>, key: 'why-we' },
   { label: <Link href={`/${localActive}/contact`}>{t('kontakty-0')}</Link>, key: 'contacts' },
-  // { label: <Link href={`/${localActive}/leave-request`}>{t('ostavit-obrashenie')}</Link>, key: 'leave-request' },
   { label: <a onClick={() => ModalTogle()}>{t('ostavit-obrashenie')}</a>, key: 'leave-request' },
   ]
 
@@ -53,7 +50,7 @@ export default function Header() {
        {ModalLeaveRequestComponent()}
        <div className={styles.HeaderContainer} style={isDarkTheme} >
          <div className={styles.HeaderSelectCity}>
-           <SelectCity />
+           <SelectCity param={params} currentCity={currentCity}/>
          </div>
 
          <div className={styles.HeaderMenuContainer}>

@@ -29,6 +29,7 @@ import Link from "next/link";
 import { ProductsDetail } from "@/shared/types/productsDetail";
 import beautifulCost from "@/shared/tool/beautifulCost";
 import style from "./ProductCartPreview.module.scss";
+import useBasketStore from "@/_app/store/basket";
 
 const { Title, Text } = Typography;
 
@@ -126,9 +127,13 @@ const ReviewsUser = ({ product }: { product: Products }) => {
 const Description = ({
   product,
   city,
+  localActive,
+  urlCity,
 }: {
   product: Products;
   city: string;
+  localActive: string;
+  urlCity: string;
 }) => {
   // Цена устанавливается исходя из города пользователя
   const price = product?.price?.[city] || "Цена не указана";
@@ -136,36 +141,43 @@ const Description = ({
   const old_price_category = product?.old_price_c?.[city];
   const old_price = old_price_product || old_price_category;
 
+  const BasketStore = useBasketStore((state) => state);
+
   return (
     <>
       <Flex vertical={true} gap={"10px"}>
-        <Flex gap={"5px"}>
-          {" "}
-          <Text strong>{beautifulCost(price)}</Text>{" "}
-          <Text type="secondary" delete>
-            {old_price && beautifulCost(old_price)}
-          </Text>
-        </Flex>
-        <Flex gap={"25px"}>
-          <Rate
-            disabled
-            allowHalf
-            defaultValue={product?.average_rating ? product?.average_rating : 0}
-            onChange={() => {
-              message.success({
-                content: (
-                  <Flex gap={"5px"}>
-                    <Text>{`Спасибо за вашу оценку !`}</Text>
-                    <SmileOutlined style={{ color: "green" }} />{" "}
-                  </Flex>
-                ),
-              });
-            }}
-          />
+        <Link href={`/${localActive}/${urlCity}/products/${product.slug}`}>
+          <Flex gap={"5px"}>
+            {" "}
+            <Text strong>{beautifulCost(price)}</Text>{" "}
+            <Text type="secondary" delete>
+              {old_price && beautifulCost(old_price)}
+            </Text>
+          </Flex>
+          <Flex gap={"25px"}>
+            <Rate
+              disabled
+              allowHalf
+              defaultValue={
+                product?.average_rating ? product?.average_rating : 0
+              }
+              onChange={() => {
+                message.success({
+                  content: (
+                    <Flex gap={"5px"}>
+                      <Text>{`Спасибо за вашу оценку !`}</Text>
+                      <SmileOutlined style={{ color: "green" }} />{" "}
+                    </Flex>
+                  ),
+                });
+              }}
+            />
 
-          <ReviewsUser product={product} />
-        </Flex>
+            <ReviewsUser product={product} />
+          </Flex>
+        </Link>
         <Popover
+          zIndex={2000}
           placement="topLeft"
           content={
             <Flex gap={"10px"} vertical={true}>
@@ -181,6 +193,7 @@ const Description = ({
                       </Flex>
                     ),
                   });
+                  BasketStore.addProduct(product.id,1);
                 }}
               >
                 Отложить товар
@@ -188,7 +201,7 @@ const Description = ({
             </Flex>
           }
         >
-          <Button type="primary" style={{ width: "90px" }}>
+          <Button type="primary" style={{ width: "90px", zIndex: 1000 }}>
             Купить
           </Button>
         </Popover>
@@ -243,10 +256,12 @@ const BuildAllTag = ({
 export default function ProductCartPreview({
   product,
   city,
+  urlCity,
   isVertical = false,
 }: {
   product: Products;
   city: string;
+  urlCity: string;
   isVertical: boolean;
 }) {
   //Выбранный язык пользователя
@@ -289,31 +304,46 @@ export default function ProductCartPreview({
     fill_color: "#FF0000",
   };
 
-  const cardStyle = isVertical? style.StyleCardVertical :  style.StyleCardHorizontal;
+  const cardStyle = isVertical
+    ? style.StyleCardVertical
+    : style.StyleCardHorizontal;
 
   const Body = () => {
     return (
-      <Link href={`/${localActive}/products/${product.slug}`}>
-        <Card
-          hoverable
-          className={cardStyle}
-          cover={
-            <Image
-              priority={true}
-              alt="example"
-              src={product.list_url_to_image[0]}
-              width={150}
-              height={150}
-              style={{ objectFit: "contain", padding: "10px" }}
+      <Card
+        hoverable
+        className={cardStyle}
+        cover={
+          <Link href={`/${localActive}/${urlCity}/products/${product.slug}`}>
+            <Flex justify="center">
+              <Image
+                priority={true}
+                alt="example"
+                src={product.list_url_to_image[0]}
+                width={150}
+                height={150}
+                style={{ objectFit: "contain", padding: "10px" }}
+              />
+            </Flex>
+          </Link>
+        }
+      >
+        <Card.Meta
+          title={
+            <Link href={`/${localActive}/${urlCity}/products/${product.slug}`}>
+              {NameProduct}
+            </Link>
+          }
+          description={
+            <Description
+              product={product}
+              city={city}
+              localActive={localActive}
+              urlCity={urlCity}
             />
           }
-        >
-          <Card.Meta
-            title={NameProduct}
-            description={<Description product={product} city={city} />}
-          />
-        </Card>
-      </Link>
+        />
+      </Card>
     );
   };
 

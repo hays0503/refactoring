@@ -127,7 +127,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/ru",
+        destination: "/ru/Astana",
         permanent: true,
       },
     ];

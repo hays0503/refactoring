@@ -7,9 +7,10 @@ import React from "react";
 interface FetchProductbyIdProps {
   ids: number[];
   currentCity: string;
+  urlCity:string
 }
 
-function FetchProductbyId({ ids, currentCity }: FetchProductbyIdProps) {
+function FetchProductbyId({ ids, currentCity,urlCity }: FetchProductbyIdProps) {
   const [products, setProducts] = useState<Products[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,6 +31,7 @@ function FetchProductbyId({ ids, currentCity }: FetchProductbyIdProps) {
         <ProductCartPreview
           product={product}
           city={currentCity}
+          urlCity={urlCity}
           isVertical={true}
         />
       </div>

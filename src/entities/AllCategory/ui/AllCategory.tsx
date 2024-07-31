@@ -15,11 +15,15 @@ import { useLocale, useTranslations } from "next-intl";
 function BuildCategoryWidgetPopUp({
   Category,
   isDarkThemeImage,
-  localActive
+  localActive,
+  city,
+  urlCity
 }: {
   Category: Category[];
   isDarkThemeImage: CSSProperties;
-  localActive:string
+  localActive:string;
+  city:string;
+  urlCity:string
 }) {
 
 
@@ -80,7 +84,7 @@ function BuildCategoryWidgetPopUp({
                     }}
                     onClick={() =>
                       router.replace(
-                        `/${localActive}/products-in-category/${item.slug}/0/12/popular-first`
+                        `/${localActive}/${urlCity}/products-in-category/${item.slug}/0/12/popular-first`
                       )
                     }
                     // onMouseLeave={() => _setSelectRootCategory(null)}
@@ -144,7 +148,7 @@ function BuildCategoryWidgetPopUp({
   );
 }
 
-export default function AllCategory() {
+export default function AllCategory({city,urlCity}:{city:string,urlCity:string}) {
 
   const Category = useGetCategory();
 
@@ -198,7 +202,7 @@ export default function AllCategory() {
   if (Category.length===0)
     return null
 
-  const content = () => BuildCategoryWidgetPopUp({ Category, isDarkThemeImage,localActive }); 
+  const content = () => BuildCategoryWidgetPopUp({ Category, isDarkThemeImage,localActive,urlCity,city }); 
   
   return (
     <>

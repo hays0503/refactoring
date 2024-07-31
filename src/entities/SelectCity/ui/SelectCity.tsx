@@ -9,17 +9,18 @@ import { useEffect, useState } from "react";
 import Image from 'next/image';
 import style from './SelectCity.module.scss';
 
-export default function SelectCity() {
+export default function SelectCity({params,currentCity}:any) {
   
   const t = useTranslations();
 
 
-  const { currentCity,setCurrentCity} = useCityStore((state) => {
-    return {
-      currentCity: state.currentCity,
-      setCurrentCity: state.setCurrentCity
-    };
-  });
+//   const { currentCity,setCurrentCity} = useCityStore((state) => {
+//     return {
+//       currentCity: state.currentCity,
+//       setCurrentCity: state.setCurrentCity
+//     };
+//   });
+  
   const cities = useGetAllCity();
   const dataHook = useGetCurrentCity();
 
@@ -33,9 +34,9 @@ export default function SelectCity() {
     setListCity(filteredCities);
   }
 
-  useEffect(() => {
-    setCurrentCity(dataHook.currentCity)
-  }, [dataHook.currentCity,setCurrentCity]);
+//   useEffect(() => {
+//     // setCurrentCity(dataHook.currentCity)
+//   }, [dataHook.currentCity,setCurrentCity]);
 
   return (
     <>
@@ -70,7 +71,7 @@ export default function SelectCity() {
                 <Space size="small" wrap>
                     {listCity.map((city, index) => (
                         <Button key={index} className={style.city} onClick={() => {
-                            setCurrentCity(city.value);
+                            // setCurrentCity(city.value);
                             setIsModalOpen(false);
                         }}>
                             {city.value}

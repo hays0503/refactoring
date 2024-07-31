@@ -9,19 +9,36 @@ export const metadata: Metadata = {
 };
 
 const locales = ["en", "ru", "kz"];
-
+const City = [
+  {
+    id: 1,
+    additional_data: {
+      EN: "Petropavlovsk",
+      KZ: "",
+    },
+    name_city: "Петропавловск",
+  },
+  {
+    id: 2,
+    additional_data: {
+      EN: "Astana",
+      KZ: "",
+    },
+    name_city: "Астана",
+  },
+];
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-
+  const city = City.map((i)=>({city:i.additional_data.EN})); 
+  return city
 }
 
 export default async function RootLayout({
   children,
-  params: { locale},
+  params: { locale,city },
 }: {
   children: React.ReactNode;
-  params: { locale: string};
+  params: { locale: string,city:string };
 }) {
   unstable_setRequestLocale(locale);
   return (

@@ -1,33 +1,33 @@
 .StyleCardVertical{
     width: 400px;
-    height: 350px;
+    // height: 350px;
     display: block;
     align-items: center;
 
     @media (min-width: 1440px) and (max-width: 1921px){
         width: 350px;
-        height: 350px;
+        // height: 350px;
         
     }
 
     @media (min-width: 1025px) and (max-width: 1440px){
         width: 240px;
-        height: 310px;
+        // height: 310px;
     }
 
     @media (min-width: 769px) and (max-width: 1024px){
         width: 240px;
-        height: 310px;
+        // height: 310px;
     }
 
     @media (min-width: 426px) and (max-width: 768px){
         width: 380px;
-        height: 310px;
+        // height: 310px;
     }
     
     @media screen and (max-width: 426px){
         width: 240px;
-        height: 310px;
+        // height: 310px;
     }
 }
 

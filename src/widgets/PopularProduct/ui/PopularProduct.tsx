@@ -11,10 +11,10 @@ import { FetchProductbyId } from "@/features/FetchProductbyId";
 
 const { Title } = Typography;
 
-function PopularProduct({ populates }: { populates: Products[] }) {
+function PopularProduct({ city,populates,urlCity }: { city:string,populates: Products[],urlCity:string; }) {
   // const flatProductId = useMemo(() => { return populates.map((product) => product.products).flat();}, [populates]);
 
-  const currentCity = useCityStore((state) => state.currentCity) || "Астана";
+  // const currentCity = useCityStore((state) => state.currentCity) || "Астана";
 
   return (
     <>
@@ -28,14 +28,15 @@ function PopularProduct({ populates }: { populates: Products[] }) {
         }}
       >
         <div className={style.Container}>
-          <Title level={5}>Популярное {currentCity}</Title>
+          <Title level={5}>Популярное {city}</Title>
           <Divider orientation="center" type="horizontal" />
 
           <div className={style.HorizontalScrollWraper}>
             {/* <FetchProductbyId ids={flatProductId} currentCity={currentCity} /> */}
             {populates.map((i) => (
               <ProductCartPreview
-                city={currentCity}
+                city={city}
+                urlCity={urlCity}
                 isVertical={true}
                 key={i.id}
                 product={i}
