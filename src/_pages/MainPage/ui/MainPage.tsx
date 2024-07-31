@@ -29,7 +29,7 @@ export function MainPage({
       <Layout>
         <Content>
           <header>
-            <Header />
+            <Header params={params} currentCity={currentCity} Cities={Cities}/>
             <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
           <section style={{ padding: "10px", height: "calc(100dvh+10px)" }}>

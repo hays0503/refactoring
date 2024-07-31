@@ -1,3 +1,5 @@
+"use client"
+
 import useThemeStore, { iThemeStore } from "@/_app/store/theme";
 import { darkTheme, lightTheme } from "@/shared/theme/theme";
 import { ThemeConfig } from "antd";

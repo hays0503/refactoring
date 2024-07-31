@@ -1,15 +1,16 @@
+"use client"
+
 import { Category } from "@/shared/types/category";
 import styles from "./CustomMenu.module.scss";
 import { Button, Menu, Typography } from "antd";
 import Image from "next/image";
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import { selectDataByLangCategory } from "@/shared/tool/selectDataByLang";
 import { useLocale } from "next-intl";
 import useTheme from "@/shared/hook/useTheme";
 import useGetCategory from "@/shared/hook/useGetCategory";
 import { useRouter } from "next/navigation";
 import useCategoryStore from "@/_app/store/category";
-import Link from "next/link";
 
 const { Text } = Typography;
 

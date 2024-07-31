@@ -1,6 +1,6 @@
-"use client";
+"use server";
 
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, Suspense } from "react";
 import { Typography, Card, Row, Col, Divider, Layout, ConfigProvider } from "antd";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
@@ -8,6 +8,7 @@ import { Span } from "next/dist/trace";
 import { useTranslations } from "next-intl";
 import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
+import { iCity } from "@/shared/types/city";
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -90,19 +91,53 @@ const DeliveryPage = () => {
   );
 };
 
-export default function DeliveryPageProvider() {
+const fetchCities = async () => {
+  return [
+    {
+      id: 1,
+      additional_data: {
+        EN: "Petropavlovsk",
+        KZ: "",
+      },
+      name_city: "Петропавловск",
+    },
+    {
+      id: 2,
+      additional_data: {
+        EN: "Astana",
+        KZ: "",
+      },
+      name_city: "Астана",
+    },
+  ];
+};
+
+export default async function DeliveryPageProvider({ params }: { params: any }) {
   const { CurrentTheme } = useTheme();
+
+  const Cities: iCity[] = await fetchCities();
+
+  const currentCity: string =
+    Cities.find((i) => i.additional_data["EN"] === params.city)?.name_city ||
+    "Ошибка";
+
   return (
     <>
       <ConfigProvider theme={CurrentTheme}>
         <Layout>
           <Content>
             <header>
-              <Header />
-              <HeaderMenu />
+              <Header
+                params={params}
+                currentCity={currentCity}
+                Cities={Cities}
+              />
+              <HeaderMenu city={currentCity} urlCity={params.city} />
             </header>
             <section>
+            <Suspense>
               <DeliveryPage />
+              </Suspense>
             </section>
             <Footer />
           </Content>

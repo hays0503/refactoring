@@ -229,7 +229,7 @@ export default function ProductsInCategory({
       <Layout>
         <Content>
           <header>
-            <Header />
+            <Header params={params} currentCity={currentCity} Cities={Cities}/>
             <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
           <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>

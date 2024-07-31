@@ -49,7 +49,7 @@ export default function ProductPage({ params, Cities }: {params:any,Cities:iCity
       <Layout>
         <Content>
           <header>
-            <Header />
+          <Header params={params} currentCity={currentCity} Cities={Cities}/>
             <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
           <section style={{ padding: "10px", minHeight: "calc(100vh)" }}>

@@ -9,7 +9,7 @@ const fetchPopularProduct = async () => {
     await fetch(`http://185.100.67.246:8888/api/v1/populates/?limit=${limit}`, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ["fetchPopularProduct"],revalidate:1 },
+      next: { tags: ["fetchPopularProduct"], revalidate: 1 },
     })
   ).json()) as Populates[];
   return data;
@@ -22,7 +22,7 @@ const fetchProductByIds = async (ids: number[]) => {
       {
         mode: "cors",
         credentials: "include",
-        next: { tags: ["fetchProductByIds"],revalidate:60 },
+        next: { tags: ["fetchProductByIds"], revalidate: 60 },
       }
     )
   ).json()) as Products[];
@@ -59,7 +59,7 @@ async function MPage({ params }: { params: any }) {
 
   const populatest = await fetchProductByIds(flatProductId);
 
-  const Cities:iCity[] = await fetchCities();
+  const Cities: iCity[] = await fetchCities();
 
   return <MainPage params={params} populates={populatest} Cities={Cities} />;
 }

@@ -4,28 +4,23 @@ import useCityStore from "@/_app/store/city";
 import useGetAllCity from "@/shared/hook/useGetAllCity";
 import useGetCurrentCity from "@/shared/hook/useGetCurrentCity";
 import { Flex, Button, Typography, Modal, Input, Divider, Space } from "antd";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import Image from 'next/image';
 import style from './SelectCity.module.scss';
+import { useRouter } from "next/navigation";
+import { iCity } from "@/shared/types/city";
 
-export default function SelectCity({params,currentCity}:any) {
+export default function SelectCity({params,currentCity,Cities}:any) {
   
   const t = useTranslations();
-
-
-//   const { currentCity,setCurrentCity} = useCityStore((state) => {
-//     return {
-//       currentCity: state.currentCity,
-//       setCurrentCity: state.setCurrentCity
-//     };
-//   });
-  
   const cities = useGetAllCity();
   const dataHook = useGetCurrentCity();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listCity, setListCity] = useState(cities);
+
+  const route = useRouter();
 
   const onSearchCity = (value: string, cities: Array<{ key: string, value: string }>) => {
     const filteredCities = cities.filter(city =>
@@ -34,9 +29,7 @@ export default function SelectCity({params,currentCity}:any) {
     setListCity(filteredCities);
   }
 
-//   useEffect(() => {
-//     // setCurrentCity(dataHook.currentCity)
-//   }, [dataHook.currentCity,setCurrentCity]);
+  const localActive = useLocale();
 
   return (
     <>
@@ -71,8 +64,13 @@ export default function SelectCity({params,currentCity}:any) {
                 <Space size="small" wrap>
                     {listCity.map((city, index) => (
                         <Button key={index} className={style.city} onClick={() => {
-                            // setCurrentCity(city.value);
-                            setIsModalOpen(false);
+                            const found:iCity = Cities.find((i:iCity)=>i.name_city==city.key)
+                            if(found){
+                                route.replace(`/${localActive}/${found.additional_data.EN}/`)
+                                setIsModalOpen(false);
+                            }else{
+                                alert('А такой склад есть ?')
+                            }
                         }}>
                             {city.value}
                         </Button>

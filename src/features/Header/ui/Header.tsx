@@ -18,7 +18,7 @@ import useTheme from '@/shared/hook/useTheme';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-export default function Header({params,currentCity}:any) {
+export default function Header({params,currentCity,Cities}:any) {
 
   const t = useTranslations();
   
@@ -50,7 +50,7 @@ export default function Header({params,currentCity}:any) {
        {ModalLeaveRequestComponent()}
        <div className={styles.HeaderContainer} style={isDarkTheme} >
          <div className={styles.HeaderSelectCity}>
-           <SelectCity param={params} currentCity={currentCity}/>
+           <SelectCity param={params} currentCity={currentCity} Cities={Cities}/>
          </div>
 
          <div className={styles.HeaderMenuContainer}>

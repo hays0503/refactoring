@@ -54,25 +54,25 @@ const Basket = (set: any, get: any): iBasketStore => ({
 const persistOptions = {
   name: "basket-storage", // Имя для хранения данных корзины в локальном хранилище
   storage: createJSONStorage(() => localStorage), // Указываем хранилище
-  serialize: (state: any) => {
-    return JSON.stringify({
-      ...state,
-      state: {
-        ...state.state,
-        BasketData: Array.from(state.state.BasketData.entries()) // Преобразуем Map в массив
-      }
-    });
-  },
-  deserialize: (str: string): any => {
-    const state = JSON.parse(str);
-    return {
-      ...state,
-      state: {
-        ...state.state,
-        BasketData: new Map(state.state.BasketData) // Преобразуем массив обратно в Map
-      }
-    };
-  }
+  // serialize: (state: any) => {
+  //   return JSON.stringify({
+  //     ...state,
+  //     state: {
+  //       ...state.state,
+  //       BasketData: Array.from(state.state.BasketData.entries()) // Преобразуем Map в массив
+  //     }
+  //   });
+  // },
+  // deserialize: (str: string): any => {
+  //   const state = JSON.parse(str);
+  //   return {
+  //     ...state,
+  //     state: {
+  //       ...state.state,
+  //       BasketData: new Map(state.state.BasketData) // Преобразуем массив обратно в Map
+  //     }
+  //   };
+  // }
 };
 
 // Создаем хранилище корзины с использованием devtools и persist для хранения состояния

@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: "Сайт в разработке dev.SCK-1.kz",
 };
 
-const locales = ["en", "ru", "kz"];
 const City = [
   {
     id: 1,
