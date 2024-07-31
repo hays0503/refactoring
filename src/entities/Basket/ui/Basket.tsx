@@ -355,7 +355,10 @@ const ItemInBasket = ({
             width: "50%",
             background: "radial-gradient(at center, #2B8101, #204901)",
           }}
-          onClick={add}
+          onClick={(e) => {
+            e.stopPropagation()
+            add();
+          }}
         >
           <b>+</b>
         </Button>
@@ -367,7 +370,10 @@ const ItemInBasket = ({
             width: "50%",
             background: "radial-gradient(at center, #810102, #490101)",
           }}
-          onClick={dec}
+          onClick={(e) => {
+            e.stopPropagation()
+            dec();
+          }}
         >
           <b>-</b>
         </Button>
