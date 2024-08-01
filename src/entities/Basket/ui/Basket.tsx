@@ -27,59 +27,59 @@ export default function Basket({ city }: { city: string }) {
   }));
 
   useEffect(() => {
-    const ids = Array.from(BasketData.keys()).join(",");
-
     let TotalSumBasket = 0;
     let TotalSumBasketFake = 0;
 
-    // Итог
-    setTotalSum(0);
-    // Скидка
-    setSale(0);
-    // Фейковая цена
-    setTotalSumFake(0);
+  // Итог
+  setTotalSum(0);
+  // Скидка
+  setSale(0);
+  // Фейковая цена
+  setTotalSumFake(0);
 
-    // Асинхронная загрузка данных о продукте
-    fetch(`/api/v1/products/by_ids/${ids}`)
-      .then((response) => response.json())
-      .then((products) => {
-        setProducts(products); // Устанавливаем первый продукт или null
-        setIsLoading(false);
-        products.forEach((element: Products) => {
-          const count = BasketData.get(element.id);
-          const price = Number(element.price?.[city]);
-          const priceFake =
-            element.old_price_p?.[city] || element.old_price_c?.[city];
-          console.log(priceFake);
-          if (count) {
-            TotalSumBasket += price * count;
-            if (priceFake) {
-              TotalSumBasketFake += priceFake * count;
-            } else {
-              TotalSumBasketFake += price * count;
-            }
+  const ids = Array.from(BasketData.keys()).join(",");
+  // Асинхронная загрузка данных о продукте
+  fetch(`/api/v1/products/by_ids/${ids}`)
+    .then((response) => response.json())
+    .then((products) => {
+      setProducts(products); // Устанавливаем первый продукт или null
+      setIsLoading(false);
+      products.forEach((element: Products) => {
+        const count = BasketData.get(element.id);
+        const price = Number(element.price?.[city]);
+        const priceFake =
+          element.old_price_p?.[city] || element.old_price_c?.[city];
+        console.log(priceFake);
+        if (count) {
+          TotalSumBasket += price * count;
+          if (priceFake) {
+            TotalSumBasketFake += priceFake * count;
+          } else {
+            TotalSumBasketFake += price * count;
           }
-        });
-        // Cуществует ли скидка ?
-        // Если цена со скидкой меньше цены без скидки значит и скидки не было
-        const isSale = TotalSumBasketFake > TotalSumBasket;
-        if (isSale) {
-          // Итог
-          setTotalSum(TotalSumBasket);
-          // Скидка
-          setSale(Math.round(TotalSumBasketFake - TotalSumBasket));
-          // Фейковая цена
-          setTotalSumFake(TotalSumBasketFake);
-        } else {
-          // Итог
-          setTotalSum(TotalSumBasket);
-          // Скидка
-          setSale(0);
-          // Фейковая цена
-          setTotalSumFake(TotalSumBasket);
         }
-      })
-      .catch(() => setIsLoading(false)); // Обработка ошибок
+      });
+      // Cуществует ли скидка ?
+      // Если цена со скидкой меньше цены без скидки значит и скидки не было
+      const isSale = TotalSumBasketFake > TotalSumBasket;
+      if (isSale) {
+        // Итог
+        setTotalSum(TotalSumBasket);
+        // Скидка
+        setSale(Math.round(TotalSumBasketFake - TotalSumBasket));
+        // Фейковая цена
+        setTotalSumFake(TotalSumBasketFake);
+      } else {
+        // Итог
+        setTotalSum(TotalSumBasket);
+        // Скидка
+        setSale(0);
+        // Фейковая цена
+        setTotalSumFake(TotalSumBasket);
+      }
+    })
+    .catch(() => setIsLoading(false)); // Обработка ошибок
+    
   }, [BasketData]);
 
   // Пока идет загрузка, возвращаем null или индикатор загрузки
@@ -356,7 +356,7 @@ const ItemInBasket = ({
             background: "radial-gradient(at center, #2B8101, #204901)",
           }}
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             add();
           }}
         >
@@ -371,7 +371,7 @@ const ItemInBasket = ({
             background: "radial-gradient(at center, #810102, #490101)",
           }}
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             dec();
           }}
         >

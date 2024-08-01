@@ -29,13 +29,13 @@ export default function Header({params,currentCity,Cities}:any) {
   const {isDarkTheme} = useTheme();
 
   const items: MenuItem[] = [
-  { label: <Link href={`/${localActive}/rewiews`}>{t('otzyvy')}</Link>, key: 'rewiews' },
-  { label: <Link href={`/${localActive}/about`}>{t('o-nas-0')}</Link>, key: 'about' },
-  { label: <Link href={`/${localActive}/delivery`}>{t('dostavka')}</Link>, key: 'delivery' },
-  { label: <Link href={`/${localActive}/about-pays`}>{t('oplata')}</Link>, key: 'payment' },
-  { label: <Link href={`/${localActive}/about-our-guarantees`}>{t('nashi-garantii')}</Link>, key: 'our-guarantees' },
-  { label: <Link href={`/${localActive}/about-why-we`}>{t('pochemu-my')}</Link>, key: 'why-we' },
-  { label: <Link href={`/${localActive}/contact`}>{t('kontakty-0')}</Link>, key: 'contacts' },
+  { label: <Link href={`/${localActive}/${params.city}/rewiews`}>{t('otzyvy')}</Link>, key: 'rewiews' },
+  { label: <Link href={`/${localActive}/${params.city}/about`}>{t('o-nas-0')}</Link>, key: 'about' },
+  { label: <Link href={`/${localActive}/${params.city}/delivery`}>{t('dostavka')}</Link>, key: 'delivery' },
+  { label: <Link href={`/${localActive}/${params.city}/about-pays`}>{t('oplata')}</Link>, key: 'payment' },
+  { label: <Link href={`/${localActive}/${params.city}/about-our-guarantees`}>{t('nashi-garantii')}</Link>, key: 'our-guarantees' },
+  { label: <Link href={`/${localActive}/${params.city}/about-why-we`}>{t('pochemu-my')}</Link>, key: 'why-we' },
+  { label: <Link href={`/${localActive}/${params.city}/contact`}>{t('kontakty-0')}</Link>, key: 'contacts' },
   { label: <a onClick={() => ModalTogle()}>{t('ostavit-obrashenie')}</a>, key: 'leave-request' },
   ]
 
