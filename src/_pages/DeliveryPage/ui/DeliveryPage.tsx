@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { CSSProperties, Suspense } from "react";
 import {
@@ -19,8 +19,6 @@ import { iCity } from "@/shared/types/city";
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
-
-
 
 const DeliveryPage = ({
   params,

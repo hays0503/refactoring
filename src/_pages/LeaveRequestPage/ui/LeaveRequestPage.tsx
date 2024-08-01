@@ -1,4 +1,4 @@
-"use server";
+"use client"
 
 import React, { Suspense } from "react";
 import { ConfigProvider, Layout } from "antd";
@@ -12,39 +12,18 @@ import { iCity } from "@/shared/types/city";
 
 const { Content } = Layout;
 
-const fetchCities = async () => {
-  return [
-    {
-      id: 1,
-      additional_data: {
-        EN: "Petropavlovsk",
-        KZ: "",
-      },
-      name_city: "Петропавловск",
-    },
-    {
-      id: 2,
-      additional_data: {
-        EN: "Astana",
-        KZ: "",
-      },
-      name_city: "Астана",
-    },
-  ];
-};
-
-export default async function LeaveRequestPageProvider({
+export default function LeaveRequestPage({
   params,
+  Cities,
+  currentCity,
 }: {
   params: any;
+  Cities: iCity[];
+  currentCity: string;
 }) {
+  const t = useTranslations();
+
   const { CurrentTheme } = useTheme();
-
-  const Cities: iCity[] = await fetchCities();
-
-  const currentCity: string =
-    Cities.find((i) => i.additional_data["EN"] === params.city)?.name_city ||
-    "Ошибка";
 
   return (
     <>
@@ -61,7 +40,16 @@ export default async function LeaveRequestPageProvider({
             </header>
             <section>
               <Suspense>
-                <LeaveRequestPage />
+                <Content
+                  style={{
+                    padding: "25px",
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "100dvh",
+                  }}
+                >
+                  leaveRequest
+                </Content>
               </Suspense>
             </section>
             <Footer />
@@ -71,22 +59,3 @@ export default async function LeaveRequestPageProvider({
     </>
   );
 }
-
-const LeaveRequestPage = () => {
-  const t = useTranslations();
-
-  return (
-    <>
-      <Content
-        style={{
-          padding: "25px",
-          display: "flex",
-          justifyContent: "center",
-          height: "100dvh",
-        }}
-      >
-        leaveRequest
-      </Content>
-    </>
-  );
-};

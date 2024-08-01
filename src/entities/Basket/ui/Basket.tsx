@@ -1,4 +1,5 @@
 "use client";
+
 import { Dropdown, Badge, Typography, Flex, Button } from "antd";
 import Image from "next/image";
 import styles from "./Basket.module.scss";
@@ -30,57 +31,56 @@ export default function Basket({ city }: { city: string }) {
     let TotalSumBasket = 0;
     let TotalSumBasketFake = 0;
 
-  // Итог
-  setTotalSum(0);
-  // Скидка
-  setSale(0);
-  // Фейковая цена
-  setTotalSumFake(0);
+    // Итог
+    setTotalSum(0);
+    // Скидка
+    setSale(0);
+    // Фейковая цена
+    setTotalSumFake(0);
 
-  const ids = Array.from(BasketData.keys()).join(",");
-  // Асинхронная загрузка данных о продукте
-  fetch(`/api/v1/products/by_ids/${ids}`)
-    .then((response) => response.json())
-    .then((products) => {
-      setProducts(products); // Устанавливаем первый продукт или null
-      setIsLoading(false);
-      products.forEach((element: Products) => {
-        const count = BasketData.get(element.id);
-        const price = Number(element.price?.[city]);
-        const priceFake =
-          element.old_price_p?.[city] || element.old_price_c?.[city];
-        console.log(priceFake);
-        if (count) {
-          TotalSumBasket += price * count;
-          if (priceFake) {
-            TotalSumBasketFake += priceFake * count;
-          } else {
-            TotalSumBasketFake += price * count;
+    const ids = Array.from(BasketData.keys()).join(",");
+    // Асинхронная загрузка данных о продукте
+    fetch(`/api/v1/products/by_ids/${ids}`)
+      .then((response) => response.json())
+      .then((products) => {
+        setProducts(products); // Устанавливаем первый продукт или null
+        setIsLoading(false);
+        products.forEach((element: Products) => {
+          const count = BasketData.get(element.id);
+          const price = Number(element.price?.[city]);
+          const priceFake =
+            element.old_price_p?.[city] || element.old_price_c?.[city];
+          console.log(priceFake);
+          if (count) {
+            TotalSumBasket += price * count;
+            if (priceFake) {
+              TotalSumBasketFake += priceFake * count;
+            } else {
+              TotalSumBasketFake += price * count;
+            }
           }
+        });
+        // Cуществует ли скидка ?
+        // Если цена со скидкой меньше цены без скидки значит и скидки не было
+        const isSale = TotalSumBasketFake > TotalSumBasket;
+        if (isSale) {
+          // Итог
+          setTotalSum(TotalSumBasket);
+          // Скидка
+          setSale(Math.round(TotalSumBasketFake - TotalSumBasket));
+          // Фейковая цена
+          setTotalSumFake(TotalSumBasketFake);
+        } else {
+          // Итог
+          setTotalSum(TotalSumBasket);
+          // Скидка
+          setSale(0);
+          // Фейковая цена
+          setTotalSumFake(TotalSumBasket);
         }
-      });
-      // Cуществует ли скидка ?
-      // Если цена со скидкой меньше цены без скидки значит и скидки не было
-      const isSale = TotalSumBasketFake > TotalSumBasket;
-      if (isSale) {
-        // Итог
-        setTotalSum(TotalSumBasket);
-        // Скидка
-        setSale(Math.round(TotalSumBasketFake - TotalSumBasket));
-        // Фейковая цена
-        setTotalSumFake(TotalSumBasketFake);
-      } else {
-        // Итог
-        setTotalSum(TotalSumBasket);
-        // Скидка
-        setSale(0);
-        // Фейковая цена
-        setTotalSumFake(TotalSumBasket);
-      }
-    })
-    .catch(() => setIsLoading(false)); // Обработка ошибок
-    
-  }, [BasketData]);
+      })
+      .catch(() => setIsLoading(false)); // Обработка ошибок
+  }, [BasketData,city]);
 
   // Пока идет загрузка, возвращаем null или индикатор загрузки
   if (isLoading) return <Text>Загрузка...</Text>;

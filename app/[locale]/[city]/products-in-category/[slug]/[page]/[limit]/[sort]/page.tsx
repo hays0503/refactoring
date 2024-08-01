@@ -1,4 +1,4 @@
-"use client";
+"use server";
 import { ProductsInCategory } from "@/_pages/ProductsInCategory";
 import { iCity } from "@/shared/types/city";
 

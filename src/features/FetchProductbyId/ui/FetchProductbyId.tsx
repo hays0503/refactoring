@@ -23,7 +23,7 @@ function FetchProductbyId({ ids, currentCity,urlCity }: FetchProductbyIdProps) {
         setLoading(false);
       })
       .catch(() => setLoading(false));  // Добавление обработки ошибок
-  }, [ids]);
+  }, [ids,urlCity]);
 
   const renderedProducts = useMemo(() => {
     return products?.map((product, index) => (
@@ -36,7 +36,7 @@ function FetchProductbyId({ ids, currentCity,urlCity }: FetchProductbyIdProps) {
         />
       </div>
     ));
-  }, [products, currentCity]);
+  }, [products, currentCity,urlCity]);
 
   if (loading || !products) {
     return (

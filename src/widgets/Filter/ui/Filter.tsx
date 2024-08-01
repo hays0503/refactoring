@@ -3,9 +3,6 @@ import {
   Collapse,
   Slider,
   InputNumber,
-  Checkbox,
-  Input,
-  Divider,
   Select,
   Button,
   Flex,
@@ -16,7 +13,6 @@ import {
   selectDataByLangBrands,
   selectDataByLangCategory,
   selectDataByLangNameSpecification,
-  selectDataByLangProducts,
   selectDataByLangValueSpecification,
 } from "@/shared/tool/selectDataByLang";
 import { useLocale, useTranslations } from "next-intl";
@@ -30,7 +26,6 @@ import ucFirst from "@/shared/tool/ucFirst";
 import style from "./Filter.module.scss";
 import useThemeStore from "@/_app/store/theme";
 import { DeleteOutlined } from "@ant-design/icons";
-import { json } from "stream/consumers";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -72,12 +67,10 @@ const { Text } = Typography;
 const Filter = ({
   slug_category,
   id_category,
-  filtredProductIds,
   setFiltredProductIds,
 }: {
   slug_category: string;
   id_category: number;
-  filtredProductIds: number[];
   setFiltredProductIds: (value: number[]) => void;
 }) => {
   const [categories, setCategories] = useState<Category[]>([]);
