@@ -9,7 +9,7 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
     const response = await fetch(`http://185.100.67.246:8888/api/v1/populates/?limit=${limit}`, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ["fetchPopularProduct"], revalidate: 1 },
+      next: { tags: ["fetchPopularProduct"], revalidate:60 },
     });
     if (!response.ok) {
       throw new Error(`Error fetching popular products: ${response.statusText}`);

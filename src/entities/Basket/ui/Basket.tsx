@@ -40,7 +40,9 @@ export default function Basket({ city }: { city: string }) {
 
     const ids = Array.from(BasketData.keys()).join(",");
     // Асинхронная загрузка данных о продукте
-    fetch(`/api/v1/products/by_ids/${ids}`)
+    fetch(`/api/v1/products/by_ids/${ids}`,{
+      next: { revalidate: 60 },
+    })
       .then((response) => response.json())
       .then((products) => {
         setProducts(products); // Устанавливаем первый продукт или null

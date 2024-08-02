@@ -20,17 +20,23 @@ import { CategoryProduct } from "@/widgets/CategoryProduct";
 import { Filter } from "@/widgets/Filter";
 
 const fetchByCatProduct = async (slug: string) => {
-  const data = (await (await fetch(`/api/v1/products/filter_by_cat/${slug}`)).json()) as Products[];
+  const data = (await (await fetch(`/api/v1/products/filter_by_cat/${slug}`,{
+    next: { revalidate: 60 },
+  })).json()) as Products[];
   return data;
 };
 
 const fetchProductByIds = async (ids: number[]) => {
-  const data = (await (await fetch(`/api/v1/products/by_ids/${ids.join(",")}`)).json()) as Products[];
+  const data = (await (await fetch(`/api/v1/products/by_ids/${ids.join(",")}`,{
+    next: { revalidate: 60 },
+  })).json()) as Products[];
   return data;
 };
 
 const fetchCurrentCategory = async (slug: string) => {
-  const currentCategory = await (await fetch(`/api/v1/category/${slug}`)).json();
+  const currentCategory = await (await fetch(`/api/v1/category/${slug}`,{
+    next: { revalidate: 60 },
+  })).json();
   return currentCategory;
 };
 

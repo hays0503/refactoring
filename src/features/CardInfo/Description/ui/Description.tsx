@@ -45,7 +45,9 @@ export default function Description({ productId }: { productId: number }) {
   ];
 
   useEffect(() => {
-    fetch(`/api/v1/descrip/filter_by_prod/${productId}`).then((response) =>
+    fetch(`/api/v1/descrip/filter_by_prod/${productId}`,{
+      next: { revalidate: 60 },
+    }).then((response) =>
       response.json().then(setDescription)
     );
   }, [productId]);

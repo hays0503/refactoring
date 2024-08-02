@@ -19,7 +19,9 @@ interface iCategoryStore {
 }
 
 function initialCategories(): Promise<Category[]> {
-  const data = fetch("/api/v1/category", { cache: 'force-cache' })
+  const data = fetch("/api/v1/category", {
+    next: { revalidate: 60 },
+  })
     .then((res) => res.json())
     .then((data: Category[]) => {
       return data;

@@ -16,7 +16,9 @@ function FetchProductbyId({ ids, currentCity,urlCity }: FetchProductbyIdProps) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/v1/products/by_ids/${ids.join(",")}/`, { cache: "force-cache" })
+    fetch(`/api/v1/products/by_ids/${ids.join(",")}/`, {
+      next: { revalidate: 60 },
+    })
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);

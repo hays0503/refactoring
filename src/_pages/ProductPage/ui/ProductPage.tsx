@@ -16,7 +16,9 @@ const { Content } = Layout;
 
 const fetchProduct = async (slug: any, locale: string) => {
   const url = `/api/v1/products/${slug}`;
-  const response = await fetch(url);
+  const response = await fetch(url,{
+    next: { revalidate: 60 },
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch product");
   }
