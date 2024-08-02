@@ -18,7 +18,7 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
     return data;
   } catch (error) {
     console.error('Error in fetchPopularProduct:', error);
-    return [];
+    return fetchPopularProduct()
   }
 };
 
@@ -42,7 +42,7 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
   } catch (error) {
     console.error('Error in fetchProductByIds:', error);    
     console.error("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    return [];
+    return fetchProductByIds(ids)
   }
 };
 
