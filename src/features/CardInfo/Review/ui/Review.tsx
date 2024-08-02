@@ -12,9 +12,7 @@ function ReviewItem({ item }: { item: Reviews }) {
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch(`/auth_api/v1/auth_user/${item.user_id}`,{
-      next: { revalidate: 60 },
-    })
+    fetch(`/auth_api/v1/auth_user/${item.user_id}`)
       .then((response) => response.json())
       .then((data: User) => setUserData(data));
   }, [item.user_id]);
@@ -42,9 +40,7 @@ export default function Review({ productId }: { productId: number }) {
   const [ReviewData, setReviewData] = useState<Reviews[] | []>([]);
 
   useEffect(() => {
-    fetch(`/api/v1/reviews/filter_by_prod/${productId}`,{
-      next: { revalidate: 60 },
-    })
+    fetch(`/api/v1/reviews/filter_by_prod/${productId}`)
       .then((response) => response.json())
       .then((data: Reviews[]) => setReviewData(data));
   }, [productId]);

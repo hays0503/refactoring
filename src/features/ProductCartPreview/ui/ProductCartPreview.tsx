@@ -49,15 +49,11 @@ const ReviewsUser = ({ product }: { product: Products }) => {
   const [dataReviewsUser, setDataReviewsUser] = useState<ReviewType[]>([]);
 
   useEffect(() => {
-    fetch("/api/v1/reviews",{
-      next: { revalidate: 60 },
-    })
+    fetch("/api/v1/reviews")
       .then((res) => res.json())
       .then((rev) => {
         const buildRev = rev.map((item: { user_id: number }) => {
-          return fetch(`/auth_api/v1/auth_user/${item.user_id}`, {
-            next: { revalidate: 60 },
-          })
+          return fetch(`/auth_api/v1/auth_user/${item.user_id}`)
             .then((res) => res.json())
             .then((data) => {
               return { ...item, user: data };

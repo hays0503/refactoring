@@ -9,7 +9,7 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
     const response = await fetch(`http://185.100.67.246:8888/api/v1/populates/?limit=${limit}`, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ["fetchPopularProduct"], revalidate:60 },
+      next: { tags: ["fetchPopularProduct"], revalidate:1 },
     });
     if (!response.ok) {
       throw new Error(`Error fetching popular products: ${response.statusText}`);
@@ -23,20 +23,25 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
 };
 
 const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
+  let data = null;
+  const url = `http://185.100.67.246:8888/api/v1/products/by_ids/${ids.join(",")}`;
   try {
-    const response = await fetch(`http://185.100.67.246:8888/api/v1/products/by_ids/${ids.join(",")}`, {
+    const response = await fetch(url, {
       mode: "cors",
       credentials: "include",
       next: { tags: ["fetchProductByIds"], revalidate: 60 },
     });
     if (!response.ok) {
+      console.error("==========================================================")
+      console.log(await response.text())
       throw new Error(`Error fetching products by IDs: ${response.statusText}`);
     }
     const data = await response.json() as Products[];
 
     return data;
   } catch (error) {
-    console.error('Error in fetchProductByIds:', error);
+    console.error('Error in fetchProductByIds:', error);    
+    console.error("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
     return [];
   }
 };
