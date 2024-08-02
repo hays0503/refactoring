@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Reviews } from "@/shared/types/reviews";
 import scrolltoHash from "@/shared/tool/scrolltoHash";
 import { Discount } from "@/entities/Discount";
+import useBasketStore from "@/_app/store/basket";
 
 const { Text, Link } = Typography;
 
@@ -49,8 +50,6 @@ const RatingSmall = ({ product }: { product: ProductsDetail | null }) => {
     </div>
   );
 };
-
-
 
 const Bonus = () => {
   {
@@ -95,8 +94,18 @@ const Credit = () => {
   );
 };
 
-const ConstInfo = ({ product,currentCity }: { product: ProductsDetail | null,currentCity:string }) => {
+const ConstInfo = ({
+  product,
+  currentCity,
+}: {
+  product: ProductsDetail | null;
+  currentCity: string;
+}) => {
   // const City = useCityStore((state) => state.currentCity);
+
+  const { addProduct } = useBasketStore((store) => {
+    return { addProduct: store.addProduct };
+  });
 
   const t = useTranslations();
 
@@ -116,7 +125,14 @@ const ConstInfo = ({ product,currentCity }: { product: ProductsDetail | null,cur
       {/* <Credit /> */}
 
       {/* Кнопка купить */}
-      <Button className={style.CostBuy}>{t("dobavit-v-korzinu")}</Button>
+      {product?.id && (
+        <Button
+          onClick={() => addProduct(product.id, 1)}
+          className={style.CostBuy}
+        >
+          {t("dobavit-v-korzinu")}
+        </Button>
+      )}
     </div>
   );
 };
