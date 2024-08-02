@@ -55,7 +55,7 @@ export default function ProductPage({ params, Cities }: {params:any,Cities:iCity
           <section style={{ padding: "10px", minHeight: "calc(100vh)" }}>
             <ProductCardDetail product={product} params={params} currentCity={currentCity} />
           </section>
-          <Footer />
+          <Footer params={params}/>
         </Content>
       </Layout>
     </ConfigProvider>

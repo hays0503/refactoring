@@ -89,7 +89,7 @@ export default function AboutWhyWePage({
                 </Content>
               </Suspense>
             </section>
-            <Footer />
+            <Footer params={params}/>
           </Content>
         </Layout>
       </ConfigProvider>

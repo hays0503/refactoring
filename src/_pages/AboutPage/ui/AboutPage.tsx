@@ -104,7 +104,7 @@ const AboutPage = ({
               </div>
             </Suspense>
           </section>
-          <Footer />
+          <Footer params={params}/>
       </Layout>
     </ConfigProvider>
   );

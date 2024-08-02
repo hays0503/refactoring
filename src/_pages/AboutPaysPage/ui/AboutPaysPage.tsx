@@ -131,7 +131,7 @@ export default function AboutPaysPage({
                 </Content>
               </Suspense>
             </section>
-            <Footer />
+            <Footer params={params}/>
           </Content>
         </Layout>
       </ConfigProvider>

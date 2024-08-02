@@ -149,7 +149,7 @@ export default function ContactsPage({
                 </Content>
               </Suspense>
             </section>
-            <Footer />
+            <Footer params={params}/>
           </Content>
         </Layout>
       </ConfigProvider>

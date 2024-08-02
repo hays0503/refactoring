@@ -40,7 +40,7 @@ const RewiewsPage = ({
               </div>
             </Suspense>
           </section>
-          <Footer />
+          <Footer params={params}/>
         </Layout>
       </ConfigProvider>
     </>

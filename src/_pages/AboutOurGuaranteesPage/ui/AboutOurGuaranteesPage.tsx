@@ -213,7 +213,7 @@ export default function AboutOurGuaranteesPage({
                 </Content>
               </Suspense>
             </section>
-            <Footer />
+            <Footer params={params}/>
           </Content>
         </Layout>
       </ConfigProvider>

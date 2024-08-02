@@ -119,7 +119,7 @@ const DeliveryPage = ({
               </Content>
             </Suspense>
           </section>
-          <Footer />
+          <Footer params={params}/>
         </Layout>
       </ConfigProvider>
     </>

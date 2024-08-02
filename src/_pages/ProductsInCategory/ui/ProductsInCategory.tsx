@@ -187,7 +187,7 @@ export default function ProductsInCategory({
               />
             </Flex>
           </section>
-          <Footer />
+          <Footer params={params}/>
         </Content>
       </Layout>
     </ConfigProvider>

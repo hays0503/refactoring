@@ -8,23 +8,13 @@ import useTheme from '@/shared/hook/useTheme';
 
 const { Title, Text } = Typography;
 
-const FooterSCK = () => {
+const Footer = ({params}:{params:any}) => {
   const t = useTranslations();
 
   const localActive = useLocale();
 
-  const { isDarkTheme,isDarkThemeImage } = useTheme(); 
+  const { isDarkTheme } = useTheme(); 
 
-  // const isDarkTheme: React.CSSProperties = {
-  //   backgroundColor: isDark ? 'black' : 'white',
-  //   color: !isDark ? 'black' : 'white',
-  //   boxShadow: !isDark ? '0px 0px 10px 0px rgba(1,0,1,0.75)' : '0px 0px 10px 0px rgba(255,255,255,0.25)',
-  //   marginTop: '20px'
-  // };
-
-  // const isDarkThemeImage: React.CSSProperties = {
-  //   filter: isDark ? 'invert(1)' : 'invert(0)'
-  // }
 
   return (
     <div style={isDarkTheme} className={style.footer}>
@@ -32,7 +22,7 @@ const FooterSCK = () => {
       <div className={style.LogoContainer}>
         <div className={style.Logo}>
           {/* <Flex justify='center' align='center' style={{width:'100%'}}> */}
-              <a href={`/${localActive}/`}>
+              <a href={`/${localActive}/${params.city}`}>
                 <Image
                   src="/logo.svg"
                   alt="logo"
@@ -94,4 +84,4 @@ const FooterSCK = () => {
   );
 };
 
-export default FooterSCK;
+export default Footer;

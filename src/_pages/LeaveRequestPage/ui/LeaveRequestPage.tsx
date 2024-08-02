@@ -52,7 +52,7 @@ export default function LeaveRequestPage({
                 </Content>
               </Suspense>
             </section>
-            <Footer />
+            <Footer params={params}/>
           </Content>
         </Layout>
       </ConfigProvider>

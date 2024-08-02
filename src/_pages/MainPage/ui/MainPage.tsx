@@ -38,7 +38,7 @@ export function MainPage({
             {/* Популярные продукты */}
             <PopularProduct city={currentCity} urlCity={params.city} populates={populates} />
           </section>
-          <Footer />
+          <Footer params={params}/>
         </Content>
       </Layout>
     </ConfigProvider>
