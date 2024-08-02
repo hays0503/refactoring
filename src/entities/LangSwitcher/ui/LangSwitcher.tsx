@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 
 
-export default function LangSwitcher() {
+export default function LangSwitcher({params}:{params:any}) {
 
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function LangSwitcher() {
   const onClick: MenuProps['onClick'] = ({ key }) => {
     message.info(`Выбран язык ${key}`);
     startTransition(() => {
-      router.replace(`/${key}`);
+      router.replace(`/${key}/${params.city}`);
     });
   };
 

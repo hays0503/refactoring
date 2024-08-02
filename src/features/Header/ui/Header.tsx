@@ -42,7 +42,7 @@ export default function Header({params,currentCity,Cities}:any) {
   const accountItems: MenuProps['items'] = [
     {key: '0', label: <Link href="/account">{t('akkaunt')}</Link>},
     {key: '1',label: (<Flex gap={'10px'}><span>{t('vybrat-temu')}</span><ThemeSwitcher/></Flex>)},
-    {key: '2',label: (<LangSwitcher />)}
+    {key: '2',label: (<LangSwitcher params={params}/>)}
   ];
 
   return (
