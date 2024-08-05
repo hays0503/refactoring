@@ -32,10 +32,10 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
 };
 
 const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
-  // const url = `http://185.100.67.246:8888/api/v1/products/by_ids/${ids.join(
-  //   ","
-  // )}/`;
-  const url = `http://185.100.67.246:8888/api/v1/products/by_ids/1,4/`;
+  const url = `http://185.100.67.246:8888/api/v1/products/by_ids/${ids.join(
+    ","
+  )}/`;
+  // const url = `http://185.100.67.246:8888/api/v1/products/by_ids/1,4/`;
   // const url = "http://localhost:3001/popular"
   try {
     const response = await fetch(url, {
