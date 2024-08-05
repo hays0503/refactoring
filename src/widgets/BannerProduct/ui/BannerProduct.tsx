@@ -32,10 +32,10 @@ export default function BannerProduct() {
                   <Image
                     src={image}
                     alt="banner"
-                    width={300}
-                    height={150}
+                    width={320}
+                    height={0}
                     style={{
-                      objectFit:'contain',
+                      objectFit:'scale-down',
                       width:'100%',
                       height:'auto'
                     }}

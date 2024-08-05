@@ -191,7 +191,11 @@ const Description = ({
                       </Flex>
                     ),
                   });
-                  BasketStore.addProduct(product.id,1);
+                  BasketStore.addProduct(
+                    product.id,
+                    1,
+                    product.price?.[city] ? product.price?.[city] : -1
+                  );
                 }}
               >
                 Отложить товар

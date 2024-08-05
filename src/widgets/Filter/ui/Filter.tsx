@@ -140,7 +140,7 @@ const Filter = ({
     fetch("/api/v1/products/set/filter", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(filterData),
     })

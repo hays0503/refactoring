@@ -127,7 +127,13 @@ const ConstInfo = ({
       {/* Кнопка купить */}
       {product?.id && (
         <Button
-          onClick={() => addProduct(product.id, 1)}
+          onClick={() =>
+            addProduct(
+              product.id,
+              1,
+              product.price?.[currentCity] ? product.price?.[currentCity] : -1
+            )
+          }
           className={style.CostBuy}
         >
           {t("dobavit-v-korzinu")}

@@ -1,6 +1,18 @@
 "use client";
 
-import { Dropdown, Badge, Typography, Flex, Button } from "antd";
+import {
+  Dropdown,
+  Badge,
+  Typography,
+  Flex,
+  Button,
+  Modal,
+  Form,
+  Select,
+  Input,
+  Radio,
+  Space,
+} from "antd";
 import Image from "next/image";
 import styles from "./Basket.module.scss";
 import useTheme from "@/shared/hook/useTheme";
@@ -11,9 +23,20 @@ import { useLocale } from "next-intl";
 import ucFirst from "@/shared/tool/ucFirst";
 import beautifulCost from "@/shared/tool/beautifulCost";
 import useBasketStore from "@/_app/store/basket";
-import { Suspense, useEffect, useState } from "react";
+import { CSSProperties, Suspense, useEffect, useState } from "react";
 const { Text } = Typography;
 import type { MenuProps } from "antd";
+import iBasket from "@/shared/types/basket";
+import useOrderStore from "@/_app/store/order";
+import { v4 as uuidv4 } from "uuid";
+
+interface FieldData {
+  name: string | number | (string | number)[];
+  value?: any;
+  touched?: boolean;
+  validating?: boolean;
+  errors?: string[];
+}
 
 export default function Basket({ city }: { city: string }) {
   const [products, setProducts] = useState<Products[]>([]);
@@ -21,11 +44,23 @@ export default function Basket({ city }: { city: string }) {
   const [totalSum, setTotalSum] = useState<number>(0);
   const [totalSumFake, setTotalSumFake] = useState<number>(0);
   const [sale, setSale] = useState<number>(0);
+  const [formOrder] = Form.useForm();
+
   const { isDarkThemeImage } = useTheme();
 
-  const { BasketData } = useBasketStore((state) => ({
+  const { BasketData, uuid4 } = useBasketStore((state) => ({
     BasketData: state.BasketData,
+    uuid4: state.uuid4,
   }));
+
+  const { isOpenModalOrder, toggleModal, addOrder, order } = useOrderStore(
+    (state) => ({
+      isOpenModalOrder: state.isOpenModalOrder,
+      toggleModal: state.toggleModal,
+      addOrder: state.addOrder,
+      order: state.order,
+    })
+  );
 
   useEffect(() => {
     let TotalSumBasket = 0;
@@ -46,11 +81,10 @@ export default function Basket({ city }: { city: string }) {
         setProducts(products); // Устанавливаем первый продукт или null
         setIsLoading(false);
         products.forEach((element: Products) => {
-          const count = BasketData.get(element.id);
+          const count = BasketData.get(element.id)?.count;
           const price = Number(element.price?.[city]);
           const priceFake =
             element.old_price_p?.[city] || element.old_price_c?.[city];
-          console.log(priceFake);
           if (count) {
             TotalSumBasket += price * count;
             if (priceFake) {
@@ -80,7 +114,18 @@ export default function Basket({ city }: { city: string }) {
         }
       })
       .catch(() => setIsLoading(false)); // Обработка ошибок
-  }, [BasketData,city]);
+  }, [BasketData, city]);
+
+  // useEffect(() => {
+  //   if (order) {
+  //     [
+  //       { name: "phone_number", value: order.phone_number },
+  //       { name: "shipping_city", value: order.shipping_city },
+  //       { name: "delivery_address", value: order.delivery_address },
+  //       { name: "delivery_type", value: order.delivery_type },
+  //     ].forEach((item) => formOrder.setFieldValue(item.name, item.value));
+  //   }
+  // }, []);
 
   // Пока идет загрузка, возвращаем null или индикатор загрузки
   if (isLoading) return <Text>Загрузка...</Text>;
@@ -105,38 +150,195 @@ export default function Basket({ city }: { city: string }) {
 
   const badgeCount = Array.from(BasketData.values()).reduce(
     (accumulator, currentValue) => {
-      return accumulator + currentValue;
+      return accumulator + currentValue.count;
     },
     0
   );
 
+  const handleOrderSubmit = (values: any) => {
+    const newOrder = {
+      uuid_id: uuidv4(),
+      order_status: "pending",
+      comment: values.comment,
+      phone_number: values.phone_number,
+      shipping_city: values.shipping_city,
+      delivery_address: values.delivery_address,
+      delivery_type: values.delivery_type,
+      completed: false,
+      basket_uuid: uuid4,
+    };
+    addOrder(newOrder);
+    toggleModal();
+  };
+
+  const styleInput: CSSProperties = {
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    color: "black",
+  };
+
   return (
-    <Suspense>
-      <Dropdown
-        // open={true}
-        menu={{ items: itemsCart }}
-        trigger={["hover"]}
-        placement="top"
-      >
-        <div className={styles.HeaderMenuLine1TabsСartContainer}>
-          <div className={styles.HeaderMenuLine1TabsСartContainerContent}>
-            <Badge count={badgeCount}>
-              <Image
-                src="/cart.svg"
-                alt="cart"
-                width={48}
-                height={48}
-                style={isDarkThemeImage}
-              />
-            </Badge>
-            <div className={styles.HeaderMenuLine1TabsСartContainerContentData}>
-              <Text>Корзина</Text>
-              <Text>{beautifulCost(totalSum)}</Text>
+    <>
+      <Suspense>
+        <Dropdown
+          // open={true}
+          menu={{ items: itemsCart }}
+          trigger={["hover"]}
+          placement="top"
+        >
+          <div className={styles.HeaderMenuLine1TabsСartContainer}>
+            <div className={styles.HeaderMenuLine1TabsСartContainerContent}>
+              <Badge count={badgeCount}>
+                <Image
+                  src="/cart.svg"
+                  alt="cart"
+                  width={48}
+                  height={48}
+                  style={isDarkThemeImage}
+                />
+              </Badge>
+              <div
+                className={styles.HeaderMenuLine1TabsСartContainerContentData}
+              >
+                <Text>Корзина</Text>
+                <Text>{beautifulCost(totalSum)}</Text>
+              </div>
             </div>
           </div>
+        </Dropdown>
+      </Suspense>
+      <Modal
+        title="Оформление заказа"
+        centered
+        open={isOpenModalOrder}
+        onCancel={toggleModal}
+        footer={[
+          <Button
+            key={'submit'}
+            style={{ zIndex: 2000 }}
+            type="primary"
+            onClick={() => formOrder.submit()}
+          >
+            Оформить заказ
+          </Button>,
+          <Button style={{ zIndex: 2000 }} key="back" onClick={toggleModal}>
+            Return
+          </Button>,
+        ]}
+        cancelText="Отмена"
+      >
+        <div
+          style={{
+            position: "absolute",
+            backgroundImage: 'url("/order.png")',
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "50%",
+            filter: "blur(5px)",
+            width: "90%",
+            height: "90%",
+            zIndex: 1000,
+          }}
+        ></div>
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2000,
+          }}
+        >
+          <Form
+            form={formOrder}
+            layout="vertical"
+            onFinish={handleOrderSubmit}
+            onFieldsChange={(_, allFields) => {
+              const newOrder = {
+                uuid_id: uuidv4(),
+                order_status: "pending",
+                comment: formOrder.getFieldsValue([["comment"]])["comment"],
+                phone_number: formOrder.getFieldsValue([["phone_number"]])[
+                  "phone_number"
+                ],
+                shipping_city: formOrder.getFieldsValue([["shipping_city"]])[
+                  "shipping_city"
+                ],
+                delivery_address: formOrder.getFieldsValue([
+                  ["delivery_address"],
+                ])["delivery_address"],
+                delivery_type: formOrder.getFieldsValue([["delivery_type"]])[
+                  "delivery_type"
+                ],
+                completed: false,
+                basket_uuid: uuid4,
+              };
+              addOrder(newOrder);
+            }}
+            fields={[
+              { name: "phone_number", value: order?.phone_number },
+              { name: "shipping_city", value: order?.shipping_city },
+              { name: "delivery_address", value: order?.delivery_address },
+              { name: "delivery_type", value: order?.delivery_type },
+              { name: "comment", value: order?.comment },
+            ]}
+          >
+            <Form.Item
+              label="Номер телефона"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, введите номер телефона",
+                },
+              ]}
+            >
+              <Input style={styleInput} />
+            </Form.Item>
+            <Form.Item
+              label="Город отгрузки"
+              name="shipping_city"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, введите город отгрузки",
+                },
+              ]}
+            >
+              <Input style={styleInput} />
+            </Form.Item>
+            <Form.Item
+              label="Адрес доставки"
+              name="delivery_address"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, введите адрес доставки",
+                },
+              ]}
+            >
+              <Input style={styleInput} />
+            </Form.Item>
+            <Form.Item
+              label="Тип доставки"
+              name="delivery_type"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, выберите тип доставки",
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Space direction="vertical">
+                  <Radio value="DELIVERY">Доставка</Radio>
+                  <Radio value="PICKUP">Самовывоз</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Комментарий" name="comment">
+              <Input.TextArea style={styleInput} />
+            </Form.Item>
+          </Form>
         </div>
-      </Dropdown>
-    </Suspense>
+      </Modal>
+    </>
   );
 }
 
@@ -150,7 +352,7 @@ function BasketBody({
 }: {
   city: string;
   products: Products[];
-  BasketData: Map<number, number>;
+  BasketData: Map<number, iBasket>;
   totalSum: number;
   totalSumFake: number;
   sale: number;
@@ -158,6 +360,10 @@ function BasketBody({
   const { addProduct, removeProduct } = useBasketStore((state) => ({
     addProduct: state.addProduct,
     removeProduct: state.removeProduct,
+  }));
+
+  const { toggleModal } = useOrderStore((state) => ({
+    toggleModal: state.toggleModal,
   }));
 
   return (
@@ -199,7 +405,8 @@ function BasketBody({
         >
           {products.length > 0 &&
             products.map((item) => {
-              const count = BasketData.get(item.id);
+              const count = BasketData.get(item.id)?.count;
+              const price = item.price?.[city] ? item.price?.[city] : -1;
               return (
                 <>
                   {count && (
@@ -207,8 +414,8 @@ function BasketBody({
                       product={item}
                       city={city}
                       count={count}
-                      add={() => addProduct(item.id, 1)}
-                      dec={() => removeProduct(item.id, 1)}
+                      add={() => addProduct(item.id, 1, price)}
+                      dec={() => removeProduct(item.id, 1, price)}
                     />
                   )}
                 </>
@@ -267,6 +474,7 @@ function BasketBody({
                 background:
                   "linear-gradient(109.6deg, rgb(255, 219, 47) 11.2%, rgb(244, 253, 0) 100.2%)",
               }}
+              onClick={toggleModal}
             >
               Оформить
             </Button>
