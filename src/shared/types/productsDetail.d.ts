@@ -1,3 +1,4 @@
+import { iDescription } from "./descriptionProduct";
 import { Products } from "./products";
 
 export interface ProductsDetail {
@@ -21,6 +22,7 @@ export interface ProductsDetail {
     readonly vendor_code:       string;
     readonly name_product:      string;
     readonly list_url_to_image: string[];
+    readonly description: iDescription;
 }
 
 export interface AdditionalData {

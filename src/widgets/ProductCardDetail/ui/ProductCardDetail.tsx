@@ -81,7 +81,7 @@ export default function ProductCardDetail({
             {/* Описание товара */}
             <div className={style.Info}>
               <Flex vertical={true} style={{ width: "100%" }}>
-                {product && <Description productId={product?.id} />}
+                {product && <Description productDescription={product?.description} />}
                 {product && <Specifications productId={product?.id} />}
               </Flex>
             </div>

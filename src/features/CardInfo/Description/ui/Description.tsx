@@ -1,9 +1,11 @@
 import { iDescription } from "@/shared/types/descriptionProduct";
 import { CollapseProps, Collapse } from "antd";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import { Flex, Typography } from "antd";
-import { selectDataByLangDescriptionBody, selectDataByLangDescriptionTitle } from "@/shared/tool/selectDataByLang";
+import {
+  selectDataByLangDescriptionBody,
+  selectDataByLangDescriptionTitle,
+} from "@/shared/tool/selectDataByLang";
 
 const { Title, Text } = Typography;
 
@@ -22,33 +24,32 @@ const DescriptionBody = ({
   );
 };
 
-export default function Description({ productId }: { productId: number }) {
-  const [description, setDescription] = useState<iDescription[]>([]);
+export default function Description({
+  productDescription,
+}: {
+  productDescription: iDescription;
+}) {
+  // const [description, setDescription] = useState<iDescription[]>([]);
   const t = useTranslations();
   const localActive = useLocale();
   const CollapseItems: CollapseProps["items"] = [
     {
       key: "1",
       label: t("opisanie"),
-      children: description.map((item,index) => {
-        return (
-          <div key={index}>
-            <DescriptionBody
-              key={item.id}
-              title_description={selectDataByLangDescriptionTitle(item,localActive)}
-              body_description={selectDataByLangDescriptionBody(item,localActive)}
-            />
-          </div>
-        );
-      }),
+      children: (
+        <DescriptionBody
+            title_description={selectDataByLangDescriptionTitle(
+            productDescription,
+            localActive
+          )}
+            body_description={selectDataByLangDescriptionBody(
+            productDescription,
+            localActive
+          )}
+        />
+      ),
     },
   ];
-
-  useEffect(() => {
-    fetch(`/api/v1/descrip/filter_by_prod/${productId}`).then((response) =>
-      response.json().then(setDescription)
-    );
-  }, [productId]);
 
   return (
     <Collapse
