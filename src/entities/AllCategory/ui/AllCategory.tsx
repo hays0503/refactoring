@@ -225,7 +225,7 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
               height={32}
               alt="burgerIcon"
             />
-            {("vse-kategorii")}
+            {t("vse-kategorii")}
           </Button>
         </Popover>
       </div>
