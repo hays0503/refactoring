@@ -11,7 +11,7 @@ interface Params {
 
 export async function generateStaticParams() {
   try {
-    const url = "http://185.100.67.246:8888/api/v1/category/?format=json";
+    const url = "http://pimenov.kz/api/v1/category/?format=json";
     const response = await fetch(url, {
       next: { revalidate: 60 },
     });

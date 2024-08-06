@@ -200,7 +200,7 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
   ];
 
   if (Category.length===0)
-    return null
+    return "Категории не определенны"
 
   const content = () => BuildCategoryWidgetPopUp({ Category, isDarkThemeImage,localActive,urlCity,city }); 
   
@@ -225,7 +225,7 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
               height={32}
               alt="burgerIcon"
             />
-            {t("vse-kategorii")}
+            {("vse-kategorii")}
           </Button>
         </Popover>
       </div>

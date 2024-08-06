@@ -1,6 +1,6 @@
 export async function generateStaticParams() {
   const arrId = await fetch(
-    "http://185.100.67.246:8888/api/v1/products/all/slugs/",
+    "http://pimenov.kz/api/v1/products/all/slugs/",
     {
       next: { revalidate: 60 },
     }

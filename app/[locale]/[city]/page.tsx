@@ -7,7 +7,7 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
   try {
     const limit = 16;
     const response = await fetch(
-      `http://185.100.67.246:8888/api/v1/populates/?limit=${limit}`,
+      `http://pimenov.kz/api/v1/populates/?limit=${limit}`,
       {
         mode: "cors",
         credentials: "include",
@@ -32,16 +32,13 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
 };
 
 const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
-  const url = `http://185.100.67.246:8888/api/v1/products/by_ids/${ids.join(
-    ","
-  )}/`;
-  // const url = `http://185.100.67.246:8888/api/v1/products/by_ids/1,4/`;
-  // const url = "http://localhost:3001/popular"
+  const url = `http://pimenov.kz/api/v1/products/by_ids/${ids.join(",")}/`;
+
   try {
     const response = await fetch(url, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ["fetchProductByIds"]},
+      next: { tags: ["fetchProductByIds"] },
       method: "GET",
       headers: {
         Accept: "application/json;charset=utf-8",
@@ -49,15 +46,15 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
     });
 
     // if (!response.ok) {
-      // console.error(
-      //   "=========================================================="
-      // );
-      // console.log(await response.text());
-      // throw new Error(`Error fetching products by IDs: ${response.statusText}`);
+    // console.error(
+    //   "=========================================================="
+    // );
+    // console.log(await response.text());
+    // throw new Error(`Error fetching products by IDs: ${response.statusText}`);
     // }
 
     const responseText = await response.text();
-    console.log("Len: ", responseText.length)
+    console.log("Len: ", responseText.length);
     console.log("Response Text:", responseText); // Логируем текст ответа
 
     try {
@@ -115,10 +112,18 @@ async function MPage({ params }: { params: any }) {
     const flatProductId: number[] = populatesId
       .map((product) => product.products)
       .flat();
-    const populatest = await fetchProductByIds(flatProductId);
-    const Cities: iCity[] = await fetchCities();
-
-    return <MainPage params={params} populates={populatest} Cities={Cities} />;
+    if (flatProductId.length !== 0) {
+      const populatest = await fetchProductByIds(flatProductId);
+      const Cities: iCity[] = await fetchCities();
+      return (
+        <MainPage params={params} populates={populatest} Cities={Cities} />
+      );
+    }else{
+      const Cities: iCity[] = await fetchCities();
+      return (
+        <MainPage params={params} populates={[]} Cities={Cities} />
+      );
+    }
   } catch (error) {
     console.error("Error in MPage:", error);
     return <div>Error loading page data</div>;

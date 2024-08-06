@@ -46,8 +46,8 @@ const useCategoryStore = create<iCategoryStore>()(
           {
             categories: data,
             currentCategories: data[0],
-            categoryTab: data[0].children,
-            categoryBanner: data[0].list_url_to_baner,
+            categoryTab: data[0]?.children,
+            categoryBanner: data[0]?.list_url_to_baner,
           },
           false,
           {

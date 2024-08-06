@@ -12,9 +12,8 @@ import { FetchProductbyId } from "@/features/FetchProductbyId";
 const { Title } = Typography;
 
 function PopularProduct({ city,populates,urlCity }: { city:string,populates: Products[],urlCity:string; }) {
-  // const flatProductId = useMemo(() => { return populates.map((product) => product.products).flat();}, [populates]);
 
-  // const currentCity = useCityStore((state) => state.currentCity) || "Астана";
+
 
   return (
     <>
@@ -32,7 +31,9 @@ function PopularProduct({ city,populates,urlCity }: { city:string,populates: Pro
           <Divider orientation="center" type="horizontal" />
 
           <div className={style.HorizontalScrollWraper}>
-            {/* <FetchProductbyId ids={flatProductId} currentCity={currentCity} /> */}
+            {
+                populates.length===0&&"Ни одного популярного продукта не определено"
+            }
             {populates.map((i) => (
               <ProductCartPreview
                 city={city}
