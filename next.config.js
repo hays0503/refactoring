@@ -70,7 +70,7 @@ const nextConfig = {
 
       {
         source: "/media/product_images/:patch*",
-        destination: "http://pimenov.kz/media/product_images/:patch*/",
+        destination: "http://pimenov.kz:8000/media/product_images/:patch*/",
       },
 
       {
