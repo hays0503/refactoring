@@ -1,31 +1,10 @@
 "use server";
 import { ProductsInCategory } from "@/_pages/ProductsInCategory";
-import { iCity } from "@/shared/types/city";
-
-const fetchCities = async () => {
-  return [
-    {
-      id: 1,
-      additional_data: {
-        EN: "Petropavlovsk",
-        KZ: "",
-      },
-      name_city: "Петропавловск",
-    },
-    {
-      id: 2,
-      additional_data: {
-        EN: "Astana",
-        KZ: "",
-      },
-      name_city: "Астана",
-    },
-  ];
-};
-
+import getCities from "@/shared/api/v1/getCities";
 
 const Page = async ({params}:{params:any}) => {
-  const Cities:iCity[] = await fetchCities();
+  const Cities  = await getCities();
+  console.log("Page",Cities) 
   return <ProductsInCategory params={params} Cities={Cities} />
 };
 

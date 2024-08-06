@@ -42,13 +42,5 @@ export default function Layout({
   unstable_setRequestLocale(locale);
   return (
     <Providers>{children}</Providers>
-    // <html lang={locale}>
-    //   <head>
-    //     <MetaTagStatic />
-    //   </head>
-    //   <body>
-    //     <Providers>{children}</Providers>
-    //   </body>
-    // </html>
   );
 }

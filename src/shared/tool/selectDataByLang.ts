@@ -10,6 +10,7 @@ import {
   SpecificationNameSpecificationProps,
   ValueSpecification,
 } from "../types/specification";
+import { iCity } from "../types/city";
 
 const selectDataByLangCategory = (
   object: Category | null,
@@ -164,6 +165,23 @@ const selectDataByLangValueSpecification = (
 
 };
 
+const selectDataByLangCity = (
+  object: iCity | null,
+  currentLang: "ru" | "en" | "kz" | string
+) => {
+  if (!object) return "";
+  switch (currentLang) {
+    case "ru":
+      return object.name_city;
+    case "en":
+      return object.additional_data.EN;
+    case "kz":
+      return object.additional_data.KZ;
+    default:
+      return object.name_city;
+  }
+};
+
 
 export {
   selectDataByLangCategory,
@@ -173,4 +191,5 @@ export {
   selectDataByLangNameSpecification,
   selectDataByLangValueSpecification,
   selectDataByLangBrands,
+  selectDataByLangCity,
 };

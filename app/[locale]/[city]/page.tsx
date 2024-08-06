@@ -1,4 +1,5 @@
 import { MainPage } from "@/_pages/MainPage";
+import getCities from "@/shared/api/v1/getCities";
 import { iCity } from "@/shared/types/city";
 import { Populates } from "@/shared/types/populates";
 import { Products } from "@/shared/types/products";
@@ -78,33 +79,7 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
   }
 };
 
-const fetchCities = async (): Promise<iCity[]> => {
-  try {
-    const cities = [
-      {
-        id: 1,
-        additional_data: {
-          EN: "Petropavlovsk",
-          KZ: "",
-        },
-        name_city: "Петропавловск",
-      },
-      {
-        id: 2,
-        additional_data: {
-          EN: "Astana",
-          KZ: "",
-        },
-        name_city: "Астана",
-      },
-    ];
-    // console.log('Fetched cities:', cities);
-    return cities;
-  } catch (error) {
-    console.error("Error in fetchCities:", error);
-    return [];
-  }
-};
+
 
 async function MPage({ params }: { params: any }) {
   try {
@@ -112,14 +87,13 @@ async function MPage({ params }: { params: any }) {
     const flatProductId: number[] = populatesId
       .map((product) => product.products)
       .flat();
+    const Cities  = await getCities();
     if (flatProductId.length !== 0) {
-      const populatest = await fetchProductByIds(flatProductId);
-      const Cities: iCity[] = await fetchCities();
+      const populatest = await fetchProductByIds(flatProductId);      
       return (
         <MainPage params={params} populates={populatest} Cities={Cities} />
       );
-    }else{
-      const Cities: iCity[] = await fetchCities();
+    }else{      
       return (
         <MainPage params={params} populates={[]} Cities={Cities} />
       );

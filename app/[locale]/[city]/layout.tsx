@@ -1,5 +1,6 @@
 import { Providers } from "@/_app/providers/providers";
 import { MetaTagStatic } from "@/shared/MetaTagStatic";
+import getCities from "@/shared/api/v1/getCities";
 import type { Metadata } from "next";
 import { unstable_setRequestLocale } from "next-intl/server";
 
@@ -8,28 +9,10 @@ export const metadata: Metadata = {
   description: "Сайт в разработке dev.SCK-1.kz",
 };
 
-const City = [
-  {
-    id: 1,
-    additional_data: {
-      EN: "Petropavlovsk",
-      KZ: "",
-    },
-    name_city: "Петропавловск",
-  },
-  {
-    id: 2,
-    additional_data: {
-      EN: "Astana",
-      KZ: "",
-    },
-    name_city: "Астана",
-  },
-];
 
-export function generateStaticParams() {
-  const city = City.map((i)=>({city:i.additional_data.EN})); 
-  return city
+export async function generateStaticParams() {
+  const Cities  = await getCities(); 
+  return Cities.map((i)=>({city:i.additional_data.EN}))
 }
 
 export default async function RootLayout({
