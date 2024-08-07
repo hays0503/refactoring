@@ -60,9 +60,10 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
                 <Search
                   placeholder="Что будем искать ?"
                   style={{ width: isMobile?"100%":"60%" }}
+                  disabled={true}
                 />
 
-                <Flex
+                {/* <Flex
                   justify="center"
                   align="center"
                   gap={10}
@@ -82,7 +83,8 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
                     height={32}
                     style={isDarkThemeImage}
                   />
-                </Flex>
+                </Flex> */}
+
                   <Basket city={city}/>
                 <Flex align="center" justify="center" vertical={true} style={{minWidth:'fit-content'}}>
                   <Text>

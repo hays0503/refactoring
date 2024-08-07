@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import { Category } from "@/shared/types/category";
 import styles from "./CustomMenu.module.scss";
-import { Button, Menu, Typography } from "antd";
+import { Button, Flex, Menu, Space, Typography } from "antd";
 import Image from "next/image";
 import { CSSProperties } from "react";
 import { selectDataByLangCategory } from "@/shared/tool/selectDataByLang";
@@ -20,14 +20,14 @@ function TopMenu({
   isDarkThemeImage,
   localActive,
   setTab,
-  setCategoryBanner
+  setCategoryBanner,
 }: {
   CategoryRoot: Category[];
   isDarkTheme: CSSProperties;
   isDarkThemeImage: CSSProperties;
   localActive: string;
-  setTab:(Tab:Category[])=>void;
-  setCategoryBanner:(categoryBanner: string[])=>void;
+  setTab: (Tab: Category[]) => void;
+  setCategoryBanner: (categoryBanner: string[]) => void;
 }) {
   return (
     <>
@@ -38,22 +38,24 @@ function TopMenu({
             type="text"
             size="small"
             onClick={() => {
-              setTab(CategoryItem.children)
-              setCategoryBanner(CategoryItem.list_url_to_baner)
+              setTab(CategoryItem.children);
+              setCategoryBanner(CategoryItem.list_url_to_baner);
             }}
             style={isDarkTheme}
           >
-            {CategoryItem.list_url_to_image[0] && (
-              <Image
-                style={isDarkThemeImage}
-                className={styles.MenuImg}
-                src={CategoryItem.list_url_to_image[0]}
-                width={16}
-                height={16}
-                alt={selectDataByLangCategory(CategoryItem, localActive)}
-              />
-            )}
-            <Text>{selectDataByLangCategory(CategoryItem, localActive)}</Text>
+            <Flex gap={"5px"}>
+              {CategoryItem.list_url_to_image[0] && (
+                <Image
+                  style={isDarkThemeImage}
+                  className={styles.MenuImg}
+                  src={CategoryItem.list_url_to_image[0]}
+                  width={16}
+                  height={16}
+                  alt={selectDataByLangCategory(CategoryItem, localActive)}
+                />
+              )}
+              <Text>{selectDataByLangCategory(CategoryItem, localActive)}</Text>
+            </Flex>
           </Button>
         ))}
       </div>
@@ -65,14 +67,13 @@ const SelectMenuByLanguage = ({
   Category,
   localActive,
   isDarkThemeImage,
-  urlCity
+  urlCity,
 }: {
   Category: Category[];
   localActive: string;
   isDarkThemeImage: CSSProperties;
-  urlCity:string
+  urlCity: string;
 }) => {
-
   const router = useRouter();
 
   const arr = Category.map((item) => {
@@ -80,18 +81,12 @@ const SelectMenuByLanguage = ({
 
     const url = `/${localActive}/${urlCity}/products-in-category/${item.slug}/0/12/popular-first`;
 
-
     return {
       label: (
-        <Text
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "50px",
-          }}
-          onClick={() =>{
-            router.replace(url)
+        <Flex
+          gap={"5px"}
+          onClick={() => {
+            router.replace(url);
           }}
         >
           {item.list_url_to_image[0] && (
@@ -104,8 +99,8 @@ const SelectMenuByLanguage = ({
               alt={select}
             />
           )}
-          {select}
-        </Text>
+          <Text>{select}</Text>
+        </Flex>
       ),
       key: select,
     };
@@ -117,12 +112,12 @@ function ButtomMenu({
   CurrentTab,
   localActive,
   isDarkThemeImage,
-  urlCity
+  urlCity,
 }: {
   CurrentTab: Category[];
   localActive: string;
   isDarkThemeImage: CSSProperties;
-  urlCity:string
+  urlCity: string;
 }) {
   return (
     <>
@@ -134,7 +129,7 @@ function ButtomMenu({
               Category: CurrentTab,
               localActive: localActive,
               isDarkThemeImage: isDarkThemeImage,
-              urlCity
+              urlCity,
             })}
             mode="horizontal"
           />
@@ -144,16 +139,18 @@ function ButtomMenu({
   );
 }
 
-export default function CustomMenu(urlCity:string) {
+export default function CustomMenu(urlCity: string) {
   const categories = useGetCategory();
   // const currentCategories = useCategoryStore((store)=>store.currentCategories);
-  const {categoryTab,setCategoryTab} = useCategoryStore((store)=>{
+  const { categoryTab, setCategoryTab } = useCategoryStore((store) => {
     return {
-      categoryTab:store.categoryTab,
-      setCategoryTab:store.setCategoryTab
-    }
-  })
-  const setCategoryBanner = useCategoryStore((store)=>store.setCategoryBanner)
+      categoryTab: store.categoryTab,
+      setCategoryTab: store.setCategoryTab,
+    };
+  });
+  const setCategoryBanner = useCategoryStore(
+    (store) => store.setCategoryBanner
+  );
 
   const localActive = useLocale();
   const { isDarkTheme, isDarkThemeImage } = useTheme();
@@ -169,8 +166,8 @@ export default function CustomMenu(urlCity:string) {
     />
   );
 
-  const componentButtonMenu = (
-    categoryTab && <ButtomMenu
+  const componentButtonMenu = categoryTab && (
+    <ButtomMenu
       CurrentTab={categoryTab}
       isDarkThemeImage={isDarkThemeImage}
       localActive={localActive}
@@ -178,5 +175,5 @@ export default function CustomMenu(urlCity:string) {
     />
   );
 
-  return [componentTopMenu,componentButtonMenu];
+  return [componentTopMenu, componentButtonMenu];
 }

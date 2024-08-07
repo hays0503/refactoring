@@ -1,52 +1,15 @@
 .Container{
-    position: relative;
-    background: #eeece0b7 no-repeat center;
-    background-size: cover;
+    width: 100%;
+    height: inherit;
+    background-color:white;
     align-items: center;
-    border-radius: 10%;
     padding: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.1843137255);
     @media screen and (max-width: 768px) {
         width: 100%;
         margin-top: 10px;   
         margin-bottom: 10px;      
     }
-}
-
-.Blur{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 220px;
-    padding: 20px;
-    // border-radius: 10%;
-    filter: blur(150px);
-    z-index: 1;
-
-    
-    // background: rgba( 249, 250, 117, 0.1 );
-    // box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    // backdrop-filter: blur( 15.5px );
-    // -webkit-backdrop-filter: blur( 15.5px );
-    // border-radius: 10px;
-    // border: 1px solid rgba( 255, 255, 255, 0.18 );
-
-    -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
-}
-
-.Params{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 220px;
-    z-index: 2;
-    padding: 20px;
-
-    border-radius: 15px;
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-
 }
 
 .ColorHeader{
@@ -55,7 +18,7 @@
 
 .ItemContainer{
     overflow: auto;
-    height: 170px;
+    height: auto;
 }
 
 .ListUl{
@@ -77,9 +40,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    border-radius: 10px;
-    border: 5px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(0, 0, 0, 0.1843137255);
+    padding: 10px;
 }
 
 .ColorImage{

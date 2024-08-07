@@ -152,7 +152,7 @@ export default function ProductsInCategory({
             <Header params={params} currentCity={currentCity} Cities={Cities} />
             <HeaderMenu city={currentCity} urlCity={params.city} />
           </header>
-          <section style={{ padding: "5px", minHeight: "calc(100vh)" }}>
+          <section style={{ padding: "5px",marginBottom:"10px",marginTop:"10px" }}>
             <BannerProduct />
             <div className={style.ContainerProductsInCategory}>
               {currentCategory.id && (

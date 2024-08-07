@@ -1,6 +1,6 @@
 import beautifulCost from "@/shared/tool/beautifulCost";
 import { ProductsDetail } from "@/shared/types/productsDetail";
-import { Flex, Tag,Typography } from "antd";
+import { Flex, Tag, Typography } from "antd";
 import { useTranslations } from "next-intl";
 import style from "./Discount.module.scss";
 import { LikeTwoTone } from "@ant-design/icons";
@@ -23,11 +23,18 @@ const IfHaveDiscount = ({
   const discount = discount_amount_product || discount_amount_category;
   const t = useTranslations();
   return (
-    <Flex gap={10} vertical={true} justify="space-between" style={{ width: "100%", height: "80px" }}>
+    <Flex
+      gap={10}
+      vertical={true}
+      justify="space-between"
+      // style={{ width: "100%", height: "80px" }}
+    >
       <div className={style.ConstLine}>
         {/* Цена */}
         <div className={style.Cost}>
-          <Text strong>{t('cost')} {beautifulCost(price)}</Text>
+          <Text strong>
+            {t("cost")} {beautifulCost(price)}
+          </Text>
         </div>
 
         {/* Цена без скидки */}
@@ -39,17 +46,18 @@ const IfHaveDiscount = ({
           </div>
         )}
       </div>
-      {old_price && (<Tag
-        icon={<LikeTwoTone twoToneColor="#52c41a" />}
-        // color="black"
-        className={style.SaleAnimation}
-      >
-        Отличная цена, скидка {discount} %
-      </Tag>)}
+      {old_price && (
+        <Tag
+          icon={<LikeTwoTone twoToneColor="#52c41a" />}
+          // color="black"
+          className={style.SaleAnimation}
+        >
+          Отличная цена, скидка {discount} %
+        </Tag>
+      )}
     </Flex>
   );
 };
-
 
 export default function Discount({
   product,

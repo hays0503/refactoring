@@ -52,7 +52,7 @@ export default function ProductPage({ params, Cities }: {params:any,Cities:iCity
           <Header params={params} currentCity={currentCity} Cities={Cities}/>
             <HeaderMenu city={currentCity} urlCity={params.city}/>
           </header>
-          <section style={{ padding: "10px", minHeight: "calc(100vh)" }}>
+          <section>
             <ProductCardDetail product={product} params={params} currentCity={currentCity} />
           </section>
           <Footer params={params}/>

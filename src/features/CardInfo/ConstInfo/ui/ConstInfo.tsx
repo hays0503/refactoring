@@ -43,8 +43,8 @@ const RatingSmall = ({ product }: { product: ProductsDetail | null }) => {
         <StarFilled style={{ color: "gold" }} />
         {product?.average_rating}
       </Text>
-      <Link>
-        ({reviews.length} {t("otzyvov")})
+      <Link style={{color:'black'}}>
+        ({t("otzyvov")} {reviews.length} )
       </Link>
       {/* <div onClick={()=>scrolltoHash('Review')}>({reviews.length} {t("otzyvov")})</div> */}
     </div>

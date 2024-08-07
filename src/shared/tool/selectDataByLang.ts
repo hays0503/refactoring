@@ -2,7 +2,7 @@ import { Specifications } from "@/features/CardInfo/Specifications";
 import { Brands } from "../types/brend";
 import { Category } from "../types/category";
 import { iDescription } from "../types/descriptionProduct";
-import { Products } from "../types/products";
+import { Products, TagProd } from "../types/products";
 import { ProductsDetail } from "../types/productsDetail";
 import {
   NameSpecification,
@@ -182,6 +182,22 @@ const selectDataByLangCity = (
   }
 };
 
+const selectDataByTagProd = (
+  object: TagProd | null,
+  currentLang: "ru" | "en" | "kz" | string
+) => {
+  if (!object) return "";
+  switch (currentLang) {
+    case "ru":
+      return object.tag_text;
+    case "en":
+      return object.additional_data.EN;
+    case "kz":
+      return object.additional_data.KZ;
+    default:
+      return object.tag_text;
+  }
+};
 
 export {
   selectDataByLangCategory,
@@ -192,4 +208,5 @@ export {
   selectDataByLangValueSpecification,
   selectDataByLangBrands,
   selectDataByLangCity,
+  selectDataByTagProd
 };

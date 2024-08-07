@@ -42,7 +42,6 @@ const CardPresent = ({ product }: { product: ProductsDetail | null }) => {
   return (
     <>
       <div className={style.Container}>
-        <div className={style.Blur} />
         <div className={style.Params}>
           <div className={style.ColorHeader}>
             <Text strong>{t("v-podarok")}</Text>
@@ -50,9 +49,7 @@ const CardPresent = ({ product }: { product: ProductsDetail | null }) => {
           <div className={style.ItemContainer}>
             <ul className={style.ListUl}>
               {product?.present && (
-                <Radio.Group 
-                 options={Build(product.present, localActive)} 
-                 />
+                <Radio.Group options={Build(product.present, localActive)} />
               )}
             </ul>
           </div>

@@ -15,8 +15,6 @@ const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
   return (
     <>
       <div className={style.Container}>
-        <div className={style.Blur} />
-        <div className={style.Params}>
           <div className={style.ColorHeader}>
             <Text strong>{t("varianty-ispolneniya-komplektacii")}</Text>
           </div>
@@ -43,8 +41,6 @@ const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
               ))}
             </ul>
           </div>
-
-        </div>
       </div>
     </>
   );
