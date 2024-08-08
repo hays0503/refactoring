@@ -2,29 +2,41 @@
 
 import useGetAllCity from "@/shared/hook/useGetAllCity";
 import useGetCurrentCity from "@/shared/hook/useGetCurrentCity";
-import { Flex, Button, Typography, Modal, Input, Divider, Space } from "antd";
+import {
+  Flex,
+  Button,
+  Typography,
+  Modal,
+  Input,
+  Divider,
+  Space,
+  Tour,
+} from "antd";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
 import Image from "next/image";
 import style from "./SelectCity.module.scss";
 import { useRouter } from "next/navigation";
 import { iCity } from "@/shared/types/city";
-import { selectDataByLangCity} from "@/shared/tool/selectDataByLang";
+import { selectDataByLangCity } from "@/shared/tool/selectDataByLang";
+import { useRef, useEffect, useState } from "react";
+import type { GetRef, TourProps } from "antd";
+import useCityStore from "@/_app/store/city";
 
 export default function SelectCity({ params, currentCity, Cities }: any) {
-
   const t = useTranslations();
   const dataHook = useGetCurrentCity();
+  const localActive = useLocale();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [listCity, setListCity] = useState(Cities);
+  const [missCity, setMissCity] = useState(false);
+  const ref1 = useRef<GetRef<typeof Button>>(null);
+
+  const CityStore = useCityStore((state) => state);
 
   const route = useRouter();
 
-  const onSearchCity = (
-    value: string,
-    cities: iCity[]
-  ) => {
+  const onSearchCity = (value: string, cities: iCity[]) => {
     const filteredCities = cities.filter((city) =>
       selectDataByLangCity(city, localActive)
         .toLowerCase()
@@ -33,7 +45,29 @@ export default function SelectCity({ params, currentCity, Cities }: any) {
     setListCity(filteredCities);
   };
 
-  const localActive = useLocale();
+  const steps: TourProps["steps"] = [
+    {
+      title: "Возможность выбора города",
+      description: "После нажатия на кнопку выберите город",
+      target: () => ref1.current!,
+      nextButtonProps: {
+        children: (
+          <div onClick={() => CityStore.setMissCityConfirm(true)}>OK</div>
+        ),
+      },
+      // scrollIntoViewOptions: true
+    },
+  ];
+
+  // Если useGetCurrentCity (город) отличается от currentCity
+  // то показываем сообщение с предложением выбрать город
+  useEffect(() => {
+    if (dataHook.currentCity && !CityStore.missCityConfirm) {
+      if (dataHook.currentCity !== currentCity) {
+        setMissCity(true);
+      }
+    }
+  }, [currentCity, dataHook.currentCity]);
 
   return (
     <>
@@ -43,7 +77,7 @@ export default function SelectCity({ params, currentCity, Cities }: any) {
         style={{ padding: "10px", height: "30px" }}
       >
         {dataHook.contextHolder}
-        <Button onClick={() => setIsModalOpen(true)}>
+        <Button onClick={() => setIsModalOpen(true)} ref={ref1}>
           <Flex justify="center" align="center">
             <Image
               className={style.logo}
@@ -90,6 +124,12 @@ export default function SelectCity({ params, currentCity, Cities }: any) {
             </Space>
           </div>
         </Modal>
+        <Tour
+          open={missCity}
+          onClose={() => setMissCity(false)}
+          mask={true}
+          steps={steps}
+        />
       </Flex>
     </>
   );

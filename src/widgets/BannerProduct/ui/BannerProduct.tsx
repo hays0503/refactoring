@@ -1,4 +1,3 @@
-import React from "react";
 import { Carousel } from "antd";
 import style from "./BannerProduct.module.scss";
 import useCategoryStore from "@/_app/store/category";
