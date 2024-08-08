@@ -1,7 +1,7 @@
 "use server";
 import { iCity } from "@/shared/types/city";
-import { RewiewsPage } from "@/_pages/RewiewsPage";
 import getCities from "@/shared/api/v1/getCities";
+import ReviewsPage from "@/_pages/ReviewsPage/ui/ReviewsPage";
 
 export default async function Page({ params }: { params: any }) {
 
@@ -12,6 +12,6 @@ export default async function Page({ params }: { params: any }) {
     "Ошибка";
 
   return (
-    <RewiewsPage params={params} Cities={Cities} currentCity={currentCity} />
+    <ReviewsPage params={params} Cities={Cities} currentCity={currentCity} />
   );
 }

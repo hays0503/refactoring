@@ -97,7 +97,7 @@ const Filter = ({
       .catch((error) => console.error("Error fetching categories:", error));
 
     // Fetch brands
-    fetch(`/api/v1/brands/by_category/${id_category}`)
+    fetch(`/api/v1/brands/by_category/id/${id_category}`)
       .then((response) => response.json())
       .then((data) => {
         setBrands(data);
@@ -105,7 +105,7 @@ const Filter = ({
       .catch((error) => console.error("Error fetching brands:", error));
 
     //Fetch colors
-    fetch(`/api/v1/specif/by_category/${id_category}`)
+    fetch(`/api/v1/specif/by_category/id/${id_category}`)
       .then((response) => response.json())
       .then((data) => {
         const result = processData(data);

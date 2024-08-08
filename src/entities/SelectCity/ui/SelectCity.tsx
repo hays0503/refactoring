@@ -54,8 +54,7 @@ export default function SelectCity({ params, currentCity, Cities }: any) {
         children: (
           <div onClick={() => CityStore.setMissCityConfirm(true)}>OK</div>
         ),
-      },
-      // scrollIntoViewOptions: true
+      }
     },
   ];
 

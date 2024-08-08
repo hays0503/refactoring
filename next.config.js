@@ -83,9 +83,9 @@ const nextConfig = {
         destination: "http://pimenov.kz/api/v1/reviews/",
       },
       {
-        source: "/api/v1/brands/by_category/:cat_pk",
+        source: "/api/v1/brands/by_category/id/:cat_pk",
         destination:
-          "http://pimenov.kz/api/v1/brands/by_category/:cat_pk/",
+          "http://pimenov.kz/api/v1/brands/by_category/id/:cat_pk/",
       },
       {
         source: "/api/v1/reviews/filter_by_prod/:prod_pk",
@@ -106,9 +106,9 @@ const nextConfig = {
       },
 
       {
-        source: "/api/v1/specif/by_category/:cat_pk",
+        source: "/api/v1/specif/by_category/id/:cat_pk",
         destination:
-          "http://pimenov.kz/api/v1/specif/by_category/:cat_pk/",
+          "http://pimenov.kz/api/v1/specif/by_category/id/:cat_pk/",
       },
 
       {

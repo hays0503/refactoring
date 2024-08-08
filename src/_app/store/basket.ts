@@ -3,15 +3,16 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { v4 as uuidv4 } from "uuid";
-import BasketApiManipulator from "@/entities/Basket/api/api";
+import BasketApiManipulator from "../api/apiBasketApiManipulator";
 
 // Интерфейс для корзины
 export interface iBasketStore {
   BasketData: Map<number, iBasket>;
   uuid4: string;  
   version: number;
-  addProduct: (id: number, count: number, price: number) => void;
-  removeProduct: (id: number, count: number, price: number) => void;
+  addProduct: (id: number, count: number, price: number,city:string) => void;
+  removeProduct: (id: number, count: number, price: number,city:string) => void;
+  clearBasket: () => void;
 }
 
 // Кастомное хранилище для работы с Map
@@ -61,7 +62,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
       JSON.parse(localStorage.getItem("basket-storage")!).state.uuid4) ||
     uuidv4(), // Инициализация uuid4,
   version: 0,
-  addProduct: (id: number, count: number, price: number) =>
+  addProduct: (id: number, count: number, price: number,city:string) =>
     set((state: iBasketStore) => {
       const newBasketData = new Map<number, iBasket>(state.BasketData);
       if (newBasketData.has(id)) {
@@ -69,6 +70,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
         if (item) {
           item.count += count; // Увеличиваем количество товара
           item.price = price; // Обновляем цену товара
+          item.city = city;
           newBasketData.set(id, item);
           BasketApiManipulator.update(
             Array.from(state.BasketData.values()),
@@ -81,6 +83,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
           prod_id: id,
           count: count,
           price: price,
+          city:city
         };
         if (newBasketData.size === 0) {
           BasketApiManipulator.create(Array.from([item]), state.uuid4, -1);
@@ -99,7 +102,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
         version: state.version,
       };
     }),
-  removeProduct: (id: number, count: number, price: number) =>
+  removeProduct: (id: number, count: number, price: number,city:string) =>
     set((state: iBasketStore) => {
       const newBasketData = new Map<number, iBasket>(state.BasketData);
       if (newBasketData.has(id)) {
@@ -107,6 +110,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
         if (item) {
           item.count -= count; // Уменьшаем количество товара
           item.price = price;
+          item.city = city;
           if (item.count <= 0) {
             newBasketData.delete(id); // Удаляем товар, если его количество меньше или равно нулю
             BasketApiManipulator.delete(state.uuid4, -1);
@@ -128,6 +132,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
         version: state.version,
       };
     }),
+  clearBasket: () => set({ uuid4:uuidv4(),BasketData: new Map<number, iBasket>() }),
 });
 
 // Создаем хранилище корзины с использованием devtools и persist для хранения состояния

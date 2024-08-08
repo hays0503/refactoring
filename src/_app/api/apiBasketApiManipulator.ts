@@ -4,13 +4,14 @@ export default class BasketApiManipulator {
   public static create(Baskets: iBasket[], uuid4: string, user_id: number) {
     const body = {
       uuid_id: uuid4,
-      basket_items: Baskets.map((Basket) => ({
+      basket_items: Baskets.map((Basket: iBasket) => ({
         count: Basket.count,
         price: Basket.price,
         prod_id: Basket.prod_id,
+        city:Basket.city
       })),
     };
-    const result = fetch("http://127.0.0.1:5001/basket_api/v1/bascket/", {
+    const result = fetch("http://pimenov.kz:8989/basket_api/v1/bascket/", {
       headers: {
         accept: "application/json;charset=utf-8",
         'Content-Type': 'application/json;charset=utf-8'        
@@ -23,13 +24,14 @@ export default class BasketApiManipulator {
   public static update(Baskets: iBasket[], uuid4: string, user_id: number) {
     const body = {
       uuid_id: uuid4,
-      basket_items: Baskets.map((Basket) => ({
+      basket_items: Baskets.map((Basket:iBasket) => ({
         count: Basket.count,
         price: Basket.price,
         prod_id: Basket.prod_id,
+        city:Basket.city
       })),
     };
-    const result = fetch(`http://127.0.0.1:5001/basket_api/v1/bascket/${uuid4}`, {
+    const result = fetch(`http://pimenov.kz:8989/basket_api/v1/bascket/${uuid4}`, {
       headers: {
         accept: "application/json;charset=utf-8",
         'Content-Type': 'application/json;charset=utf-8'
@@ -44,7 +46,7 @@ export default class BasketApiManipulator {
       uuid_id: uuid4,
       basket_items: [],
     };
-    const result = fetch(`http://127.0.0.1:5001/basket_api/v1/bascket/${uuid4}`, {
+    const result = fetch(`http://pimenov.kz:8989/basket_api/v1/bascket/${uuid4}`, {
       headers: {
         accept: "application/json;charset=utf-8",
         'Content-Type': 'application/json;charset=utf-8'

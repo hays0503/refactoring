@@ -23,14 +23,14 @@ export default function Header({ params, currentCity, Cities }: any) {
 
   const localActive = useLocale();
 
-  const [ModalTogle, ModalLeaveRequestComponent] = ModalLeaveRequest();
+  const [ModalToggle, ModalLeaveRequestComponent] = ModalLeaveRequest();
 
   const { isDarkTheme } = useTheme();
 
   const items: MenuItem[] = [
     {
       label: (
-        <Link href={`/${localActive}/${params.city}/rewiews`}>
+        <Link href={`/${localActive}/${params.city}/reviews`}>
           {t("otzyvy")}
         </Link>
       ),
@@ -85,7 +85,7 @@ export default function Header({ params, currentCity, Cities }: any) {
       key: "contacts",
     },
     {
-      label: <a onClick={() => ModalTogle()}>{t("ostavit-obrashenie")}</a>,
+      label: <a onClick={() => ModalToggle()}>{t("ostavit-obrashenie")}</a>,
       key: "leave-request",
     },
   ];

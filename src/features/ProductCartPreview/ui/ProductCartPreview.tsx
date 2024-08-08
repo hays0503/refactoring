@@ -194,7 +194,8 @@ const Description = ({
                   BasketStore.addProduct(
                     product.id,
                     1,
-                    product.price?.[city] ? product.price?.[city] : -1
+                    product.price?.[city] ? product.price?.[city] : -1,
+                    city
                   );
                 }}
               >

@@ -8,7 +8,7 @@ import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
 import { Suspense } from "react";
 
-const RewiewsPage = ({
+const ReviewsPage = ({
   params,
   Cities,
   currentCity,
@@ -36,7 +36,7 @@ const RewiewsPage = ({
                   height: "100dvh",
                 }}
               >
-                RrewiewsPage
+                ReviewsPage
               </div>
             </Suspense>
           </section>
@@ -47,4 +47,4 @@ const RewiewsPage = ({
   );
 };
 
-export default RewiewsPage;
+export default ReviewsPage;

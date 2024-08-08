@@ -17,7 +17,6 @@ import Image from "next/image";
 import styles from "./Basket.module.scss";
 import useTheme from "@/shared/hook/useTheme";
 import { Products } from "@/shared/types/products";
-import Title from "antd/es/typography/Title";
 import { selectDataByLangProducts } from "@/shared/tool/selectDataByLang";
 import { useLocale } from "next-intl";
 import ucFirst from "@/shared/tool/ucFirst";
@@ -29,6 +28,10 @@ import type { MenuProps } from "antd";
 import iBasket from "@/shared/types/basket";
 import useOrderStore from "@/_app/store/order";
 import { v4 as uuidv4 } from "uuid";
+import IOrder from "@/shared/types/order";
+import OrderApiManipulator from "@/_app/api/apiOrderApiManipulator";
+
+const { Title } = Typography;
 
 interface FieldData {
   name: string | number | (string | number)[];
@@ -48,9 +51,10 @@ export default function Basket({ city }: { city: string }) {
 
   const { isDarkThemeImage } = useTheme();
 
-  const { BasketData, uuid4 } = useBasketStore((state) => ({
+  const { BasketData, uuid4,clearBasket } = useBasketStore((state) => ({
     BasketData: state.BasketData,
     uuid4: state.uuid4,
+    clearBasket:state.clearBasket
   }));
 
   const { isOpenModalOrder, toggleModal, addOrder, order } = useOrderStore(
@@ -116,17 +120,6 @@ export default function Basket({ city }: { city: string }) {
       .catch(() => setIsLoading(false)); // Обработка ошибок
   }, [BasketData, city]);
 
-  // useEffect(() => {
-  //   if (order) {
-  //     [
-  //       { name: "phone_number", value: order.phone_number },
-  //       { name: "shipping_city", value: order.shipping_city },
-  //       { name: "delivery_address", value: order.delivery_address },
-  //       { name: "delivery_type", value: order.delivery_type },
-  //     ].forEach((item) => formOrder.setFieldValue(item.name, item.value));
-  //   }
-  // }, []);
-
   // Пока идет загрузка, возвращаем null или индикатор загрузки
   if (isLoading) return <Text>Загрузка...</Text>;
 
@@ -156,16 +149,14 @@ export default function Basket({ city }: { city: string }) {
   );
 
   const handleOrderSubmit = (values: any) => {
-    const newOrder = {
-      uuid_id: uuidv4(),
-      order_status: "pending",
+    const newOrder: IOrder = {
+      uuid_id: uuid4,
+      order_status: "NEW",
       comment: values.comment,
       phone_number: values.phone_number,
-      shipping_city: values.shipping_city,
+      shipping_city: city,
       delivery_address: values.delivery_address,
       delivery_type: values.delivery_type,
-      completed: false,
-      basket_uuid: uuid4,
     };
     addOrder(newOrder);
     toggleModal();
@@ -216,7 +207,16 @@ export default function Basket({ city }: { city: string }) {
             key={'submit'}
             style={{ zIndex: 2000 }}
             type="primary"
-            onClick={() => formOrder.submit()}
+            onClick={ async () => {
+              formOrder.submit()
+              if(order){
+                if(await OrderApiManipulator.create(order)){
+                  alert('Заказ оформлен и передан менеджеру с вами свяжутся в скором времени')
+                  localStorage.removeItem("basket-storage")
+                  clearBasket();
+                }
+              }
+            }}
           >
             Оформить заказ
           </Button>,
@@ -250,24 +250,20 @@ export default function Basket({ city }: { city: string }) {
             layout="vertical"
             onFinish={handleOrderSubmit}
             onFieldsChange={(_, allFields) => {
-              const newOrder = {
-                uuid_id: uuidv4(),
-                order_status: "pending",
+              const newOrder: IOrder = {
+                uuid_id: uuid4,
+                order_status: "NEW",
                 comment: formOrder.getFieldsValue([["comment"]])["comment"],
                 phone_number: formOrder.getFieldsValue([["phone_number"]])[
                   "phone_number"
                 ],
-                shipping_city: formOrder.getFieldsValue([["shipping_city"]])[
-                  "shipping_city"
-                ],
+                shipping_city: city,
                 delivery_address: formOrder.getFieldsValue([
                   ["delivery_address"],
                 ])["delivery_address"],
                 delivery_type: formOrder.getFieldsValue([["delivery_type"]])[
                   "delivery_type"
-                ],
-                completed: false,
-                basket_uuid: uuid4,
+                ]
               };
               addOrder(newOrder);
             }}
@@ -292,16 +288,10 @@ export default function Basket({ city }: { city: string }) {
               <Input style={styleInput} />
             </Form.Item>
             <Form.Item
-              label="Город отгрузки"
+              label="Заказано со склада в городе"
               name="shipping_city"
-              rules={[
-                {
-                  required: true,
-                  message: "Пожалуйста, введите город отгрузки",
-                },
-              ]}
             >
-              <Input style={styleInput} />
+              <Input style={styleInput} disabled={true}/>
             </Form.Item>
             <Form.Item
               label="Адрес доставки"
@@ -414,8 +404,8 @@ function BasketBody({
                       product={item}
                       city={city}
                       count={count}
-                      add={() => addProduct(item.id, 1, price)}
-                      dec={() => removeProduct(item.id, 1, price)}
+                      add={() => addProduct(item.id, 1, price,city)}
+                      dec={() => removeProduct(item.id, 1, price,city)}
                     />
                   )}
                 </>
