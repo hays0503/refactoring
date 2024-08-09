@@ -95,7 +95,8 @@
   }
 }
 
-.HeaderMenuLine1TabsСartContainer {
+.HeaderMenuLine1TabsCartContainer {
+  max-width: 320px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -107,7 +108,7 @@
   }
 }
 
-.HeaderMenuLine1TabsСartContainerContent {
+.HeaderMenuLine1TabsCartContainerContent {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -118,7 +119,7 @@
   }
 }
 
-.HeaderMenuLine1TabsСartContainerContentData {
+.HeaderMenuLine1TabsCartContainerContentData {
   display: flex;
   flex-direction: column;
   align-items: center;

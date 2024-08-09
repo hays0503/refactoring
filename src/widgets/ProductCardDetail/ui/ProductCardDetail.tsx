@@ -2,21 +2,20 @@ import { Products } from "@/shared/types/products";
 import { useTranslations } from "next-intl";
 import style from "./ProductCardDetail.module.scss";
 import { LikeTwoTone } from "@ant-design/icons";
-import { Collapse, Divider, Flex, Skeleton } from "antd";
+import { Divider, Flex, Skeleton, Typography } from "antd";
 import { AllBreadcrumb } from "@/features/CardInfo/AllBreadcrumb";
 import { CardHeader } from "@/features/CardInfo/CardHeader";
 import { CustomCarousel } from "@/features/CardInfo/CustomCarousel";
 import { CardParameters } from "@/features/CardInfo/CardParameters";
 import { ConstInfo } from "@/features/CardInfo/ConstInfo";
-import { Consultation } from "@/features/CardInfo/Consultation";
-import { Rating } from "@/features/CardInfo/Rating";
-import Title from "antd/es/typography/Title";
 import { ProductsDetail } from "@/shared/types/productsDetail";
 import { ProductCartPreview } from "@/features/ProductCartPreview";
-import { Review } from "@/features/CardInfo/Review";
 import { Description } from "@/features/CardInfo/Description";
 import { Specifications } from "@/features/CardInfo/Specifications";
 import CardPresent from "@/features/CardInfo/CardPresent/ui/CardPresent";
+
+const { Title } = Typography
+
 
 export default function ProductCardDetail({
   product,

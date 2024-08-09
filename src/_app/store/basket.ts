@@ -11,6 +11,7 @@ export interface iBasketStore {
   uuid4: string;  
   version: number;
   addProduct: (id: number, count: number, price: number,city:string) => void;
+  updateProduct: (id: number, count: number, price: number,city:string) => void;
   removeProduct: (id: number, count: number, price: number,city:string) => void;
   clearBasket: () => void;
 }
@@ -61,7 +62,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
       localStorage.getItem("basket-storage") &&
       JSON.parse(localStorage.getItem("basket-storage")!).state.uuid4) ||
     uuidv4(), // Инициализация uuid4,
-  version: 0,
+  version: 1,
   addProduct: (id: number, count: number, price: number,city:string) =>
     set((state: iBasketStore) => {
       const newBasketData = new Map<number, iBasket>(state.BasketData);
@@ -102,6 +103,31 @@ const Basket = (set: any, get: any): iBasketStore => ({
         version: state.version,
       };
     }),
+
+  updateProduct: (id: number, count: number, price: number,city:string) =>{
+    set((state: iBasketStore) => {
+      const newBasketData = new Map<number, iBasket>(state.BasketData);
+      if (newBasketData.has(id)) {
+        let item = newBasketData.get(id);
+        if (item) {
+          item.count = count; // Обновляем количество товара
+          item.price = price;
+          item.city = city;
+          newBasketData.set(id, item);
+          BasketApiManipulator.update(
+            Array.from(state.BasketData.values()),
+            state.uuid4,
+            -1
+          );
+        }
+      } else {
+        console.log("Такого товара в корзине нет ", id);
+      }
+      return {
+        BasketData: newBasketData,
+        uuid4: state.uuid4, 
+    }})
+  },
   removeProduct: (id: number, count: number, price: number,city:string) =>
     set((state: iBasketStore) => {
       const newBasketData = new Map<number, iBasket>(state.BasketData);
