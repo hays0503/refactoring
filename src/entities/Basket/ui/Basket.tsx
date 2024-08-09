@@ -130,7 +130,7 @@ export default function Basket({ city }: { city: string }) {
     <>
       <Suspense>
         <Dropdown
-          open={true}
+          // open={true}
           menu={{ items: itemsCart }}
           trigger={["hover"]}
           placement="top"
