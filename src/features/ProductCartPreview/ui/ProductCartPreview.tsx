@@ -171,7 +171,7 @@ const Description = ({
               }}
             />
 
-            <ReviewsUser product={product} />
+            {/* <ReviewsUser product={product} /> */}
           </Flex>
         </Link>
         <Popover

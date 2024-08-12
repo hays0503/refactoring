@@ -36,7 +36,8 @@ const ItemInBasket: React.FC<{
           height={64}
           alt={product.name_product || "Нет названия"}
         />
-        <Flex gap="3px"
+        <Flex 
+        gap="3px"
         style={styles.actionsContainer}
         justify="center"
         align="center"
@@ -89,7 +90,7 @@ const ItemInBasket: React.FC<{
   );
 };
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   container: {
     marginBottom: 5,
   },
@@ -103,16 +104,18 @@ const styles = {
     width: "55%",
   },
   actionsContainer: {
-    width: "90%",
+    minWidth: "100%",
   },
   incrementButton: {
     color: "white",
-    width: "50%",
+    maxWidth: "50px",
     background: "radial-gradient(at center, #2B8101, #204901)",
   },
   decrementButton: {
     color: "white",
-    width: "50%",
+    maxWidth: "50px",
+    paddingLeft: "8px",
+    paddingRight: "8px",
     background: "radial-gradient(at center, #810102, #490101)",
   },
 };

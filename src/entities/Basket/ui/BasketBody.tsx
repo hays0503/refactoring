@@ -17,6 +17,7 @@ export const BasketBody: React.FC<{
   totalSum: number;
   totalSumFake: number;
   sale: number;
+  hideButton: boolean|undefined;
 }> = React.memo(function BasketBody({
   city,
   products,
@@ -24,6 +25,7 @@ export const BasketBody: React.FC<{
   totalSum,
   totalSumFake,
   sale,
+  hideButton
 }) {
   const { addProduct, removeProduct } = useBasketStore((state) => ({
     addProduct: state.addProduct,
@@ -57,7 +59,6 @@ export const BasketBody: React.FC<{
     });
 
   return (
-    <div className={styles.basketContainer}>
       <Flex
         vertical
         gap={15}
@@ -73,7 +74,7 @@ export const BasketBody: React.FC<{
         >
           <Title level={5}>Корзина</Title>
         </Flex>
-        <div className={`${styles.scroll} ${styles.productList}`}>
+        <div style={{ width: "100%" }}>
           {products.length > 0 && renderProducts()}
         </div>
         <Flex
@@ -84,13 +85,15 @@ export const BasketBody: React.FC<{
           <SummaryRow label="Товаров на сумму:" value={beautifulCost(totalSumFake)} />
           <SummaryRow label="Скидка:" value={beautifulCost(sale)} />
           <SummaryRow label="Итог:" value={beautifulCost(totalSum)} isTitle />
+          {
+          !hideButton &&
           <Flex justify="space-around" gap={10} style={{ width: "100%" }}>
             <ActionButton label="В корзину" styleType="primary" />
             <ActionButton label="Оформить" styleType="secondary" onClick={toggleModal} />
-          </Flex>
+          </Flex>          
+          }
         </Flex>
       </Flex>
-    </div>
   );
 });
 

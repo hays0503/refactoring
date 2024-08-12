@@ -112,6 +112,7 @@ export default function Basket({ city }: { city: string }) {
           totalSum={totalSum}
           totalSumFake={totalSumFake}
           sale={sale}
+          hideButton={false}
         />
       ),
     },
@@ -156,7 +157,17 @@ export default function Basket({ city }: { city: string }) {
           </div>
         </Dropdown>
       </Suspense>
-      <OrderInBasket city={city} />
+      <OrderInBasket city={city}>
+        <BasketBody
+            city={city}
+            products={products}
+            BasketData={BasketData}
+            totalSum={totalSum}
+            totalSumFake={totalSumFake}
+            sale={sale}
+            hideButton={true}
+          />
+      </OrderInBasket>
     </>
   );
 }
