@@ -130,6 +130,7 @@ const ConstInfo = ({
           onClick={() =>
             addProduct(
               product.id,
+              -1,
               1,
               product.price?.[currentCity] ? product.price?.[currentCity] : -1,
               currentCity

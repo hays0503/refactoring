@@ -69,7 +69,7 @@ export default function Basket({ city }: { city: string }) {
               let item = BasketData.get(element.id);
               if (item) {
                 item.price = price;
-                updateProduct(item.prod_id, item.count, price, cityInBasket);
+                updateProduct(item.prod_id,item.gift_prod_id, item.count, price, cityInBasket);
               }
             }
           }          

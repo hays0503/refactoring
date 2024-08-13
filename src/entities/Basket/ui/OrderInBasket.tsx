@@ -1,6 +1,18 @@
 import useBasketStore from "@/_app/store/basket";
 import useOrderStore from "@/_app/store/order";
-import { Button, Col, Form, Grid, Input, Modal, Radio, Row, Space } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Grid,
+  Input,
+  Modal,
+  Radio,
+  Row,
+  Space,
+  Tooltip,
+  Typography,
+} from "antd";
 import { Children, CSSProperties, useEffect, useState } from "react";
 import styles from "./OrderInBasket.module.scss"; // Предполагается, что у вас есть соответствующий CSS модуль
 import OrderApiManipulator from "@/_app/api/apiOrderApiManipulator";
@@ -12,6 +24,8 @@ const styleInput: CSSProperties = {
 
 const { useBreakpoint } = Grid;
 
+const { Text } = Typography;
+
 export function OrderInBasket({
   city,
   children,
@@ -19,8 +33,7 @@ export function OrderInBasket({
   city: string;
   children: React.ReactNode;
 }) {
-
-  const [isMobileSize,setIsMobileSize] = useState("100%") // isMobileSize
+  const [isMobileSize, setIsMobileSize] = useState("100%"); // isMobileSize
 
   const [formOrder] = Form.useForm();
 
@@ -63,43 +76,78 @@ export function OrderInBasket({
   const screens = useBreakpoint();
 
   const isMobile = Boolean(screens.xs || screens.sm || screens.md);
-  const itIsMobile = screens['xs'] || screens['sm'] && !screens['md'] && !screens['lg'] && !screens['xl'];
+  const itIsMobile =
+    screens["xs"] ||
+    (screens["sm"] && !screens["md"] && !screens["lg"] && !screens["xl"]);
 
-  useEffect(() => {  
-    console.log("itIsMobile ",itIsMobile," screens ",screens)
-
+  useEffect(() => {
     //width = 320px
-    if(screens["xs"] && (!screens.sm && !screens.md && !screens.lg && !screens.xl && !screens.xxl )){
-      console.log(0);
-      setIsMobileSize("90%")
+    if (
+      screens["xs"] &&
+      !screens.sm &&
+      !screens.md &&
+      !screens.lg &&
+      !screens.xl &&
+      !screens.xxl
+    ) {
+      setIsMobileSize("90%");
     }
     //width = 576px
-    if(screens["sm"] && (!screens.lg && !screens.xl && !screens.xs && !screens.xxl )){
-      console.log(1);
-      setIsMobileSize("100%")
+    if (
+      screens["sm"] &&
+      !screens.lg &&
+      !screens.xl &&
+      !screens.xs &&
+      !screens.xxl
+    ) {
+      setIsMobileSize("100%");
     }
     //width = 768px
-    if((screens.lg && screens.md && screens.sm) && (!screens.xl && !screens.xs && !screens.xxl )){
-      console.log(2);
-      setIsMobileSize("80%")
+    if (
+      screens.lg &&
+      screens.md &&
+      screens.sm &&
+      !screens.xl &&
+      !screens.xs &&
+      !screens.xxl
+    ) {
+      setIsMobileSize("80%");
     }
     //width = 992px
-    if((screens.lg && screens.md && screens.sm && screens.xl) && (!screens.xs && !screens.xxl )){
+    if (
+      screens.lg &&
+      screens.md &&
+      screens.sm &&
+      screens.xl &&
+      !screens.xs &&
+      !screens.xxl
+    ) {
       console.log(3);
-      setIsMobileSize("50%")
+      setIsMobileSize("50%");
     }
     //width = 1200px
-    if((screens.lg && screens.md && screens.sm && screens.xl &&  screens.xxl ) && (!screens.xs )){
-      console.log(4);
-      setIsMobileSize("40%")
+    if (
+      screens.lg &&
+      screens.md &&
+      screens.sm &&
+      screens.xl &&
+      screens.xxl &&
+      !screens.xs
+    ) {
+      setIsMobileSize("40%");
     }
     //width = 1600px
-    if(screens.lg && screens.md && screens.sm && screens.xl &&  screens.xxl && screens.xs ){
-      console.log(5);
-      setIsMobileSize("30%")
+    if (
+      screens.lg &&
+      screens.md &&
+      screens.sm &&
+      screens.xl &&
+      screens.xxl &&
+      screens.xs
+    ) {
+      setIsMobileSize("30%");
     }
-    
-  },[screens])
+  }, [screens]);
 
   return (
     <Modal
@@ -132,65 +180,63 @@ export function OrderInBasket({
           xl={{ flex: "30%", order: 1 }}
           xxl={{ flex: "35%", order: 1 }}
         >
-          {order && (
-            <Form
-              form={formOrder}
-              layout="vertical"
-              onFinish={handleOrderSubmit}
-              initialValues={order} // Инициализируем форму значениями из order
+          <Form
+            form={formOrder}
+            layout="vertical"
+            onFinish={handleOrderSubmit}
+            initialValues={order ?? undefined} // Инициализируем форму значениями из order
+          >
+            <Form.Item label="Заказано со склада в городе" name="shipping_city">
+              {/* <Input style={styleInput} disabled={true} /> */}
+              <Tooltip title="Для смены склада измените город">
+                <Text strong>{city}</Text>
+              </Tooltip>
+            </Form.Item>
+            <Form.Item
+              label="Номер телефона"
+              name="phone_number"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, введите номер телефона",
+                },
+              ]}
             >
-              <Form.Item
-                label="Номер телефона"
-                name="phone_number"
-                rules={[
-                  {
-                    required: true,
-                    message: "Пожалуйста, введите номер телефона",
-                  },
-                ]}
-              >
-                <Input style={styleInput} />
-              </Form.Item>
-              <Form.Item
-                label="Заказано со склада в городе"
-                name="shipping_city"
-              >
-                <Input style={styleInput} disabled={true} />
-              </Form.Item>
-              <Form.Item
-                label="Адрес доставки"
-                name="delivery_address"
-                rules={[
-                  {
-                    required: true,
-                    message: "Пожалуйста, введите адрес доставки",
-                  },
-                ]}
-              >
-                <Input style={styleInput} />
-              </Form.Item>
-              <Form.Item
-                label="Тип доставки"
-                name="delivery_type"
-                rules={[
-                  {
-                    required: true,
-                    message: "Пожалуйста, выберите тип доставки",
-                  },
-                ]}
-              >
-                <Radio.Group>
-                  <Space direction="vertical">
-                    <Radio value="DELIVERY">Доставка</Radio>
-                    <Radio value="PICKUP">Самовывоз</Radio>
-                  </Space>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item label="Комментарий" name="comment">
-                <Input.TextArea style={styleInput} />
-              </Form.Item>
-            </Form>
-          )}
+              <Input style={styleInput} />
+            </Form.Item>
+            <Form.Item
+              label="Адрес доставки"
+              name="delivery_address"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, введите адрес доставки",
+                },
+              ]}
+            >
+              <Input style={styleInput} />
+            </Form.Item>
+            <Form.Item
+              label="Тип доставки"
+              name="delivery_type"
+              rules={[
+                {
+                  required: true,
+                  message: "Пожалуйста, выберите тип доставки",
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Space direction="vertical">
+                  <Radio value="DELIVERY">Доставка</Radio>
+                  <Radio value="PICKUP">Самовывоз</Radio>
+                </Space>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Комментарий" name="comment">
+              <Input.TextArea style={styleInput} />
+            </Form.Item>
+          </Form>
         </Col>
         <Col
           xs={{ flex: "100%", order: 2 }}

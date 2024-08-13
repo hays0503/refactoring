@@ -193,6 +193,7 @@ const Description = ({
                   });
                   BasketStore.addProduct(
                     product.id,
+                    null,
                     1,
                     product.price?.[city] ? product.price?.[city] : -1,
                     city

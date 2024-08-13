@@ -51,8 +51,8 @@ export const BasketBody: React.FC<{
             product={item}
             city={cityInBasket}
             count={count}
-            add={() => addProduct(item.id, 1, price, cityInBasket)}
-            dec={() => removeProduct(item.id, 1, price, cityInBasket)}
+            add={() => addProduct(item.id,null, 1, price, cityInBasket)}
+            dec={() => removeProduct(item.id,null, 1, price, cityInBasket)}
           />
         );
      }      

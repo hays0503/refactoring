@@ -71,7 +71,7 @@ export default function ProductCardDetail({
                 >
                   <ConstInfo product={product} currentCity={currentCity} />
                   {product?.present.length !== 0 && (
-                    <CardPresent product={product} />
+                    <CardPresent product={product} currentCity={currentCity} />
                   )}
                 </div>
               </div>
