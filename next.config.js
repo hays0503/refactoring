@@ -120,6 +120,15 @@ const nextConfig = {
         source: "/auth_api/v1/auth_user/:id",
         destination: "http://pimenov.kz:5001/auth_api/v1/auth_user/:id",
       },
+
+      {
+        source: "/basket_api/v1/bascket/create_or_update",
+        destination: "http://pimenov.kz:8989/basket_api/v1/bascket/create_or_update/",
+      },
+      {
+        source: "/basket_api/v1/order",
+        destination: "http://pimenov.kz:8989/basket_api/v1/order/",
+      }
     ];
   },
   pageExtensions: ["mdx", "md", "jsx", "js", "tsx", "ts"],
