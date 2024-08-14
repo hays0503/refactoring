@@ -157,11 +157,20 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
 
   const { isDarkThemeImage } = useTheme();
 
+  const router = useRouter();
+
+  
   const AllCategory = (_Category: any) =>
     _Category.map((item: any) => {
       return (
         <>
-          <li className={style.Row}>
+          <li className={style.Row}
+          onClick={() =>
+            router.replace(
+              `/${localActive}/${urlCity}/products-in-category/${item.slug}/0/12/popular-first`
+            )
+          }
+          >
             <div style={{ display: "flex", alignItems: "center" }}>
               {item.list_url_to_image[0] && (
                 <Image

@@ -93,9 +93,11 @@
     // width: 50% !important;
     // height: 10%  !important;
     // height:  50% !important;
-    width: 300px !important;
+    // width: 300px !important;
     // width: 100% !important;
-    aspect-ratio: 1 / 1;
+    max-width: 300px;
+    max-height: 300px;
+    // aspect-ratio: 1 / 1;
 }
 
 .ImgPrev{

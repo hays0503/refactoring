@@ -11,6 +11,7 @@ import { Reviews } from "@/shared/types/reviews";
 import scrolltoHash from "@/shared/tool/scrolltoHash";
 import { Discount } from "@/entities/Discount";
 import useBasketStore from "@/_app/store/basket";
+import { KaspiCredit } from "@/entities/KaspiCredit";
 
 const { Text, Link } = Typography;
 
@@ -141,6 +142,7 @@ const ConstInfo = ({
           {t("dobavit-v-korzinu")}
         </Button>
       )}
+      <KaspiCredit product={product} currentCity={currentCity}/>
     </div>
   );
 };
