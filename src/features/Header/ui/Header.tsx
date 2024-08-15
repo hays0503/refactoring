@@ -8,7 +8,7 @@ import { LangSwitcher } from "@/entities/LangSwitcher";
 import { SelectCity } from "@/entities/SelectCity";
 
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import { Col, Menu, Row } from "antd";
 
 import { Dropdown, Space, Flex, Modal, Typography } from "antd";
 import { ModalLeaveRequest } from "@/entities/ModalLeaveRequest";
@@ -111,11 +111,20 @@ export default function Header({ params, currentCity, Cities }: any) {
     { key: "2", label: <LangSwitcher params={params} /> },
   ];
 
+  const selectCity = {order:1,flex:"10%"};
+  const selectCityMobile = {order:1,flex:"100%"};
+  const menu = {order:2,flex:"auto"};
+  const menuMobile = {order:3,flex:"100%"};
+  const account = {order:3,flex:"10%"};
+  const accountMobile = {order:2,flex:"100%"};
+
   return (
     <>
       {ModalLeaveRequestComponent()}
       <Flex justify="center" style={{width:'100%',backgroundColor:'white'}}>
         <div className={styles.HeaderContainer} style={isDarkTheme}>
+        <Row className={styles.Container} justify="center" align={"middle"} style={{width:'100%',backgroundColor:'white'}}>
+          <Col xs={selectCityMobile} sm={selectCityMobile} md={selectCity} lg={selectCity} xl={selectCity} xxl={selectCity}>
           <div className={styles.HeaderSelectCity}>
             <SelectCity
               param={params}
@@ -123,21 +132,19 @@ export default function Header({ params, currentCity, Cities }: any) {
               Cities={Cities}
             />
           </div>
+          </Col>
 
+          <Col xs={menuMobile} sm={menuMobile} md={menu} lg={menu} xl={menu} xxl={menu}>
           <div className={styles.HeaderMenuContainer}>
             <Menu
-              id={styles.mobile}
-              className={styles.HeaderMenu}
-              items={items}
-            />
-            <Menu
-              id={styles.desktop}
               className={styles.HeaderMenu}
               mode="horizontal"
               items={items}
             />
           </div>
+          </Col>
 
+          <Col xs={accountMobile} sm={accountMobile} md={account} lg={account} xl={account} xxl={account}>
           <div className={styles.HeaderAccountUser}>
             <Dropdown menu={{ items: accountItems }}>
               <div className={styles.HeaderAccountUserInfo}>
@@ -154,8 +161,10 @@ export default function Header({ params, currentCity, Cities }: any) {
               </div>
             </Dropdown>
           </div>
+          </Col>
+        </Row>
         </div>
-      </Flex>
+      </Flex> 
     </>
   );
 }
