@@ -97,7 +97,7 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
               </Flex>
               <Flex style={{ width: "100%" }}>
                 {componentButtonMenu}
-                <SaleLink />
+                {/* <SaleLink /> */}
               </Flex>
             </Flex>
           </div>

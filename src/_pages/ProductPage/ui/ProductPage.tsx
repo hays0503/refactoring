@@ -10,6 +10,7 @@ import { ProductsDetail } from "@/shared/types/productsDetail";
 import { ProductCardDetail } from "@/widgets/ProductCardDetail";
 import { ConfigProvider, Layout } from "antd";
 import { useLocale, useTranslations } from "next-intl";
+import Script from "next/script";
 import { useState, useEffect } from "react";
 
 const { Content } = Layout;

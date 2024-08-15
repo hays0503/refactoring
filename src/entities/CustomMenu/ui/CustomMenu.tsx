@@ -41,10 +41,6 @@ function TopMenu({
               setTab(CategoryItem.children);
               setCategoryBanner(CategoryItem.list_url_to_baner);
             }}
-            onPointerEnter={() => {
-              setTab(CategoryItem.children);
-              setCategoryBanner(CategoryItem.list_url_to_baner);
-            }}
             style={isDarkTheme}
           >
             <Flex gap={"5px"}>
@@ -89,6 +85,9 @@ const SelectMenuByLanguage = ({
       label: (
         <Flex
           gap={"5px"}
+          onClick={() => {
+            router.replace(url);
+          }}
         >
           {item.list_url_to_image[0] && (
             <Image

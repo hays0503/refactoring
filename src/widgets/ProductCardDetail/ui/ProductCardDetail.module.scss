@@ -1,7 +1,4 @@
 
-
-
-
 // Стили для ПК
 .RatingContainer {
     display: flex;
@@ -103,7 +100,7 @@
     flex-direction: row;
     border-radius: 10px;
     width: 100%;
-    height: 350px;
+    height: inherit;
     gap: 5px;
     @media screen and (max-width: 950px) {
         width: 100%;

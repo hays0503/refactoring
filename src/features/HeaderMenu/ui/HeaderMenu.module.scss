@@ -145,14 +145,14 @@
 .HeaderMenuLine2ContainerCategory{
     display: flex;
     background-color: rgba(0, 0, 255, 0.685);
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 5px;
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: center;
     align-items: center;
-    width: 175px;
+    width: 155px;
     &:hover{
         img{
             //Анимация поворота на лево при наведении на категорию

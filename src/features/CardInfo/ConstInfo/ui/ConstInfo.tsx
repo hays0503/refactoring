@@ -11,7 +11,7 @@ import { Reviews } from "@/shared/types/reviews";
 import scrolltoHash from "@/shared/tool/scrolltoHash";
 import { Discount } from "@/entities/Discount";
 import useBasketStore from "@/_app/store/basket";
-import { KaspiCredit } from "@/entities/KaspiCredit";
+import { KaspiCredit } from "@/entities/Credit";
 
 const { Text, Link } = Typography;
 
