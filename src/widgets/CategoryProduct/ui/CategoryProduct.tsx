@@ -11,7 +11,7 @@ import { Category } from "@/shared/types/category";
 import useCityStore from "@/_app/store/city";
 import { selectDataByLangCategory } from "@/shared/tool/selectDataByLang";
 import Image from "next/image";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, memo, useState } from "react";
 import { ProductsDetail } from "@/shared/types/productsDetail";
 import { Products } from "@/shared/types/products";
 import useThemeStore from "@/_app/store/theme";
@@ -72,7 +72,7 @@ const SortListViewDropdown = ({
   );
 };
 
-export default function CategoryProduct({
+function CategoryProduct({
   products,
   currentCategory,
   params,
@@ -228,3 +228,5 @@ export default function CategoryProduct({
     </>
   );
 }
+
+export default memo(CategoryProduct);
