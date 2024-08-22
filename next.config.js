@@ -125,6 +125,10 @@ const nextConfig = {
         destination: "http://pimenov.kz:8989/basket_api/v1/bascket/"
       },
       {
+        source: "/basket_api/v1/bascket/:uuid_id",
+        destination: "http://pimenov.kz:8989/basket_api/v1/bascket/:uuid_id/"
+      },
+      {
         source: "/basket_api/v1/bascket/create_or_update",
         destination: "http://pimenov.kz:8989/basket_api/v1/bascket/create_or_update/"
       },
