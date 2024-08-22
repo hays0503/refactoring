@@ -173,6 +173,8 @@ export default class BasketApiManipulator {
           headers: {
             accept: "application/json;charset=utf-8",
             "Content-Type": "application/json;charset=utf-8",
+            "Host":"localhost:3000",
+            "Origin":"http://localhost:3000"
           },
           body: JSON.stringify(body),
           method: "POST",
