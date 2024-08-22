@@ -318,6 +318,10 @@ const Filter = ({
                 selectDataByLangCategory
               );
             }}
+            onClear={() => {
+              RefFilterData.current["category"] = [];
+              setSelectedCategory([])
+            }}
           >
             {categories.map((cat) => {
               const name = selectDataByLangCategory(cat, localActive);
@@ -403,6 +407,10 @@ const Filter = ({
                 selectDataByLangBrands
               );
             }}
+            onClear={() => {
+              RefFilterData.current["brand"] = [];
+              setSelectedBrand([])
+            }}
           >
             {brands.map((brand) => (
               <Option key={brand.id} value={brand.id}>
@@ -449,6 +457,13 @@ const Filter = ({
                     RefFilterData.current[key] = RefFilterData.current[
                       key
                     ].filter((item: string) => item !== value);
+                    setSpecificationValue(data);
+                  }}
+                  onClear={() => {
+                    RefFilterData.current[key] = [];
+                    const data = specificationValue.filter(
+                      (item) => item.name !== key
+                    )
                     setSpecificationValue(data);
                   }}
                 >
