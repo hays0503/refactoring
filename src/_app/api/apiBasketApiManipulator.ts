@@ -17,7 +17,7 @@ export default class BasketApiManipulator {
         })),
       };
       const result = await fetch(
-        "http://pimenov.kz:8989/basket_api/v1/bascket/",
+        "/basket_api/v1/bascket/",
         {
           headers: {
             accept: "application/json;charset=utf-8",
@@ -35,7 +35,7 @@ export default class BasketApiManipulator {
           "Перехвачена ошибка CORS или сетевая ошибка. Запрос заблокирован."
         );
         alert(
-          "Ошибка в api http://pimenov.kz:8989/basket_api/v1/bascket/\n" +
+          "Ошибка в api /basket_api/v1/bascket/\n" +
             "Статус код ответа " +
             error
         );
@@ -64,7 +64,7 @@ export default class BasketApiManipulator {
         })),
       };
       const result = await fetch(
-        `http://pimenov.kz:8989/basket_api/v1/bascket/${uuid4}`,
+        `/basket_api/v1/bascket/${uuid4}`,
         {
           headers: {
             accept: "application/json;charset=utf-8",
@@ -109,7 +109,7 @@ export default class BasketApiManipulator {
         basket_items: [],
       };
       const result = fetch(
-        `http://pimenov.kz:8989/basket_api/v1/bascket/${uuid4}`,
+        `/basket_api/v1/bascket/${uuid4}`,
         {
           headers: {
             accept: "application/json;charset=utf-8",
@@ -127,7 +127,7 @@ export default class BasketApiManipulator {
           "Перехвачена ошибка CORS или сетевая ошибка. Запрос заблокирован."
         );
         alert(
-          "Ошибка в api http://pimenov.kz:8989/basket_api/v1/bascket/${uuid4}\n" +
+          "Ошибка в api /basket_api/v1/bascket/${uuid4}\n" +
             "Статус код ответа " +
             error
         );
@@ -168,7 +168,7 @@ export default class BasketApiManipulator {
         }),
       };
       const result = await fetch(
-        "http://pimenov.kz:8989/basket_api/v1/bascket/create_or_update/",
+        "/basket_api/v1/bascket/create_or_update/",
         {
           headers: {
             accept: "application/json;charset=utf-8",
@@ -186,7 +186,7 @@ export default class BasketApiManipulator {
           "Перехвачена ошибка CORS или сетевая ошибка. Запрос заблокирован."
         );
         alert(
-          "Ошибка в api http://pimenov.kz:8989/basket_api/v1/bascket/create_or_update/\n" +
+          "Ошибка в api /basket_api/v1/bascket/create_or_update/\n" +
             "Статус код ответа " +
             error
         );
