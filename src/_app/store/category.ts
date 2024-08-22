@@ -1,5 +1,5 @@
 import { Category } from "@/shared/types/category";
-import { create } from "zustand";
+import { createWithEqualityFn  } from 'zustand/traditional'
 import { devtools } from "zustand/middleware";
 
 interface iCategoryStore {
@@ -30,7 +30,7 @@ function initialCategories(): Promise<Category[]> {
   return data;
 }
 
-const useCategoryStore = create<iCategoryStore>()(
+const useCategoryStore = createWithEqualityFn<iCategoryStore>()(
   devtools((set) => ({
     categories: [],
 
@@ -45,7 +45,7 @@ const useCategoryStore = create<iCategoryStore>()(
         set(
           {
             categories: data,
-            currentCategories: data[0],
+            // currentCategories: data[0],
             categoryTab: data[0]?.children,
             categoryBanner: data[0]?.list_url_to_baner,
           },

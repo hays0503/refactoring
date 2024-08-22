@@ -9,7 +9,7 @@ import { AllCategory } from "@/entities/AllCategory";
 import type { MenuProps } from "antd";
 import Image from "next/image";
 import { Basket } from "@/entities/Basket";
-import { Suspense } from "react";
+import { memo, Suspense, useCallback } from "react";
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -17,7 +17,10 @@ const { Text } = Typography;
 const { useBreakpoint } = Grid;
 
 function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
-  const [componentTopMenu, componentButtonMenu] = CustomMenu(urlCity);
+
+  // const [componentTopMenu, componentButtonMenu] = CustomMenu({urlCity});
+  const Menu = useCallback(() => {return CustomMenu({ urlCity: urlCity })},[urlCity]);
+  const [componentTopMenu, componentButtonMenu] = Menu();
 
   const { isDarkTheme, isDarkThemeImage } = useTheme();
 
@@ -25,7 +28,7 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
   const screens = useBreakpoint();
   const isMobile = screens['xs'] || screens['sm'] && !screens['md'] && !screens['lg'] && !screens['xl'] ;
 
-  // console.log(screens)
+  // console.count("HeaderMenu")
 
   return (
     <>
@@ -56,6 +59,7 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
                 vertical={isMobile}
               >
                 {componentTopMenu}
+                
 
                 <Search
                   placeholder="Что будем искать ?"
@@ -107,4 +111,4 @@ function HeaderMenu({city,urlCity}:{city:string,urlCity:string}) {
   );
 }
 
-export default HeaderMenu;
+export default memo(HeaderMenu);

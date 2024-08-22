@@ -3,8 +3,9 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    border-radius:1%;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    // border-radius:1%;
+    // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(94, 94, 94, 0.452);
     max-width: 270px;
 
     @media screen and (max-width: 768px){

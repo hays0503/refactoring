@@ -13,10 +13,12 @@ const Footer = ({ params }: { params: any }) => {
 
   const localActive = useLocale();
 
-  const { isDarkTheme } = useTheme();
+  const { isDarkTheme,isDarkMode } = useTheme();
 
   return (
-    <div style={isDarkTheme} className={style.footer}>
+    <div style={
+      isDarkMode ? { backgroundColor: "#5e5e5e" } : { backgroundColor: "#fff" }
+    } className={style.footer}>
       <div className={style.subscribeSection}>
         <div className={style.LogoContainer}>
           <div className={style.Logo}>

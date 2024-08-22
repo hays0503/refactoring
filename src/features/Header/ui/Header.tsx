@@ -25,7 +25,7 @@ export default function Header({ params, currentCity, Cities }: any) {
 
   const [ModalToggle, ModalLeaveRequestComponent] = ModalLeaveRequest();
 
-  const { isDarkTheme } = useTheme();
+  const { isDarkTheme,isDarkMode } = useTheme();
 
   const items: MenuItem[] = [
     {
@@ -121,9 +121,12 @@ export default function Header({ params, currentCity, Cities }: any) {
   return (
     <>
       {ModalLeaveRequestComponent()}
-      <Flex justify="center" style={{width:'100%',backgroundColor:'white'}}>
-        <div className={styles.HeaderContainer} style={isDarkTheme}>
-        <Row className={styles.Container} justify="center" align={"middle"} style={{width:'100%',backgroundColor:'white'}}>
+      <Flex justify="center" style={{width:'100%'}}>
+        <div 
+        className={styles.HeaderContainer}
+        style={{backgroundColor: isDarkMode ? "black" : "#f5f5f5"}}
+        >
+        <Row className={styles.Container} justify="center" align={"middle"} style={{width:'100%'}}>
           <Col xs={selectCityMobile} sm={selectCityMobile} md={selectCity} lg={selectCity} xl={selectCity} xxl={selectCity}>
           <div className={styles.HeaderSelectCity}>
             <SelectCity

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from "react";
+import React, { useState, useEffect, CSSProperties, useRef } from "react";
 import {
   Collapse,
   Slider,
@@ -26,6 +26,8 @@ import ucFirst from "@/shared/tool/ucFirst";
 import style from "./Filter.module.scss";
 import useThemeStore from "@/_app/store/theme";
 import { DeleteOutlined } from "@ant-design/icons";
+import createFilterUrl from "@/shared/tool/createFilterUrl";
+import parseFilters from "@/shared/tool/parseFilters";
 
 const { Panel } = Collapse;
 const { Option } = Select;
@@ -52,11 +54,14 @@ const processData = (data: Specification[]) => {
     if (result[name].value.length === 0) {
       result[name].key = item.name_specification;
     }
-    // Если такого значения нет, то добавляем 
-    if (!result[name].value.find((item) => item.value_specification === value.value_specification)){
-        result[name].value.push(value);
+    // Если такого значения нет, то добавляем
+    if (
+      !result[name].value.find(
+        (item) => item.value_specification === value.value_specification
+      )
+    ) {
+      result[name].value.push(value);
     }
-
   });
 
   return result;
@@ -65,11 +70,11 @@ const processData = (data: Specification[]) => {
 const { Text } = Typography;
 
 const Filter = ({
-  slug_category,
+  params,
   id_category,
   setFiltredProductIds,
 }: {
-  slug_category: string;
+  params: any;
   id_category: number;
   setFiltredProductIds: (value: number[]) => void;
 }) => {
@@ -80,26 +85,56 @@ const Filter = ({
     { name: string; value: string }[]
   >([]);
   const [priceRange, setPriceRange] = useState([10, 1699990]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  const [selectedColors, setSelectedColors] = useState([]);
   const [loadings, setLoadings] = useState<boolean>(false);
-
+  const RefFilterData = useRef<any>({});
   const localActive = useLocale();
 
   const t = useTranslations();
 
   useEffect(() => {
+    const paramFilters: any = parseFilters(params?.filters);
+    // Цена
+    if (paramFilters["price_min"] && paramFilters["price_max"]) {
+      RefFilterData.current["price_min"] = paramFilters["price_min"];
+      RefFilterData.current["price_max"] = paramFilters["price_max"];
+      setPriceRange([paramFilters["price_min"], paramFilters["price_max"]]);
+    }
+
     // Fetch categories
-    fetch(`/api/v1/category/${slug_category}/subcategories`)
+    fetch(`/api/v1/category/${params.slug}/subcategories`)
       .then((response) => response.json())
-      .then((data) => setCategories(data))
+      .then((data) => {
+        //Подкатегории
+        if (paramFilters["category"]) {
+          const categoriesData = data
+            .filter((item: Category) =>
+              paramFilters["category"].includes(item.id)
+            )
+            .map((item: Category) =>
+              selectDataByLangCategory(item, localActive)
+            );
+          console.log("categoriesData", categoriesData);
+          RefFilterData.current["category"] = categoriesData;
+          setSelectedCategory(paramFilters["category"]);
+        }
+        setCategories(data);
+      })
       .catch((error) => console.error("Error fetching categories:", error));
 
     // Fetch brands
     fetch(`/api/v1/brands/by_category/id/${id_category}`)
       .then((response) => response.json())
       .then((data) => {
+        // Бренды
+        if (paramFilters["brand"]) {
+          const brandData = data
+            .filter((item: Brands) => paramFilters["brand"].includes(item.id))
+            .map((item: Brands) => selectDataByLangBrands(item, localActive));
+          RefFilterData.current["brand"] = brandData;
+          setSelectedBrand(paramFilters["brand"]);
+        }
         setBrands(data);
       })
       .catch((error) => console.error("Error fetching brands:", error));
@@ -112,7 +147,7 @@ const Filter = ({
         setSpecification(result);
       })
       .catch((error) => console.error("Error fetching colors:", error));
-  }, [id_category, slug_category]);
+  }, [id_category, params.slug]);
 
   const handleFilter = () => {
     setLoadings(true);
@@ -136,23 +171,28 @@ const Filter = ({
 
     console.log("filterData ", filterData);
     alert(JSON.stringify(filterData));
-    
-    fetch("/api/v1/products/set/filter", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(filterData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        setLoadings(false);
-        setFiltredProductIds(
-          data.map((item: { id: number; slug: string }) => item.id)
-        );
-      })
-      .catch((error) => console.error("Error fetching colors:", error));
+    const urlFilterParam = createFilterUrl(filterData);
+    window.open(
+      `/${params.locale}/${params.city}/products-in-category/${params.slug}/${params.page}/${params.limit}/${params.sort}/filters/${urlFilterParam}`,
+      "_blank"
+    );
+    setLoadings(false);
+    // fetch("/api/v1/products/set/filter", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json;charset=utf-8",
+    //   },
+    //   body: JSON.stringify(filterData),
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     setLoadings(false);
+    //     setFiltredProductIds(
+    //       data.map((item: { id: number; slug: string }) => item.id)
+    //     );
+    //   })
+    //   .catch((error) => console.error("Error fetching colors:", error));
   };
 
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -160,6 +200,8 @@ const Filter = ({
   const darkMode: CSSProperties = {
     backgroundColor: isDarkMode ? "rgb(94, 94, 94)" : "white",
   };
+
+  console.log("RefFilterData", RefFilterData.current);
 
   return (
     <div className={style.FilterContainer} style={darkMode}>
@@ -175,13 +217,33 @@ const Filter = ({
             allowClear
             style={{ width: "100%" }}
             placeholder="Выберите категорию"
-            onChange={(value) => setSelectedCategory(value || null)}
+            value={RefFilterData.current["category"]}
+
+            onSelect={(value:number, option:{key:string,value:number,children:string}) => {
+              if(RefFilterData.current["category"].includes(option.children)) return
+              console.log("onSelect:brand => ",value,option);    
+              RefFilterData.current["category"].push(option.children)
+              setSelectedCategory([...selectedCategory, value]);
+            }}
+            onDeselect={(value:string) => {
+              console.log("onDeselect:brand => ",value);    
+              console.log(RefFilterData.current["category"])
+              const deselected = RefFilterData.current["category"].filter(((item:string) => item !== value))
+              RefFilterData.current["category"] = deselected
+              console.log(RefFilterData.current["category"])
+              const findDeselectId = categories.find((item:Category) => item.name_category === value)?.id
+              setSelectedCategory(selectedCategory.filter((item:number) => item !== findDeselectId));
+            }}
+
           >
-            {categories.map((cat) => (
-              <Option key={cat.id} value={cat.id}>
-                {selectDataByLangCategory(cat, localActive)}
-              </Option>
-            ))}
+            {categories.map((cat) => {
+              const name = selectDataByLangCategory(cat, localActive)
+              return (
+                <Option key={cat.id} value={cat.id}>
+                  {name}
+                </Option>
+              );
+            })}
           </Select>
         </Panel>
 
@@ -196,7 +258,7 @@ const Filter = ({
           >
             <Slider
               range
-              value={priceRange}
+              defaultValue={priceRange}
               min={10}
               max={1699990}
               onChange={setPriceRange}
@@ -233,7 +295,15 @@ const Filter = ({
             allowClear
             style={{ width: "100%" }}
             placeholder="Выберите бренд"
-            onChange={setSelectedBrand}
+            value={RefFilterData.current["brand"]}
+            onChange={(value,option) => {
+              console.log("onChange:brand => ",value,option);              
+              RefFilterData.current["brand"] = value;
+            }}
+            onSelect={(value, option) => {
+              console.log("onSelect:brand => ",value,option);    
+              console.log(value, option);
+            }}
           >
             {brands.map((brand) => (
               <Option key={brand.id} value={brand.id}>

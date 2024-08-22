@@ -20,8 +20,9 @@ import fetchCurrentCategory from "@/shared/api/v1/fetchCurrentCategory";
 import useCategoryStore from "@/_app/store/category";
 import findRootCategoryId from "@/shared/tool/findRootCategoryId";
 import { CategoryProduct } from "@/widgets/CategoryProduct";
+import { useShallow } from "zustand/react/shallow";
 // import { CategoryProduct } from "@/widgets/CategoryProduct";
-// import { Filter } from "@/widgets/Filter";
+import { Filter } from "@/widgets/Filter";
 // import fetchCurrentCategory from "../../../shared/api/v1/fetchCurrentCategory";
 // import fetchByCatProduct from "../../../shared/api/v1/fetchByCatProduct";
 // import fetchProductByIds from "../../../shared/api/v1/fetchProductByIds";
@@ -34,6 +35,7 @@ interface IProductsInCategory {
     page: number;
     limit: number;
     sort: string;
+    
   };
   Cities: iCity[];
   products: Products[];
@@ -55,25 +57,15 @@ export default function ProductsInCategory({
   const router = useRouter();
   const locale = useLocale();
 
+  const [filteredProductIds ,setFilteredProductIds] = useState<number[]>([]);
+
   const { currentCategory, setCurrentCategories } = useCategoryStore(
-    (store) => ({
-      currentCategory: store.currentCategories,
-      setCurrentCategories: store.setCurrentCategories,
-    })
+    useShallow((state) => ({
+      currentCategory: state.currentCategories,
+      setCurrentCategories: state.setCurrentCategories,
+    }))
   );
 
-  // const getSortFunc = useCallback(
-  //   (sort: keyof Record<string, (a: Products, b: Products) => number>) => {
-  //     const sortFunction: Record<string, (a: Products, b: Products) => number> = {
-  //       "unpopular-first": (a: Products, b: Products) => Number(a.average_rating) - Number(b.average_rating),
-  //       "popular-first": (a: Products, b: Products) => Number(b.average_rating) - Number(a.average_rating),
-  //       "cheaper-first": (a: Products, b: Products) => (a.price?.[city] ?? Infinity) - (b.price?.[city] ?? Infinity),
-  //       "expensive-first": (a: Products, b: Products) => (b.price?.[city] ?? 0) - (a.price?.[city] ?? 0),
-  //     };
-  //     return sortFunction[sort] ?? (() => 0);
-  //   },
-  //   [city]
-  // );
 
   useEffect(() => {
     fetchCurrentCategory(slug).then((data) => {
@@ -141,13 +133,13 @@ export default function ProductsInCategory({
           >
             {/* <BannerProduct /> */}
             <div className={style.ContainerProductsInCategory}>
-              {/* {currentCategory.id && (
+              {currentCategory.id && (
                 <Filter
-                  slug_category={slug}
+                  params={params}
                   id_category={currentCategory.id}
                   setFiltredProductIds={setFilteredProductIds}
                 />
-              )} */}
+              )}
               {currentCategory.id && (
                 <CategoryProduct
                   products={products}
