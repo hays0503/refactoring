@@ -124,6 +124,10 @@ const nextConfig = {
       {
         source: "/basket_api/v1/bascket/create_or_update",
         destination: "http://pimenov.kz:8989/basket_api/v1/bascket/create_or_update/"
+      },
+      {
+        source: "/basket_api/v1/order",
+        destination: "http://pimenov.kz:8989/basket_api/v1/order/"
       }
     ];
   },

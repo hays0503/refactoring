@@ -5,7 +5,9 @@ export default class OrderApiManipulator {
     const result = fetch("http://pimenov.kz:8989/basket_api/v1/order/", {
       headers: {
         accept: "application/json;charset=utf-8",
-        'Content-Type': 'application/json;charset=utf-8'        
+        'Content-Type': 'application/json;charset=utf-8',
+        "Host":"localhost:3000",
+        "Origin":"http://localhost:3000"        
       },
       body: JSON.stringify(Order),
       method: "POST",
