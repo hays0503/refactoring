@@ -86,19 +86,40 @@ const Filter = ({
   >([]);
   const [priceRange, setPriceRange] = useState([10, 1699990]);
   const [selectedCategory, setSelectedCategory] = useState<number[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState<number[]>([]);
   const [loadings, setLoadings] = useState<boolean>(false);
+  const [activeKey, setActiveKey] = useState<string | string[]>([]);
   const RefFilterData = useRef<any>({});
   const localActive = useLocale();
 
   const t = useTranslations();
 
+
   useEffect(() => {
     const paramFilters: any = parseFilters(params?.filters);
+
+
+
+    if (paramFilters["specifications"]) {
+      paramFilters["specifications"].forEach(
+        (item: { name: string; value: string }) => {
+          if (!Array.isArray(RefFilterData.current[item.name])) {
+            RefFilterData.current[item.name] = [];
+          }
+          if (!RefFilterData.current[item.name]?.includes(item.value)) {
+            RefFilterData.current[item.name]?.push(item.value);
+          }
+        }
+      );
+      setSpecificationValue(paramFilters["specifications"]);
+    }
+
+    console.log("paramFilters", paramFilters);
     // Цена
     if (paramFilters["price_min"] && paramFilters["price_max"]) {
       RefFilterData.current["price_min"] = paramFilters["price_min"];
       RefFilterData.current["price_max"] = paramFilters["price_max"];
+      setActiveKey(Object.keys(RefFilterData.current));
       setPriceRange([paramFilters["price_min"], paramFilters["price_max"]]);
     }
 
@@ -117,6 +138,7 @@ const Filter = ({
             );
           console.log("categoriesData", categoriesData);
           RefFilterData.current["category"] = categoriesData;
+          setActiveKey(Object.keys(RefFilterData.current));
           setSelectedCategory(paramFilters["category"]);
         }
         setCategories(data);
@@ -133,6 +155,7 @@ const Filter = ({
             .filter((item: Brands) => paramFilters["brand"].includes(item.id))
             .map((item: Brands) => selectDataByLangBrands(item, localActive));
           RefFilterData.current["brand"] = brandData;
+          setActiveKey(Object.keys(RefFilterData.current));
           setSelectedBrand(paramFilters["brand"]);
         }
         setBrands(data);
@@ -144,9 +167,13 @@ const Filter = ({
       .then((response) => response.json())
       .then((data) => {
         const result = processData(data);
+
         setSpecification(result);
       })
       .catch((error) => console.error("Error fetching colors:", error));
+
+
+
   }, [id_category, params.slug]);
 
   const handleFilter = () => {
@@ -201,7 +228,55 @@ const Filter = ({
     backgroundColor: isDarkMode ? "rgb(94, 94, 94)" : "white",
   };
 
-  console.log("RefFilterData", RefFilterData.current);
+  const handleSelectId = (
+    key: string, // Параметр для "category"
+    value: number,
+    option: { key: string; value: number; children: string },
+    RefFilterData: React.MutableRefObject<{ [key: string]: string[] }>,
+    selected: number[],
+    setSelected: React.Dispatch<React.SetStateAction<number[]>>
+  ) => {
+    if (RefFilterData.current[key]) {
+      if (RefFilterData.current[key].includes(option.children)) return;
+
+      console.log(`onSelect:${key} => `, value, option);
+      RefFilterData.current[key].push(option.children);
+      setSelected([...selected, value]);
+    }
+  };
+
+  const handleDeselectId = (
+    key: string, // Параметр для "category"
+    value: string,
+    RefFilterData: React.MutableRefObject<{ [key: string]: string[] }>,
+    data: any[],
+    selected: number[],
+    setSelected: React.Dispatch<React.SetStateAction<number[]>>,
+    translate: (data: any, locale: string) => string
+  ) => {
+    console.log(`onDeselect:${key} => `, value);
+    console.log(RefFilterData.current[key]);
+
+    const deselected = RefFilterData.current[key].filter(
+      (item: string) => item !== value
+    );
+    RefFilterData.current[key] = deselected;
+
+    console.log(RefFilterData.current[key]);
+
+    const findDeselectId = data.find(
+      (item: any) => translate(item, localActive) === value
+    )?.id;
+
+    if (findDeselectId !== undefined) {
+      setSelected(selected.filter((item: number) => item !== findDeselectId));
+    }
+  };
+
+  console.log("RefFilterData.current: ", RefFilterData.current);
+
+
+  console.log("defaultActiveKey: ", activeKey);
 
   return (
     <div className={style.FilterContainer} style={darkMode}>
@@ -209,35 +284,43 @@ const Filter = ({
         ghost
         expandIconPosition="end"
         style={{ width: "100%" }}
-        defaultActiveKey={["1", "2", "3"]}
+        activeKey={activeKey}
+        onChange={(e) => setActiveKey(e)}
       >
-        <Panel header={`Подкатегории (${categories.length})`} key="1">
+        <Panel header={`Подкатегории (${categories.length})`} key="category">
           <Select
             mode="multiple"
             allowClear
             style={{ width: "100%" }}
             placeholder="Выберите категорию"
             value={RefFilterData.current["category"]}
-
-            onSelect={(value:number, option:{key:string,value:number,children:string}) => {
-              if(RefFilterData.current["category"].includes(option.children)) return
-              console.log("onSelect:brand => ",value,option);    
-              RefFilterData.current["category"].push(option.children)
-              setSelectedCategory([...selectedCategory, value]);
+            onSelect={(
+              value: number,
+              option: { key: string; value: number; children: string }
+            ) => {
+              handleSelectId(
+                "category",
+                value,
+                option,
+                RefFilterData,
+                selectedCategory,
+                setSelectedCategory
+              );
             }}
-            onDeselect={(value:string) => {
-              console.log("onDeselect:brand => ",value);    
-              console.log(RefFilterData.current["category"])
-              const deselected = RefFilterData.current["category"].filter(((item:string) => item !== value))
-              RefFilterData.current["category"] = deselected
-              console.log(RefFilterData.current["category"])
-              const findDeselectId = categories.find((item:Category) => item.name_category === value)?.id
-              setSelectedCategory(selectedCategory.filter((item:number) => item !== findDeselectId));
+            onDeselect={(value: string) => {
+              handleDeselectId(
+                "category",
+                value,
+                RefFilterData,
+                categories,
+                selectedCategory,
+                setSelectedCategory,
+                selectDataByLangCategory
+              );
             }}
-
           >
             {categories.map((cat) => {
-              const name = selectDataByLangCategory(cat, localActive)
+              const name = selectDataByLangCategory(cat, localActive);
               return (
                 <Option key={cat.id} value={cat.id}>
                   {name}
@@ -247,7 +330,7 @@ const Filter = ({
           </Select>
         </Panel>
 
-        <Panel header="Цена (₸)" key="2">
+        <Panel header="Цена (₸)" key="price_min">
           <div
             style={{
               display: "flex",
@@ -289,20 +372,36 @@ const Filter = ({
             </Flex>
           </div>
         </Panel>
-        <Panel header={`Бренды (${brands.length})`} key="3">
+        <Panel header={`Бренды (${brands.length})`} key="brand">
           <Select
             mode="multiple"
             allowClear
             style={{ width: "100%" }}
             placeholder="Выберите бренд"
             value={RefFilterData.current["brand"]}
-            onChange={(value,option) => {
-              console.log("onChange:brand => ",value,option);              
-              RefFilterData.current["brand"] = value;
+            onSelect={(
+              value: number,
+              option: { key: string; value: number; children: string }
+            ) => {
+              handleSelectId(
+                "brand",
+                value,
+                option,
+                RefFilterData,
+                selectedBrand,
+                setSelectedBrand
+              );
             }}
-            onSelect={(value, option) => {
-              console.log("onSelect:brand => ",value,option);    
-              console.log(value, option);
+            onDeselect={(value, option) => {
+              handleDeselectId(
+                "brand",
+                value,
+                RefFilterData,
+                brands,
+                selectedBrand,
+                setSelectedBrand,
+                selectDataByLangBrands
+              );
             }}
           >
             {brands.map((brand) => (
@@ -327,9 +426,11 @@ const Filter = ({
                 key={header}
               >
                 <Select
+                  allowClear
                   style={{ width: "100%" }}
                   placeholder={`${t("select")} ${header}`}
                   mode="multiple"
+                  value={RefFilterData.current[key]}
                   onSelect={(value, option) => {
                     const data = [
                       ...specificationValue,
@@ -338,14 +439,16 @@ const Filter = ({
                         value: value,
                       },
                     ];
-                    console.log(data);
+                    RefFilterData.current[key]?.push(value);
                     setSpecificationValue(data);
                   }}
                   onDeselect={(value, option) => {
                     const data = specificationValue.filter(
                       (item) => item.value !== value
                     );
-                    console.log(data);
+                    RefFilterData.current[key] = RefFilterData.current[
+                      key
+                    ].filter((item: string) => item !== value);
                     setSpecificationValue(data);
                   }}
                 >
