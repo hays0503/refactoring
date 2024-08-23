@@ -3,14 +3,30 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    // border-radius:1%;
-    // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(94, 94, 94, 0.452);
     max-width: 270px;
-
+    
     @media screen and (max-width: 768px){
         max-width: 100%;
         width: 85dvw;
     }
 
+}
+
+.ScrollArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+    height: 500px;
+    overflow-y: auto;
+}
+
+#mobile{
+    display: none;
+    @media screen and (max-width: 768px){
+        display: block;
+    }
 }

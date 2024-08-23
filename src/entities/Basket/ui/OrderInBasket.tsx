@@ -122,7 +122,6 @@ export function OrderInBasket({
       !screens.xs &&
       !screens.xxl
     ) {
-      console.log(3);
       setIsMobileSize("50%");
     }
     //width = 1200px

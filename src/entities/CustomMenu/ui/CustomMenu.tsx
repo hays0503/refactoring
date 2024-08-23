@@ -58,7 +58,7 @@ const TopMenu = memo(
                   alt={selectDataByLangCategory(CategoryItem, localActive)}
                 />
               )}
-              <Text>{selectDataByLangCategory(CategoryItem, localActive)}</Text>
+              <Text className={styles.Hover}>{selectDataByLangCategory(CategoryItem, localActive)}</Text>
             </Flex>
           </Button>
         ))}
@@ -76,7 +76,6 @@ const SelectMenuByLanguage = (
 ): MenuProps["items"] => {
   const router = useRouter();
 
-  // console.log("Category", Category);
 
   return Category.map((item) => {
     const select = selectDataByLangCategory(item, localActive);

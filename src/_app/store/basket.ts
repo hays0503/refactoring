@@ -186,7 +186,7 @@ const Basket = (set: any, get: any): iBasketStore => ({
             // );
           }
         } else {
-          console.log("Такого товара в корзине нет ", id);
+          // ("Такого товара в корзине нет ", id);
         }
         return {
           BasketData: newBasketData,

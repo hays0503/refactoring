@@ -76,47 +76,11 @@ export default function ProductsInCategory({
       //   if (rootChildren) setCategoryTab(rootChildren);
       // }
     });
-    // const fetchProducts = async () => {
-    //   let fetchedProducts: Products[] = [];
-    //   if (filteredProductIds.length === 0) {
-    //     fetchedProducts = await fetchByCatProduct(slug);
-    //   } else {
-    //     fetchedProducts = await fetchProductByIds(filteredProductIds);
-    //   }
-    //   const sortedProducts = fetchedProducts.sort(getSortFunc(sort));
-    //   const totalProducts = sortedProducts.length;
-    //   if (page <= -1 || limit <= 0) {
-    //     setProducts(sortedProducts.slice(0, 12));
-    //     setPaginationData({ defaultCurrent: 0, total: Math.ceil(totalProducts / 12) });
-    //   } else {
-    //     const start = page * limit;
-    //     setProducts(sortedProducts.slice(start, start + limit));
-    //     setPaginationData({ defaultCurrent: page, total: totalProducts });
-    //   }
-    // };
-    // fetchProducts();
   }, [
-    // filteredProductIds,
-    // categories,
-    // limit,
-    // page,
-    // setCategoryTab,
-    // setCurrentCategories,
     slug,
-    // city,
-    // sort,
-    // getSortFunc,
   ]);
 
   const currentPage = (page: number) => (page <= 0 ? 1 : page + 1);
-
-  // console.log(
-  //   "ProductsInCategory",
-  //   params,
-  //   { Cities },
-  //   { products },
-  //   paginationData
-  // );
 
   console.log("currentCategory", currentCategory);
 

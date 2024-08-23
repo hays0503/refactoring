@@ -73,7 +73,6 @@ const CardPresent = ({
                   value={selectPresent}
                   onChange={(e) => {
                     const gift_id: number = e.target.value;
-                    console.log(e);
                     addProduct(
                       product.id,
                       gift_id,

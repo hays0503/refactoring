@@ -161,8 +161,6 @@ function CategoryProduct({
     backgroundColor: isDarkMode ? "rgb(94, 94, 94)" : "white",
   };
 
-  // if(products.length !== 0)
-  //   console.log(products)
 
   return (
     <>

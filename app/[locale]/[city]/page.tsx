@@ -46,17 +46,7 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
       },
     });
 
-    // if (!response.ok) {
-    // console.error(
-    //   "=========================================================="
-    // );
-    // console.log(await response.text());
-    // throw new Error(`Error fetching products by IDs: ${response.statusText}`);
-    // }
-
     const responseText = await response.text();
-    console.log("Len: ", responseText.length);
-    console.log("Response Text:", responseText); // Логируем текст ответа
 
     try {
       const data = JSON.parse(responseText);
@@ -67,14 +57,6 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
       throw jsonError;
     }
   } catch (error) {
-    // console.error("Error in fetchProductByIds:\n", error);
-    // console.error(
-    //   "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-    // );
-    // console.error("url: ", url);
-    // console.error(
-    //   "\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    // );
     return []; //fetchProductByIds(ids)
   }
 };

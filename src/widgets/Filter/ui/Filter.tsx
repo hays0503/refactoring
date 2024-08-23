@@ -7,6 +7,7 @@ import {
   Button,
   Flex,
   Typography,
+  Space,
 } from "antd";
 import { Category } from "@/shared/types/category";
 import {
@@ -28,7 +29,7 @@ import useThemeStore from "@/_app/store/theme";
 import { DeleteOutlined } from "@ant-design/icons";
 import createFilterUrl from "@/shared/tool/createFilterUrl";
 import parseFilters from "@/shared/tool/parseFilters";
-
+import { DownOutlined , UpOutlined} from '@ant-design/icons';
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -90,15 +91,13 @@ const Filter = ({
   const [loadings, setLoadings] = useState<boolean>(false);
   const [activeKey, setActiveKey] = useState<string | string[]>([]);
   const RefFilterData = useRef<any>({});
+  const [visibleFilter, setVisibleFilter] = useState<boolean>(true);
   const localActive = useLocale();
 
   const t = useTranslations();
 
-
   useEffect(() => {
     const paramFilters: any = parseFilters(params?.filters);
-
-
 
     if (paramFilters["specifications"]) {
       paramFilters["specifications"].forEach(
@@ -113,8 +112,6 @@ const Filter = ({
       );
       setSpecificationValue(paramFilters["specifications"]);
     }
-
-    console.log("paramFilters", paramFilters);
     // Цена
     if (paramFilters["price_min"] && paramFilters["price_max"]) {
       RefFilterData.current["price_min"] = paramFilters["price_min"];
@@ -136,7 +133,7 @@ const Filter = ({
             .map((item: Category) =>
               selectDataByLangCategory(item, localActive)
             );
-          console.log("categoriesData", categoriesData);
+
           RefFilterData.current["category"] = categoriesData;
           setActiveKey(Object.keys(RefFilterData.current));
           setSelectedCategory(paramFilters["category"]);
@@ -171,9 +168,6 @@ const Filter = ({
         setSpecification(result);
       })
       .catch((error) => console.error("Error fetching colors:", error));
-
-
-
   }, [id_category, params.slug]);
 
   const handleFilter = () => {
@@ -196,7 +190,6 @@ const Filter = ({
       filterData = { ...filterData, specifications: specificationValue };
     }
 
-    console.log("filterData ", filterData);
     alert(JSON.stringify(filterData));
     const urlFilterParam = createFilterUrl(filterData);
     window.open(
@@ -204,22 +197,6 @@ const Filter = ({
       "_blank"
     );
     setLoadings(false);
-    // fetch("/api/v1/products/set/filter", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json;charset=utf-8",
-    //   },
-    //   body: JSON.stringify(filterData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     setLoadings(false);
-    //     setFiltredProductIds(
-    //       data.map((item: { id: number; slug: string }) => item.id)
-    //     );
-    //   })
-    //   .catch((error) => console.error("Error fetching colors:", error));
   };
 
   const isDarkMode = useThemeStore((state) => state.isDarkMode);
@@ -238,8 +215,6 @@ const Filter = ({
   ) => {
     if (RefFilterData.current[key]) {
       if (RefFilterData.current[key].includes(option.children)) return;
-
-      console.log(`onSelect:${key} => `, value, option);
       RefFilterData.current[key].push(option.children);
       setSelected([...selected, value]);
     }
@@ -254,15 +229,10 @@ const Filter = ({
     setSelected: React.Dispatch<React.SetStateAction<number[]>>,
     translate: (data: any, locale: string) => string
   ) => {
-    console.log(`onDeselect:${key} => `, value);
-    console.log(RefFilterData.current[key]);
-
     const deselected = RefFilterData.current[key].filter(
       (item: string) => item !== value
     );
     RefFilterData.current[key] = deselected;
-
-    console.log(RefFilterData.current[key]);
 
     const findDeselectId = data.find(
       (item: any) => translate(item, localActive) === value
@@ -273,231 +243,242 @@ const Filter = ({
     }
   };
 
-  console.log("RefFilterData.current: ", RefFilterData.current);
-
-
-  console.log("defaultActiveKey: ", activeKey);
-
   return (
-    <div className={style.FilterContainer} style={darkMode}>
-      <Collapse
-        ghost
-        expandIconPosition="end"
-        style={{ width: "100%" }}
-        activeKey={activeKey}
-        onChange={(e) => setActiveKey(e)}
-      >
-        <Panel header={`Подкатегории (${categories.length})`} key="category">
-          <Select
-            mode="multiple"
-            allowClear
+    <Flex vertical={true} align="center" justify="center" gap={10} >
+      <Button id={style.mobile} onClick={() => setVisibleFilter(!visibleFilter)}>
+        {visibleFilter ? "Скрыть фильтры" : "Показать фильтры"}
+        {visibleFilter ? <UpOutlined /> : <DownOutlined />}
+      </Button>
+      <div className={style.ScrollArea} style={{
+        display: visibleFilter ? "block" : "none",
+      }}>
+        <div className={style.FilterContainer} style={darkMode}>
+          <Collapse
+            ghost
+            expandIconPosition="end"
             style={{ width: "100%" }}
-            placeholder="Выберите категорию"
-            value={RefFilterData.current["category"]}
-            onSelect={(
-              value: number,
-              option: { key: string; value: number; children: string }
-            ) => {
-              handleSelectId(
-                "category",
-                value,
-                option,
-                RefFilterData,
-                selectedCategory,
-                setSelectedCategory
-              );
-            }}
-            onDeselect={(value: string) => {
-              handleDeselectId(
-                "category",
-                value,
-                RefFilterData,
-                categories,
-                selectedCategory,
-                setSelectedCategory,
-                selectDataByLangCategory
-              );
-            }}
-            onClear={() => {
-              RefFilterData.current["category"] = [];
-              setSelectedCategory([])
-            }}
+            activeKey={activeKey}
+            onChange={(e) => setActiveKey(e)}
           >
-            {categories.map((cat) => {
-              const name = selectDataByLangCategory(cat, localActive);
-              return (
-                <Option key={cat.id} value={cat.id}>
-                  {name}
-                </Option>
-              );
-            })}
-          </Select>
-        </Panel>
-
-        <Panel header="Цена (₸)" key="price_min">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: "column",
-              marginBottom: 10,
-            }}
-          >
-            <Slider
-              range
-              defaultValue={priceRange}
-              min={10}
-              max={1699990}
-              onChange={setPriceRange}
-            />
-            <Flex justify="center" align="baseline" gap={5}>
-              <Flex justify="center" align="baseline" gap={5}>
-                <Text>От</Text>
-                <InputNumber
-                  min={10}
-                  max={1699990}
-                  value={priceRange[0] ?? 0}
-                  onChange={(value) =>
-                    setPriceRange([value ?? 0, priceRange[1]])
-                  }
-                />
-              </Flex>
-              <Flex justify="center" align="baseline" gap={5}>
-                <Text>До</Text>
-                <InputNumber
-                  min={10}
-                  max={1699990}
-                  value={priceRange[1]}
-                  onChange={(value) =>
-                    setPriceRange([priceRange[0], value ?? 0])
-                  }
-                />
-              </Flex>
-            </Flex>
-          </div>
-        </Panel>
-        <Panel header={`Бренды (${brands.length})`} key="brand">
-          <Select
-            mode="multiple"
-            allowClear
-            style={{ width: "100%" }}
-            placeholder="Выберите бренд"
-            value={RefFilterData.current["brand"]}
-            onSelect={(
-              value: number,
-              option: { key: string; value: number; children: string }
-            ) => {
-              handleSelectId(
-                "brand",
-                value,
-                option,
-                RefFilterData,
-                selectedBrand,
-                setSelectedBrand
-              );
-            }}
-            onDeselect={(value, option) => {
-              handleDeselectId(
-                "brand",
-                value,
-                RefFilterData,
-                brands,
-                selectedBrand,
-                setSelectedBrand,
-                selectDataByLangBrands
-              );
-            }}
-            onClear={() => {
-              RefFilterData.current["brand"] = [];
-              setSelectedBrand([])
-            }}
-          >
-            {brands.map((brand) => (
-              <Option key={brand.id} value={brand.id}>
-                {selectDataByLangBrands(brand, localActive)}
-              </Option>
-            ))}
-          </Select>
-        </Panel>
-
-        {specification &&
-          Object.keys(specification).map((key) => {
-            const header = ucFirst(
-              selectDataByLangNameSpecification(
-                specification[key].key,
-                localActive
-              )
-            );
-            return (
-              <Panel
-                header={`${header} (${specification[key].value.length})`}
-                key={header}
+            <Panel
+              header={`Подкатегории (${categories.length})`}
+              key="category"
+            >
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: "100%" }}
+                placeholder="Выберите категорию"
+                value={RefFilterData.current["category"]}
+                onSelect={(
+                  value: number,
+                  option: { key: string; value: number; children: string }
+                ) => {
+                  handleSelectId(
+                    "category",
+                    value,
+                    option,
+                    RefFilterData,
+                    selectedCategory,
+                    setSelectedCategory
+                  );
+                }}
+                onDeselect={(value: string) => {
+                  handleDeselectId(
+                    "category",
+                    value,
+                    RefFilterData,
+                    categories,
+                    selectedCategory,
+                    setSelectedCategory,
+                    selectDataByLangCategory
+                  );
+                }}
+                onClear={() => {
+                  RefFilterData.current["category"] = [];
+                  setSelectedCategory([]);
+                }}
               >
-                <Select
-                  allowClear
-                  style={{ width: "100%" }}
-                  placeholder={`${t("select")} ${header}`}
-                  mode="multiple"
-                  value={RefFilterData.current[key]}
-                  onSelect={(value, option) => {
-                    const data = [
-                      ...specificationValue,
-                      {
-                        name: specification[key].key.name_specification,
-                        value: value,
-                      },
-                    ];
-                    RefFilterData.current[key]?.push(value);
-                    setSpecificationValue(data);
-                  }}
-                  onDeselect={(value, option) => {
-                    const data = specificationValue.filter(
-                      (item) => item.value !== value
-                    );
-                    RefFilterData.current[key] = RefFilterData.current[
-                      key
-                    ].filter((item: string) => item !== value);
-                    setSpecificationValue(data);
-                  }}
-                  onClear={() => {
-                    RefFilterData.current[key] = [];
-                    const data = specificationValue.filter(
-                      (item) => item.name !== key
-                    )
-                    setSpecificationValue(data);
-                  }}
-                >
-                  {specification[key].value.map((item) => (
-                    <Option
-                      key={item.value_specification}
-                      value={item.value_specification}
-                    >
-                      {ucFirst(
-                        selectDataByLangValueSpecification(item, localActive)
-                      )}
+                {categories.map((cat) => {
+                  const name = selectDataByLangCategory(cat, localActive);
+                  return (
+                    <Option key={cat.id} value={cat.id}>
+                      {name}
                     </Option>
-                  ))}
-                </Select>
-              </Panel>
-            );
-          })}
-      </Collapse>
+                  );
+                })}
+              </Select>
+            </Panel>
 
-      <Flex
-        justify="center"
-        style={{ marginBottom: 10 }}
-        vertical={true}
-        gap={"10px"}
-      >
-        <Button type="primary" loading={loadings} onClick={handleFilter}>
-          Применить фильтр
-        </Button>
+            <Panel header="Цена (₸)" key="price_min">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: "column",
+                  marginBottom: 10,
+                }}
+              >
+                <Slider
+                  range
+                  defaultValue={priceRange}
+                  min={10}
+                  max={1699990}
+                  onChange={setPriceRange}
+                />
+                <Flex justify="center" align="baseline" gap={5}>
+                  <Flex justify="center" align="baseline" gap={5}>
+                    <Text>От</Text>
+                    <InputNumber
+                      min={10}
+                      max={1699990}
+                      value={priceRange[0] ?? 0}
+                      onChange={(value) =>
+                        setPriceRange([value ?? 0, priceRange[1]])
+                      }
+                    />
+                  </Flex>
+                  <Flex justify="center" align="baseline" gap={5}>
+                    <Text>До</Text>
+                    <InputNumber
+                      min={10}
+                      max={1699990}
+                      value={priceRange[1]}
+                      onChange={(value) =>
+                        setPriceRange([priceRange[0], value ?? 0])
+                      }
+                    />
+                  </Flex>
+                </Flex>
+              </div>
+            </Panel>
+            <Panel header={`Бренды (${brands.length})`} key="brand">
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: "100%" }}
+                placeholder="Выберите бренд"
+                value={RefFilterData.current["brand"]}
+                onSelect={(
+                  value: number,
+                  option: { key: string; value: number; children: string }
+                ) => {
+                  handleSelectId(
+                    "brand",
+                    value,
+                    option,
+                    RefFilterData,
+                    selectedBrand,
+                    setSelectedBrand
+                  );
+                }}
+                onDeselect={(value, option) => {
+                  handleDeselectId(
+                    "brand",
+                    value,
+                    RefFilterData,
+                    brands,
+                    selectedBrand,
+                    setSelectedBrand,
+                    selectDataByLangBrands
+                  );
+                }}
+                onClear={() => {
+                  RefFilterData.current["brand"] = [];
+                  setSelectedBrand([]);
+                }}
+              >
+                {brands.map((brand) => (
+                  <Option key={brand.id} value={brand.id}>
+                    {selectDataByLangBrands(brand, localActive)}
+                  </Option>
+                ))}
+              </Select>
+            </Panel>
 
-        <Button onClick={() => setFiltredProductIds([])}>
-          Сбросить <DeleteOutlined />
-        </Button>
-      </Flex>
-    </div>
+            {specification &&
+              Object.keys(specification).map((key) => {
+                const header = ucFirst(
+                  selectDataByLangNameSpecification(
+                    specification[key].key,
+                    localActive
+                  )
+                );
+                return (
+                  <Panel
+                    header={`${header} (${specification[key].value.length})`}
+                    key={header}
+                  >
+                    <Select
+                      allowClear
+                      style={{ width: "100%" }}
+                      placeholder={`${t("select")} ${header}`}
+                      mode="multiple"
+                      value={RefFilterData.current[key]}
+                      onSelect={(value, option) => {
+                        const data = [
+                          ...specificationValue,
+                          {
+                            name: specification[key].key.name_specification,
+                            value: value,
+                          },
+                        ];
+                        RefFilterData.current[key]?.push(value);
+                        setSpecificationValue(data);
+                      }}
+                      onDeselect={(value, option) => {
+                        const data = specificationValue.filter(
+                          (item) => item.value !== value
+                        );
+                        RefFilterData.current[key] = RefFilterData.current[
+                          key
+                        ].filter((item: string) => item !== value);
+                        setSpecificationValue(data);
+                      }}
+                      onClear={() => {
+                        RefFilterData.current[key] = [];
+                        const data = specificationValue.filter(
+                          (item) => item.name !== key
+                        );
+                        setSpecificationValue(data);
+                      }}
+                    >
+                      {specification[key].value.map((item) => (
+                        <Option
+                          key={item.value_specification}
+                          value={item.value_specification}
+                        >
+                          {ucFirst(
+                            selectDataByLangValueSpecification(
+                              item,
+                              localActive
+                            )
+                          )}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Panel>
+                );
+              })}
+          </Collapse>
+
+          <Flex
+            justify="center"
+            style={{ marginBottom: 10 }}
+            vertical={true}
+            gap={"10px"}
+          >
+            <Button type="primary" loading={loadings} onClick={handleFilter}>
+              Применить фильтр
+            </Button>
+
+            <Button onClick={() => setFiltredProductIds([])}>
+              Сбросить <DeleteOutlined />
+            </Button>
+          </Flex>
+        </div>
+      </div>
+    </Flex>
   );
 };
 

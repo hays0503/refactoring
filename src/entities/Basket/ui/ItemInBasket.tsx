@@ -30,12 +30,23 @@ const ItemInBasket: React.FC<{
       gap={10}
     >
       <Flex justify="center" align="center" vertical style={styles.imageContainer}>
-        <Image
+        <div style={{
+          width:72,
+          height:72,
+          overflow: "hidden",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <img
           src={product.list_url_to_image[0] || "/placeholder.png"}
-          width={64}
-          height={64}
           alt={product.name_product || "Нет названия"}
+          style={{
+            height: "100%",
+            width: "auto",
+          }}
         />
+        </div>
         <Flex 
         gap="3px"
         style={styles.actionsContainer}

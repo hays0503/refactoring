@@ -18,6 +18,12 @@
 }
 
 
-.MenuImg{
-
+.Hover{
+    cursor: pointer;
+    transition: color 0.2s ease-out 100ms;
+    border: 1px solid transparent;
+    &:hover{
+        color: #fec10d;
+        border: 1px solid #fec10d;
+    }
 }
