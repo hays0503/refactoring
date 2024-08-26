@@ -1,6 +1,7 @@
 "use client";
 
 import { Footer } from "@/features/Footer";
+import { FooterMobile } from "@/features/FooterMobile";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
 import useTheme from "@/shared/hook/useTheme";
@@ -39,6 +40,7 @@ export function MainPage({
             <PopularProduct city={currentCity} urlCity={params.city} populates={populates} />
           </section>
           <Footer params={params}/>
+          <FooterMobile />
         </Content>
       </Layout>
     </ConfigProvider>
