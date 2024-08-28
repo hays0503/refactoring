@@ -34,12 +34,12 @@ export default function FooterMobile({ params }: { params: any }) {
   };
 
   const accountItems = [
-    <Link href={`/${localActive}/${params.city}/account`}>{t("akkaunt")}</Link>,
-    <Flex gap={"10px"}>
+    <Link key={"account"} href={`/${localActive}/${params.city}/account`}>{t("akkaunt")}</Link>,
+    <Flex key={"theme"} gap={"10px"}>
       <span>{t("vybrat-temu")}</span>
       <ThemeSwitcher />
     </Flex>,
-    <LangSwitcher params={params} />,
+    <LangSwitcher key={"lang"} params={params} />,
   ];
 
   const {isDarkTheme,isDarkThemeImage} = useTheme();
@@ -62,7 +62,7 @@ export default function FooterMobile({ params }: { params: any }) {
       style={{...styleContainer,...isDarkTheme}}
     >
       <Tabs
-        style={{ "--ant-tabs-horizontal-item-gutter": "3.5dvw" }}
+        style={{ "--ant-tabs-horizontal-item-gutter": "3.5dvw" } as CSSProperties}
         accessKey={current}
         onTabClick={(key) => setCurrent(key)}
         size="small"

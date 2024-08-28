@@ -236,7 +236,6 @@ export const BasketMobileBody = ({ city }: { city: string }) => {
         totalSum={totalSum}
         totalSumFake={totalSumFake}
         sale={sale}
-        hideButton={false}
       />
     </div>
   );

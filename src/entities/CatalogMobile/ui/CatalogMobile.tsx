@@ -14,7 +14,7 @@ export default function CatalogMobile({ params }: { params: any }) {
   const localeActive = useLocale();
   const [levelCategories, setLevelCategories] = useState<number>(0);
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
-  const stack = useRef<Category[]>([]);
+  const stack = useRef<Category[][]>([]);
 
   const {isDarkTheme,isDarkThemeImage} = useTheme();
 
