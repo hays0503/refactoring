@@ -14,7 +14,6 @@ import useBasketStore from "@/_app/store/basket";
 import { Suspense, useEffect, useState } from "react";
 const { Text } = Typography;
 import type { MenuProps } from "antd";
-import useOrderStore from "@/_app/store/order";
 import { BasketBody } from "./BasketBody";
 import { OrderInBasket } from "./OrderInBasket";
 

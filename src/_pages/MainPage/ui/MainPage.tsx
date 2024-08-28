@@ -40,7 +40,7 @@ export function MainPage({
             <PopularProduct city={currentCity} urlCity={params.city} populates={populates} />
           </section>
           <Footer params={params}/>
-          <FooterMobile />
+          <FooterMobile params={params} />
         </Content>
       </Layout>
     </ConfigProvider>

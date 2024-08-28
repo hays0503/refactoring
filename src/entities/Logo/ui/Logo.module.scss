@@ -3,5 +3,7 @@
     border-radius: 10px;
     padding-left: 30px;
     padding-right: 30px;
-
+    @media screen and (max-width: 768px) {
+        padding: 1%;
+    }
 }

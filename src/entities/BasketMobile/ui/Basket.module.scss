@@ -1,0 +1,193 @@
+.HeaderMenuContainer {
+  display: flex;
+  width: 100%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.HeaderMenuTop {
+  display: flex;
+  justify-content: center;
+
+  width: 30%;
+  padding-left: 15px;
+  padding-right: 15px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 0;
+  }
+}
+
+.HeaderMenuTopTabs {
+  display: flex;
+  flex-direction: row;
+  min-width: 60dvw;
+  justify-content: space-around;
+  padding-left: 10px;
+  padding-right: 10px;
+  // background-color: aquamarine;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.HeaderMenuLine1TabsSearch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15dvw;
+  // background-color: brown;
+  span {
+    input {
+      height: 40px;
+    }
+    span {
+      button {
+        height: 40px !important;
+      }
+    }
+  }
+}
+
+.HeaderMenuLine1TabsContacts {
+  min-width: 19dvw;
+  // background-color: blueviolet;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // background-color: cornflowerblue;
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.HeaderMenuLine1TabsContactsLink {
+  font-size: 1.1rem;
+  color: rgb(141, 141, 141) !important;
+  &:hover {
+    color: #fec10d !important;
+  }
+}
+
+.HeaderMenuLine1TabsCartContainer {
+  max-width: 320px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.HeaderMenuLine1TabsCartContainerContent {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  @media screen and (max-width: 1030px) {
+    flex-direction: column;
+  }
+}
+
+.HeaderMenuLine1TabsCartContainerContentData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.HeaderMenuLine2Container {
+  display: flex;
+  justify-content: center;
+  width: 75%;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  height: 50px;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
+}
+
+.HeaderMenuLine2ContainerCategory {
+  display: flex;
+  background-color: rgba(0, 0, 255, 0.685);
+  border-radius: 4px;
+  padding: 5px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 175px;
+  &:hover {
+    img {
+      //Анимация поворота на лево при наведении на категорию
+      transition: transform 0.5s;
+      transform: rotate(-90deg);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &:hover {
+      img {
+        //Анимация поворота на лево при наведении на категорию
+        transition: none;
+        transform: none;
+      }
+    }
+    flex-direction: column;
+    width: 95dvw;
+    // margin-left: 25px;
+    // margin-right: 25px;
+  }
+}
+
+.Scroll {
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    background-color: #f9f9fd;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #00c6fb, #005bea);
+  }
+}

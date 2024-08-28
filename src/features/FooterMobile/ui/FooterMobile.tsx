@@ -1,45 +1,71 @@
-import { Flex, Tabs, Typography } from "antd";
+import { Flex, List, MenuProps, Tabs, Typography } from "antd";
 import Image from "next/image";
 import { useState, CSSProperties } from "react";
+import style from "./FooterMobile.module.scss";
+import { CatalogMobile } from "@/entities/CatalogMobile";
+import { BasketMobile } from "@/entities/BasketMobile";
+import { BasketMobileBody } from "@/entities/BasketMobile/ui/BasketMobileBody";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { ThemeSwitcher } from "@/entities/ThemeSwitcher";
+import { LangSwitcher } from "@/entities/LangSwitcher";
+import useTheme from "@/shared/hook/useTheme";
+// import "./FooterMobile.scss";
 
 const { Text } = Typography;
 
-export default function FooterMobile() {
+export default function FooterMobile({ params }: { params: any }) {
+  const t = useTranslations();
   const [current, setCurrent] = useState<string>("1");
+  const localActive = useLocale();
 
-  const  returnStyleActive = (key: string): CSSProperties => {
+  const returnStyleActive = (key: string): CSSProperties => {
     return {
       color: key === current ? "#3F54CF" : "#8E8E8E",
     };
   };
 
-  const  returnStyleActiveAccent = (key: string): string => {
-    return key === current ? "#3F54CF" : "#8E8E8E"
-
+  const returnStyleActiveAccent = (key: string): string => {
+    return key === current ? "#3F54CF" : "#8E8E8E";
   };
 
   const returnStyleActiveBg = (key: string): string => {
-    return key === current ? "#A53594" : "#8E8E8E"
+    return key === current ? "#A53594" : "#8E8E8E";
+  };
 
-  }
+  const accountItems = [
+    <Link href={`/${localActive}/${params.city}/account`}>{t("akkaunt")}</Link>,
+    <Flex gap={"10px"}>
+      <span>{t("vybrat-temu")}</span>
+      <ThemeSwitcher />
+    </Flex>,
+    <LangSwitcher params={params} />,
+  ];
+
+  const {isDarkTheme,isDarkThemeImage} = useTheme();
+
+  const styleContainer: CSSProperties = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    // backgroundColor: "#FFFFFF",
+    zIndex: 1000,
+  };
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        backgroundColor: "#FFFFFF",
-        zIndex: 1000,
-      }}
+      
+      style={{...styleContainer,...isDarkTheme}}
     >
       <Tabs
+        style={{ "--ant-tabs-horizontal-item-gutter": "3.5dvw" }}
         accessKey={current}
         onTabClick={(key) => setCurrent(key)}
+        size="small"
         centered
         tabPosition="bottom"
         items={[
@@ -75,38 +101,42 @@ export default function FooterMobile() {
               </Flex>
             ),
             key: "2",
+            children: <CatalogMobile params={params} />,
           },
           {
             label: (
-              <Flex vertical={true} gap={"10px"} align="center">
-                <svg
-                  width="25"
-                  height="24"
-                  viewBox="0 0 25 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6.30847 18.71L4.70847 10.71H20.2685L18.6685 18.71H6.30847ZM5.48847 20.71H19.4885C20.0285 20.71 20.3685 20.42 20.4685 19.91L22.4285 10.11C22.5385 9.58 22.4385 9.24 22.0485 8.85L15.1985 2L13.7785 3.42L18.1085 7.74C18.8285 8.46 19.5085 8.59 20.5285 8.59V8.71H4.45847V8.59C5.47847 8.59 6.15847 8.46 6.87847 7.74L11.1985 3.42L9.77847 2L2.90847 8.82C2.49847 9.23 2.43847 9.57 2.54847 10.11L4.50847 19.91C4.60847 20.42 4.95847 20.71 5.48847 20.71Z"
-                    fill={returnStyleActiveBg("3")}
-                  />
-                  <path
-                    d="M17.4885 16.71H15.4885V12.71H17.4885V16.71Z"
-                    fill={returnStyleActiveBg("3")}
-                  />
-                  <path
-                    d="M13.4885 16.71H11.4885V12.71H13.4885V16.71Z"
-                    fill={returnStyleActiveBg("3")}
-                  />
-                  <path
-                    d="M9.48846 16.71H7.48846V12.71H9.48846V16.71Z"
-                    fill={returnStyleActiveBg("3")}
-                  />
-                </svg>
-                <Text style={returnStyleActive("3")}>Корзина</Text>
-              </Flex>
+              <BasketMobile>
+                <Flex vertical={true} gap={"10px"} align="center">
+                  <svg
+                    width="25"
+                    height="24"
+                    viewBox="0 0 25 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.30847 18.71L4.70847 10.71H20.2685L18.6685 18.71H6.30847ZM5.48847 20.71H19.4885C20.0285 20.71 20.3685 20.42 20.4685 19.91L22.4285 10.11C22.5385 9.58 22.4385 9.24 22.0485 8.85L15.1985 2L13.7785 3.42L18.1085 7.74C18.8285 8.46 19.5085 8.59 20.5285 8.59V8.71H4.45847V8.59C5.47847 8.59 6.15847 8.46 6.87847 7.74L11.1985 3.42L9.77847 2L2.90847 8.82C2.49847 9.23 2.43847 9.57 2.54847 10.11L4.50847 19.91C4.60847 20.42 4.95847 20.71 5.48847 20.71Z"
+                      fill={returnStyleActiveBg("3")}
+                    />
+                    <path
+                      d="M17.4885 16.71H15.4885V12.71H17.4885V16.71Z"
+                      fill={returnStyleActiveBg("3")}
+                    />
+                    <path
+                      d="M13.4885 16.71H11.4885V12.71H13.4885V16.71Z"
+                      fill={returnStyleActiveBg("3")}
+                    />
+                    <path
+                      d="M9.48846 16.71H7.48846V12.71H9.48846V16.71Z"
+                      fill={returnStyleActiveBg("3")}
+                    />
+                  </svg>
+                  <Text style={returnStyleActive("3")}>Корзина</Text>
+                </Flex>
+              </BasketMobile>
             ),
             key: "3",
+            children: <BasketMobileBody city={params.city} />,
           },
           {
             label: (
@@ -136,14 +166,17 @@ export default function FooterMobile() {
                   />
                 </svg>
 
-                <Text 
-                // disabled={true}
-                style={returnStyleActive("4")}
-                >Акции</Text>
+                <Text
+                  delete={true}
+                  disabled={true}
+                  style={returnStyleActive("4")}
+                >
+                  Акции
+                </Text>
               </Flex>
             ),
             key: "4",
-            // disabled: true,
+            disabled: true,
           },
           {
             label: (
@@ -155,14 +188,14 @@ export default function FooterMobile() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clip-path="url(#clip0_142_1257)">
+                  <g clipPath="url(#clip0_142_1257)">
                     <path
                       d="M13.4 14.78V12.57C12.71 12.3 11.98 12.12 11.22 12.04V11.93C13.59 11.54 15.4 9.48 15.4 7C15.4 4.24 13.16 2 10.4 2C7.64 2 5.4 4.24 5.4 7C5.4 9.48 7.21 11.54 9.58 11.93V12.04C6.39 12.36 3.7 14.52 2.67 17.5C2.28 18.63 2.18 19.85 2.08 21.05L2 22H4.01L4.08 21.05C4.17 19.85 4.26 18.71 4.75 17.66C5.81 15.39 7.97 14 10.4 14C11.47 14 12.49 14.27 13.4 14.78ZM7.4 7C7.4 5.34 8.74 4 10.4 4C12.06 4 13.4 5.34 13.4 7C13.4 8.66 12.06 10 10.4 10C8.74 10 7.4 8.66 7.4 7Z"
                       fill={returnStyleActiveAccent("5")}
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M17.8199 20C18.9245 20 19.8199 19.1046 19.8199 18C19.8199 16.8954 18.9245 16 17.8199 16C16.7154 16 15.8199 16.8954 15.8199 18C15.8199 19.1046 16.7154 20 17.8199 20ZM17.8199 22C20.0291 22 21.8199 20.2091 21.8199 18C21.8199 15.7909 20.0291 14 17.8199 14C15.6108 14 13.8199 15.7909 13.8199 18C13.8199 20.2091 15.6108 22 17.8199 22Z"
                       fill={returnStyleActiveBg("5")}
                     />
@@ -182,6 +215,14 @@ export default function FooterMobile() {
               </Flex>
             ),
             key: "5",
+            children: (
+              <>
+                <List
+                  dataSource={accountItems}
+                  renderItem={(item) => <List.Item>{item}</List.Item>}
+                />
+              </>
+            ),
           },
         ]}
       />

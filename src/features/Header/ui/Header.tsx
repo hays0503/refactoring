@@ -138,7 +138,7 @@ export default function Header({ params, currentCity, Cities }: any) {
           </Col>
 
           <Col xs={menuMobile} sm={menuMobile} md={menu} lg={menu} xl={menu} xxl={menu}>
-          <div className={styles.HeaderMenuContainer}>
+          <div id={styles.desktop} className={styles.HeaderMenuContainer}>
             <Menu
               className={styles.HeaderMenu}
               mode="horizontal"
@@ -148,7 +148,7 @@ export default function Header({ params, currentCity, Cities }: any) {
           </Col>
 
           <Col xs={accountMobile} sm={accountMobile} md={account} lg={account} xl={account} xxl={account}>
-          <div className={styles.HeaderAccountUser}>
+          <div id={styles.desktop} className={styles.HeaderAccountUser}>
             <Dropdown menu={{ items: accountItems }}>
               <div className={styles.HeaderAccountUserInfo}>
                 <Space>

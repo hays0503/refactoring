@@ -215,7 +215,7 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
   
   return (
     <>
-      <div id={style.desktop}>
+      <div className={style.HeaderMenuLine2ContainerCategory} id={style.desktop}>
         <Popover
           content={content}
           title="Перечень категорий"
@@ -239,9 +239,9 @@ export default function AllCategory({city,urlCity}:{city:string,urlCity:string})
         </Popover>
       </div>
 
-      <div id={style.mobile} style={{ width: "100dvw" }}>
+      {/* <div id={style.mobile} style={{ width: "100dvw" }}>
         <Collapse accordion ghost items={items} />
-      </div>
+      </div> */}
     </>
   );
 }

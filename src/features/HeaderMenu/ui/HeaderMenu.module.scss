@@ -144,35 +144,16 @@
     }
 }
 
-.HeaderMenuLine2ContainerCategory{
-    display: flex;
-    background-color: rgba(0, 0, 255, 0.685);
-    border-radius: 10px;
-    padding: 5px;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    width: 155px;
-    &:hover{
-        img{
-            //Анимация поворота на лево при наведении на категорию
-            transition: transform 0.5s;
-            transform: rotate(-90deg);
-        }
-    }
-
+#mobile{
+    display: none;
     @media screen and (max-width: 768px) {
-        &:hover{
-            img{
-            //Анимация поворота на лево при наведении на категорию
-            transition: none;
-            transform: none;
-        }}
-        flex-direction: column;
-        width: 95dvw; 
-        // margin-left: 25px;    
-        // margin-right: 25px;      
-    }    
+        display: inherit;
+    }
+}
+
+#desktop{
+    display: inherit;
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
 }

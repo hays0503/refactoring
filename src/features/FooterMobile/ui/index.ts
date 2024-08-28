@@ -1,3 +1,3 @@
-import FooterMobile from './FooterMobile.tsx'
+import FooterMobile from './FooterMobile'
 
 export { FooterMobile }
