@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ThemeSwitcher } from "@/entities/ThemeSwitcher";
 import { LangSwitcher } from "@/entities/LangSwitcher";
 import useTheme from "@/shared/hook/useTheme";
-// import "./FooterMobile.scss";
+
 
 const { Text } = Typography;
 
@@ -57,8 +57,8 @@ export default function FooterMobile({ params }: { params: any }) {
   };
 
   return (
-    <div
-      
+    <div      
+      id={style.mobile}
       style={{...styleContainer,...isDarkTheme}}
     >
       <Tabs

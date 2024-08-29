@@ -5,6 +5,7 @@ import style from "./style.module.scss";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import useTheme from "@/shared/hook/useTheme";
+import Link from "next/link";
 
 const { Title, Text } = Typography;
 
@@ -13,12 +14,17 @@ const Footer = ({ params }: { params: any }) => {
 
   const localActive = useLocale();
 
-  const { isDarkTheme,isDarkMode } = useTheme();
+  const { isDarkTheme, isDarkMode } = useTheme();
 
   return (
-    <div style={
-      isDarkMode ? { backgroundColor: "#5e5e5e" } : { backgroundColor: "#fff" }
-    } className={style.footer}>
+    <div
+      style={
+        isDarkMode
+          ? { backgroundColor: "#5e5e5e" }
+          : { backgroundColor: "#fff" }
+      }
+      className={style.footer}
+    >
       <div className={style.subscribeSection}>
         <div className={style.LogoContainer}>
           <div className={style.Logo}>
@@ -50,22 +56,27 @@ const Footer = ({ params }: { params: any }) => {
             <Title level={5}>{t("kompaniya")}</Title>
             <ul>
               <li>
-                <Text>{t("o-nas")}</Text>
+                <Link href={`/${localActive}/${params.city}/about`}>
+                  {t("o-nas-0")}
+                </Link>
               </li>
               <li>
-                <Text>{t("blog")}</Text>
+                <Text delete={true}>{t("blog")}</Text>
               </li>
               <li>
-                <Text>{t("garantii")}</Text>
+                <Link
+                  href={`/${localActive}/${params.city}/about-our-guarantees`}
+                >
+                  {t("nashi-garantii")}
+                </Link>
               </li>
               <li>
-                <Text>{t("vybor-goroda")}</Text>
+                <Link href={`/${localActive}/${params.city}/contact`}>
+                  {t("kontakty-0")}
+                </Link>
               </li>
               <li>
-                <Text>{t("kontakty")}</Text>
-              </li>
-              <li>
-                <Text>{t("novosti")}</Text>
+                <Text delete={true}>{t("novosti")}</Text>
               </li>
             </ul>
           </Col>
@@ -73,16 +84,18 @@ const Footer = ({ params }: { params: any }) => {
             <Title level={5}>{t("pomosh")}</Title>
             <ul>
               <li>
-                <Text>{t("sposoby-oplaty")}</Text>
+                <Link href={`/${localActive}/${params.city}/about-pays`}>
+                  {t("oplata")}
+                </Link>
               </li>
             </ul>
           </Col>
           <Col xs={24} sm={12} md={6} className={style.column}>
             <Title level={5}>{t("internet-magazin")}</Title>
             <ul>
-              <li>
+              {/* <li>
                 <Text>{t("kak-sdelat-zakaz")}</Text>
-              </li>
+              </li> */}
               <li>
                 <Text>{t("svyazhites-s-nami")}</Text>
               </li>
@@ -99,10 +112,14 @@ const Footer = ({ params }: { params: any }) => {
               <Text>БИН 160 440 027 443</Text>
             </p>
             <p>
-              <Text>{t("polzovatelskoe-soglashenie")}</Text>
+              <Link href={`/${localActive}/${params.city}/user-agreement`}>
+                {t("polzovatelskoe-soglashenie")}
+              </Link>
             </p>
             <p>
-              <Text>{t("politika-konfidencialnosti")}</Text>
+              <Link href={`/${localActive}/${params.city}/privacy-policy`}>
+                {t("politika-konfidencialnosti")}
+              </Link>
             </p>
           </Col>
         </Row>
