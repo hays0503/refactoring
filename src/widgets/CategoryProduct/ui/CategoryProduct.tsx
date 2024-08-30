@@ -62,9 +62,9 @@ const SortListViewDropdown = ({
     >
       <Typography.Link>
         <Space>
-          <Typography.Text>{`${items?.find(
-            (i: { key: string; }) => i.key === currentItem
-          ).label}`}</Typography.Text>
+          <Typography.Text>{`${
+            items?.find((i: { key: string }) => i.key === currentItem).label
+          }`}</Typography.Text>
           <DownOutlined />
         </Space>
       </Typography.Link>
@@ -76,12 +76,12 @@ function CategoryProduct({
   products,
   currentCategory,
   params,
-  currentCity
+  currentCity,
 }: {
   products: Products[];
   currentCategory: Category | null;
   params: any;
-  currentCity:string
+  currentCity: string;
 }) {
   const route = useRouter();
 
@@ -161,7 +161,6 @@ function CategoryProduct({
     backgroundColor: isDarkMode ? "rgb(94, 94, 94)" : "white",
   };
 
-
   return (
     <>
       {/* <div className={Style.MainContainer}> */}
@@ -210,20 +209,17 @@ function CategoryProduct({
           {/* Если продуктов нет то пишем товар закончился */}
           {products && products.length === 0 && <div>Товар закончился</div>}
           <ul>
-          {products?.map((product, index) => {
-            return (
-              <li key={index}>
-              {JSON.stringify(product.slug)}
-              {/* <ProductCartPreview
-                key={index}
-                product={product}
-                city={currentCity}
-                urlCity={params.city}
-                isVertical={isVertical}
-              /> */}
-              </li>
-            );
-          })}
+            {products?.map((product, index) => {
+              return (
+                <ProductCartPreview
+                  key={index}
+                  product={product}
+                  city={currentCity}
+                  urlCity={params.city}
+                  isVertical={isVertical}
+                />
+              );
+            })}
           </ul>
         </div>
       </div>
