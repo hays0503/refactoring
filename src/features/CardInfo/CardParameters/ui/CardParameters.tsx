@@ -8,7 +8,7 @@ import { selectDataByLangProducts } from "@/shared/tool/selectDataByLang";
 
 const { Text, Title } = Typography;
 
-const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
+const CardParameters = ({params,product }: {params:any,product: ProductsDetail | null }) => {
   const t = useTranslations();
   const localActive = useLocale();
 
@@ -27,7 +27,7 @@ const CardParameters = ({ product }: { product: ProductsDetail | null }) => {
                     title={selectDataByLangProducts(item, localActive)}
                     arrow={true}
                   >
-                    <a href={`/${localActive}/products/${item.slug}`}>
+                    <a href={`/${localActive}/${params.city}/products/${item.slug}`}>
                       <Image
                         className={style.ColorImage}
                         src={item.list_url_to_image[0]}
