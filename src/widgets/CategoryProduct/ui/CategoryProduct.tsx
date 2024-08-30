@@ -209,17 +209,22 @@ function CategoryProduct({
         >
           {/* Если продуктов нет то пишем товар закончился */}
           {products && products.length === 0 && <div>Товар закончился</div>}
+          <ul>
           {products?.map((product, index) => {
             return (
-              <ProductCartPreview
+              <li key={index}>
+              {JSON.stringify(product.slug)}
+              {/* <ProductCartPreview
                 key={index}
                 product={product}
                 city={currentCity}
                 urlCity={params.city}
                 isVertical={isVertical}
-              />
+              /> */}
+              </li>
             );
           })}
+          </ul>
         </div>
       </div>
       {/* </div> */}

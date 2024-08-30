@@ -59,7 +59,7 @@ export default function ProductCardDetail({
 
                   {/* Параметры */}
                   {product?.configuration.length !== 0 && (
-                    <CardParameters product={product} />
+                    <CardParameters params={params} product={product} />
                   )}
                 </div>
 
