@@ -3,6 +3,7 @@ import { Card, Skeleton } from "antd";
 import { useState, useEffect, useMemo } from "react";
 import { Products } from "@/shared/types/products";
 import React from "react";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 interface FetchProductbyIdProps {
   ids: number[];
@@ -16,7 +17,9 @@ function FetchProductbyId({ ids, currentCity,urlCity }: FetchProductbyIdProps) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/v1/products/by_ids/${ids.join(",")}/`)
+    fetch(`/api/v1/products/by_ids/${ids.join(",")}/`,{
+      next: revalidateConfig["/api/v1/products/by_ids"],
+    })
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);

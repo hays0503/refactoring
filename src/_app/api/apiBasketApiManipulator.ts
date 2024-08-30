@@ -1,3 +1,4 @@
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 import iBasket from "@/shared/types/basket";
 
 export default class BasketApiManipulator {
@@ -19,6 +20,7 @@ export default class BasketApiManipulator {
       const result = await fetch(
         "/basket_api/v1/bascket/",
         {
+          next: revalidateConfig["/basket_api/v1/bascket"],
           headers: {
             accept: "application/json;charset=utf-8",
             "Content-Type": "application/json;charset=utf-8",
@@ -68,6 +70,7 @@ export default class BasketApiManipulator {
       const result = await fetch(
         `/basket_api/v1/bascket/${uuid4}`,
         {
+          next: revalidateConfig["/basket_api/v1/bascket"],
           headers: {
             accept: "application/json;charset=utf-8",
             "Content-Type": "application/json;charset=utf-8",
@@ -115,6 +118,7 @@ export default class BasketApiManipulator {
       const result = fetch(
         `/basket_api/v1/bascket/${uuid4}`,
         {
+          next: revalidateConfig["/basket_api/v1/bascket"],
           headers: {
             accept: "application/json;charset=utf-8",
             "Content-Type": "application/json;charset=utf-8",
@@ -176,6 +180,7 @@ export default class BasketApiManipulator {
       const result = await fetch(
         "/basket_api/v1/bascket/create_or_update/",
         {
+          next: revalidateConfig["/basket_api/v1/bascket/create_or_update"],
           headers: {
             accept: "application/json;charset=utf-8",
             "Content-Type": "application/json;charset=utf-8",

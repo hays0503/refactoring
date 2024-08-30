@@ -11,6 +11,7 @@ import { Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import { Specification } from "@/shared/types/specification";
 import ucFirst from "@/shared/tool/ucFirst";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 const { Title, Text } = Typography;
 
@@ -48,7 +49,9 @@ export default function Specifications({ productId }: { productId: number }) {
   ];
 
   useEffect(() => {
-    fetch(`/api/v1/specif/filter_by_prod/${productId}`).then((response) =>
+    fetch(`/api/v1/specif/filter_by_prod/${productId}`,{
+      next: revalidateConfig["/api/v1/specif/filter_by_prod"],
+    }).then((response) =>
       response.json().then((data)=>setSpecifications(data)));    
   }, [productId]);
 

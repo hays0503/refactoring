@@ -1,8 +1,10 @@
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
+
 export async function generateStaticParams() {
   const arrId = await fetch(
     "http://pimenov.kz/api/v1/products/all/slugs/",
     {
-      next: { revalidate: 60 },
+      next: revalidateConfig["/api/v1/products/all/slugs"],
     }
   )
     .then((res) => res.json())

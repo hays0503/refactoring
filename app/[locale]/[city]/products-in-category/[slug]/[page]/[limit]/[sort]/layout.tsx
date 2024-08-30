@@ -1,4 +1,5 @@
 import { Providers } from "@/_app/providers/providers";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 import { MetaTagStatic } from "@/shared/MetaTagStatic";
 import { buildFlatCategory } from "@/shared/tool/buildFlatCategory";
 
@@ -13,7 +14,7 @@ export async function generateStaticParams() {
   try {
     const url = "http://pimenov.kz/api/v1/category/?format=json";
     const response = await fetch(url, {
-      next: { revalidate: 60 },
+      next: revalidateConfig["api/v1/category"],
     });
     const dataCatalog: Category[] = await response.json();
 

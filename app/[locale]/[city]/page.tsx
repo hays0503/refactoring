@@ -1,5 +1,6 @@
 import { MainPage } from "@/_pages/MainPage";
 import getCities from "@/shared/api/v1/getCities";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 import { iCity } from "@/shared/types/city";
 import { Populates } from "@/shared/types/populates";
 import { Products } from "@/shared/types/products";
@@ -12,7 +13,7 @@ const fetchPopularProduct = async (): Promise<Populates[]> => {
       {
         mode: "cors",
         credentials: "include",
-        next: { tags: ["fetchPopularProduct"], revalidate: 1 },
+        next: revalidateConfig["api/v1/populates"],
         method: "GET",
         headers: {
           Accept: "application/json;charset=utf-8",
@@ -39,7 +40,7 @@ const fetchProductByIds = async (ids: number[]): Promise<Products[]> => {
     const response = await fetch(url, {
       mode: "cors",
       credentials: "include",
-      next: { tags: ["fetchProductByIds"] },
+      next: revalidateConfig["/api/v1/products/by_ids"],
       method: "GET",
       headers: {
         Accept: "application/json;charset=utf-8",

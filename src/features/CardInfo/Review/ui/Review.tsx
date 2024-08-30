@@ -5,6 +5,7 @@ import style from "./Review.module.scss";
 import { useEffect, useState } from "react";
 import { Reviews } from "@/shared/types/reviews";
 import { User } from "@/shared/types/user";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 const { Title, Text } = Typography;
 
@@ -12,7 +13,9 @@ function ReviewItem({ item }: { item: Reviews }) {
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
-    fetch(`/auth_api/v1/auth_user/${item.user_id}`)
+    fetch(`/auth_api/v1/auth_user/${item.user_id}`, {
+      next: revalidateConfig["/auth_api/v1/auth_user"],
+    })
       .then((response) => response.json())
       .then((data: User) => setUserData(data));
   }, [item.user_id]);
@@ -40,7 +43,9 @@ export default function Review({ productId }: { productId: number }) {
   const [ReviewData, setReviewData] = useState<Reviews[] | []>([]);
 
   useEffect(() => {
-    fetch(`/api/v1/reviews/filter_by_prod/${productId}`)
+    fetch(`/api/v1/reviews/filter_by_prod/${productId}`,{
+      next: revalidateConfig["/api/v1/reviews/filter_by_prod"],
+    })
       .then((response) => response.json())
       .then((data: Reviews[]) => setReviewData(data));
   }, [productId]);

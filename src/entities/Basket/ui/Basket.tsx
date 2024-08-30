@@ -16,6 +16,7 @@ const { Text } = Typography;
 import type { MenuProps } from "antd";
 import { BasketBody } from "./BasketBody";
 import { OrderInBasket } from "./OrderInBasket";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 
 export default function Basket({ city }: { city: string }) {
@@ -44,7 +45,9 @@ export default function Basket({ city }: { city: string }) {
 
     const ids = Array.from(BasketData.keys()).join(",");
     // Асинхронная загрузка данных о продукте
-    fetch(`/api/v1/products/by_ids/${ids}`)
+    fetch(`/api/v1/products/by_ids/${ids}`, {
+      next: revalidateConfig["/api/v1/products/by_ids"],
+    })
       .then((response) => response.json())
       .then((products) => {
         setProducts(products); // Устанавливаем первый продукт или null

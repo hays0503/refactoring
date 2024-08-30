@@ -9,6 +9,7 @@ import beautifulCost from "@/shared/tool/beautifulCost";
 import React, { useEffect, useState } from "react";
 import useTheme from "@/shared/hook/useTheme";
 import { OrderInBasket } from "./OrderInBasket";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 const { Text, Title } = Typography;
 
@@ -163,7 +164,9 @@ export const BasketMobileBody = ({ city }: { city: string }) => {
 
     const ids = Array.from(BasketData.keys()).join(",");
     // Асинхронная загрузка данных о продукте
-    fetch(`/api/v1/products/by_ids/${ids}`)
+    fetch(`/api/v1/products/by_ids/${ids}`, {
+      next: revalidateConfig["/api/v1/products/by_ids"],
+    })
       .then((response) => response.json())
       .then((products) => {
         setProducts(products); // Устанавливаем первый продукт или null

@@ -1,6 +1,7 @@
 import { Category } from "@/shared/types/category";
 import { createWithEqualityFn  } from 'zustand/traditional'
 import { devtools } from "zustand/middleware";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 interface iCategoryStore {
   categories: Category[];
@@ -20,7 +21,7 @@ interface iCategoryStore {
 
 function initialCategories(): Promise<Category[]> {
   const data = fetch("/api/v1/category", {
-    next: { revalidate: 60 },
+    next: revalidateConfig["api/v1/category"],
   })
     .then((res) => res.json())
     .then((data: Category[]) => {

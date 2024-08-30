@@ -30,6 +30,7 @@ import { ProductsDetail } from "@/shared/types/productsDetail";
 import beautifulCost from "@/shared/tool/beautifulCost";
 import style from "./ProductCartPreview.module.scss";
 import useBasketStore from "@/_app/store/basket";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 const { Title, Text } = Typography;
 
@@ -49,11 +50,15 @@ const ReviewsUser = ({ product }: { product: Products }) => {
   const [dataReviewsUser, setDataReviewsUser] = useState<ReviewType[]>([]);
 
   useEffect(() => {
-    fetch("/api/v1/reviews")
+    fetch("/api/v1/reviews", {
+      next: revalidateConfig["/api/v1/reviews"],
+    })
       .then((res) => res.json())
       .then((rev) => {
         const buildRev = rev.map((item: { user_id: number }) => {
-          return fetch(`/auth_api/v1/auth_user/${item.user_id}`)
+          return fetch(`/auth_api/v1/auth_user/${item.user_id}`, {
+            next: revalidateConfig["/auth_api/v1/auth_user"],
+          })
             .then((res) => res.json())
             .then((data) => {
               return { ...item, user: data };

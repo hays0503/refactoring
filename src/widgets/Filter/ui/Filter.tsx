@@ -30,6 +30,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import createFilterUrl from "@/shared/tool/createFilterUrl";
 import parseFilters from "@/shared/tool/parseFilters";
 import { DownOutlined , UpOutlined} from '@ant-design/icons';
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 const { Panel } = Collapse;
 const { Option } = Select;
 
@@ -121,7 +122,9 @@ const Filter = ({
     }
 
     // Fetch categories
-    fetch(`/api/v1/category/${params.slug}/subcategories`)
+    fetch(`/api/v1/category/${params.slug}/subcategories`,{
+      next: revalidateConfig["/api/v1/category/[slug]/subcategories"],
+    })
       .then((response) => response.json())
       .then((data) => {
         //Подкатегории
@@ -143,7 +146,9 @@ const Filter = ({
       .catch((error) => console.error("Error fetching categories:", error));
 
     // Fetch brands
-    fetch(`/api/v1/brands/by_category/id/${id_category}`)
+    fetch(`/api/v1/brands/by_category/id/${id_category}`,{
+      next: revalidateConfig["/api/v1/brands/by_category/id/[id]"],
+    })
       .then((response) => response.json())
       .then((data) => {
         // Бренды
@@ -160,7 +165,11 @@ const Filter = ({
       .catch((error) => console.error("Error fetching brands:", error));
 
     //Fetch colors
-    fetch(`/api/v1/specif/by_category/id/${id_category}`)
+    fetch(`/api/v1/specif/by_category/id/${id_category}`,
+      {
+        next: revalidateConfig["/api/v1/specif/by_category/id/[id]"],
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         const result = processData(data);

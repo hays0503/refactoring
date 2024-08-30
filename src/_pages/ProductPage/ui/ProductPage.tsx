@@ -3,6 +3,7 @@
 import { Footer } from "@/features/Footer";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 import useTheme from "@/shared/hook/useTheme";
 import { iCity } from "@/shared/types/city";
 import { Products } from "@/shared/types/products";
@@ -17,7 +18,9 @@ const { Content } = Layout;
 
 const fetchProduct = async (slug: any, locale: string) => {
   const url = `/api/v1/products/${slug}`;
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    next: revalidateConfig["/api/v1/products"],
+  });
   if (!response.ok) {
     throw new Error("Failed to fetch product");
   }

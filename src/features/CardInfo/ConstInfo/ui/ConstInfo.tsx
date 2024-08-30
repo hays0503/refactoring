@@ -12,6 +12,7 @@ import scrolltoHash from "@/shared/tool/scrolltoHash";
 import { Discount } from "@/entities/Discount";
 import useBasketStore from "@/_app/store/basket";
 import { KaspiCredit } from "@/entities/Credit";
+import { revalidateConfig } from "@/shared/config/revalidateConfig";
 
 const { Text, Link } = Typography;
 
@@ -29,7 +30,7 @@ const RatingSmall = ({ product }: { product: ProductsDetail | null }) => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
   useEffect(() => {
     fetch(`/api/v1/reviews/filter_by_prod/${product?.id}`, {
-      cache: "force-cache",
+      next: revalidateConfig["/api/v1/reviews/filter_by_prod"],
     })
       .then((response) => response.json())
       .then((data) => setReviews(data));
