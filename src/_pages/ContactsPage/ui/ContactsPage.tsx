@@ -18,6 +18,7 @@ import { HeaderMenu } from "@/features/HeaderMenu";
 import { Footer } from "@/features/Footer";
 import useTheme from "@/shared/hook/useTheme";
 import { iCity } from "@/shared/types/city";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Title, Paragraph, Text, Link } = Typography;
 const { Content } = Layout;
@@ -150,6 +151,7 @@ export default function ContactsPage({
               </Suspense>
             </section>
             <Footer params={params}/>
+            <FooterMobile params={params} />
           </Content>
         </Layout>
       </ConfigProvider>

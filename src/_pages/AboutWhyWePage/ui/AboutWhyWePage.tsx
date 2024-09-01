@@ -16,6 +16,7 @@ import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
 import { useTranslations } from "next-intl";
 import useTheme from "@/shared/hook/useTheme";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -90,6 +91,7 @@ export default function AboutWhyWePage({
               </Suspense>
             </section>
             <Footer params={params}/>
+            <FooterMobile params={params} />
           </Content>
         </Layout>
       </ConfigProvider>

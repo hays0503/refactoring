@@ -9,6 +9,7 @@ import { HeaderMenu } from "@/features/HeaderMenu";
 import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Content } = Layout;
 
@@ -53,6 +54,7 @@ export default function LeaveRequestPage({
               </Suspense>
             </section>
             <Footer params={params}/>
+            <FooterMobile params={params} />
           </Content>
         </Layout>
       </ConfigProvider>

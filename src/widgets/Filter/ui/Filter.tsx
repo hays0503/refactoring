@@ -177,7 +177,7 @@ const Filter = ({
         setSpecification(result);
       })
       .catch((error) => console.error("Error fetching colors:", error));
-  }, [id_category, params.slug]);
+  }, [id_category, params.slug,localActive, params.filters]);
 
   const handleFilter = () => {
     setLoadings(true);

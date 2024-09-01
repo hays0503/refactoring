@@ -10,7 +10,7 @@ const useGetCategory = () => {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  }, [fetchCategories]);
 
   return category;
 };

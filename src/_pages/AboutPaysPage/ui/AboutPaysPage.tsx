@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { Footer } from "@/features/Footer";
 import useTheme from "@/shared/hook/useTheme";
 import { iCity } from "@/shared/types/city";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -132,6 +133,7 @@ export default function AboutPaysPage({
               </Suspense>
             </section>
             <Footer params={params}/>
+            <FooterMobile params={params} />
           </Content>
         </Layout>
       </ConfigProvider>

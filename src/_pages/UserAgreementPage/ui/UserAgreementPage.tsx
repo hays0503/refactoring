@@ -17,6 +17,7 @@ import { HeaderMenu } from "@/features/HeaderMenu";
 import Image from "next/image";
 import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Title, Paragraph } = Typography;
 
@@ -646,6 +647,7 @@ export default function UserAgreementPage({
           </Suspense>
         </section>
         <Footer params={params} />
+        <FooterMobile params={params} />
       </Layout>
     </ConfigProvider>
   );

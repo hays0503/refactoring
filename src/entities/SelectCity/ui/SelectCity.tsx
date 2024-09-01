@@ -66,7 +66,7 @@ export default function SelectCity({ params, currentCity, Cities }: any) {
         setMissCity(true);
       }
     }
-  }, [currentCity, dataHook.currentCity]);
+  }, [currentCity, dataHook.currentCity, CityStore.missCityConfirm]);
 
   return (
     <>

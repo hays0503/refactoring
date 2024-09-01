@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -120,6 +121,7 @@ const DeliveryPage = ({
             </Suspense>
           </section>
           <Footer params={params}/>
+          <FooterMobile params={params} />
         </Layout>
       </ConfigProvider>
     </>

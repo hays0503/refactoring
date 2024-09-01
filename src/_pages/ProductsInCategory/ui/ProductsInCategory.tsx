@@ -23,6 +23,7 @@ import { CategoryProduct } from "@/widgets/CategoryProduct";
 import { useShallow } from "zustand/react/shallow";
 // import { CategoryProduct } from "@/widgets/CategoryProduct";
 import { Filter } from "@/widgets/Filter";
+import { FooterMobile } from "@/features/FooterMobile";
 // import fetchCurrentCategory from "../../../shared/api/v1/fetchCurrentCategory";
 // import fetchByCatProduct from "../../../shared/api/v1/fetchByCatProduct";
 // import fetchProductByIds from "../../../shared/api/v1/fetchProductByIds";
@@ -77,7 +78,7 @@ export default function ProductsInCategory({
       // }
     });
   }, [
-    slug,
+    slug,setCurrentCategories
   ]);
 
   const currentPage = (page: number) => (page <= 0 ? 1 : page + 1);
@@ -132,6 +133,7 @@ export default function ProductsInCategory({
             </Flex> */}
           </section>
           <Footer params={params} />
+          <FooterMobile params={params} />
         </Content>
       </Layout>
     </ConfigProvider>

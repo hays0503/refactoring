@@ -223,7 +223,7 @@ export const BasketMobileBody = ({ city }: { city: string }) => {
         }
       })
       .catch(() => setIsLoading(false)); // Обработка ошибок
-  }, [BasketData, city, products.length]);
+  }, [BasketData, city, products.length, updateProduct]);
 
   // Пока идет загрузка, возвращаем null или индикатор загрузки
   if (isLoading) return <Text>Загрузка...</Text>;

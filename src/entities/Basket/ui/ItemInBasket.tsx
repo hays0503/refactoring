@@ -38,13 +38,15 @@ const ItemInBasket: React.FC<{
           justifyContent: "center",
           alignItems: "center",
         }}>
-        <img
+        <Image
           src={product.list_url_to_image[0] || "/placeholder.png"}
           alt={product.name_product || "Нет названия"}
           style={{
-            height: "100%",
-            width: "auto",
+            height: "100% !important",
+            width: "auto !important",
           }}
+          width={72}
+          height={72}
         />
         </div>
         <Flex 

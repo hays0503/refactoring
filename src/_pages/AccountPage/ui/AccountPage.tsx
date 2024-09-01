@@ -17,6 +17,7 @@ import Image from "next/image";
 import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const { Text,Title,Paragraph } = Typography;
 
@@ -95,6 +96,7 @@ const AccountPage = ({
             </Suspense>
           </section>
           <Footer params={params}/>
+          <FooterMobile params={params} />
       </Layout>
     </ConfigProvider>
   );

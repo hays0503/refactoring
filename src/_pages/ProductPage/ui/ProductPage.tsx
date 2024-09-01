@@ -1,6 +1,7 @@
 "use client"
 
 import { Footer } from "@/features/Footer";
+import { FooterMobile } from "@/features/FooterMobile";
 import { Header } from "@/features/Header";
 import { HeaderMenu } from "@/features/HeaderMenu";
 import { revalidateConfig } from "@/shared/config/revalidateConfig";
@@ -60,6 +61,7 @@ export default function ProductPage({ params, Cities }: {params:any,Cities:iCity
             <ProductCardDetail product={product} params={params} currentCity={currentCity} />
           </section>
           <Footer params={params}/>
+          <FooterMobile params={params} />
         </Content>
       </Layout>
     </ConfigProvider>

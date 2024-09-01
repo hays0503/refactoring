@@ -49,15 +49,17 @@ const CardPresent = ({
 
   const [selectPresent, setSelectPresent] = useState<number>(0);
 
-  const { addProduct, BasketData,removeGiftProduct } = useBasketStore((state) => ({
+  const { addProduct, BasketData, removeGiftProduct } = useBasketStore((state) => ({
     addProduct: state.addProduct,
     BasketData: state.BasketData,
     removeGiftProduct: state.removeGiftProduct
   }));
 
+  const giftProductId = product?.id ? BasketData.get(product.id)?.gift_prod_id : -1;
+
   useEffect(() => {
-    setSelectPresent(BasketData.get(product?.id ?? 0)?.gift_prod_id ?? -1);
-  },[BasketData.get(product?.id ?? 0)?.gift_prod_id,selectPresent])
+    setSelectPresent(giftProductId ?? -1);
+  }, [giftProductId, product?.id]);
 
   return (
     <>
@@ -85,13 +87,13 @@ const CardPresent = ({
                 />
               )}
             </ul>
-            {BasketData.get(product?.id ?? 0)?.gift_prod_id && (
+            { (giftProductId != undefined && giftProductId !== -1) && (
               <Flex vertical>
                 <Text>
                   {`${t("v-podarok")}:  ${
                     product?.present.find(
                       (item) =>
-                        item.id === BasketData.get(product.id)?.gift_prod_id
+                        item.id === giftProductId
                     )?.name_product
                   }`}
                 </Text>
@@ -119,5 +121,88 @@ const CardPresent = ({
     </>
   );
 };
+
+// const CardPresent = ({
+//   product,
+//   currentCity,
+// }: {
+//   product: ProductsDetail | null;
+//   currentCity: string;
+// }) => {
+//   const t = useTranslations();
+//   const localActive = useLocale();
+
+//   const [selectPresent, setSelectPresent] = useState<number>(0);
+
+//   const { addProduct, BasketData,removeGiftProduct } = useBasketStore((state) => ({
+//     addProduct: state.addProduct,
+//     BasketData: state.BasketData,
+//     removeGiftProduct: state.removeGiftProduct
+//   }));
+
+//   useEffect(() => {
+//     setSelectPresent(BasketData.get(product?.id ?? 0)?.gift_prod_id ?? -1);
+//   },[BasketData.get(product?.id ?? 0)?.gift_prod_id,selectPresent,product?.id]);
+
+//   return (
+//     <>
+//       <div className={style.Container}>
+//         <div className={style.Params}>
+//           <div className={style.ColorHeader}>
+//             <Text strong>{t("vyberite-podarok")}</Text>
+//           </div>
+//           <div className={style.ItemContainer}>
+//             <ul className={style.ListUl}>
+//               {product?.present && (
+//                 <Radio.Group
+//                   value={selectPresent}
+//                   onChange={(e) => {
+//                     const gift_id: number = e.target.value;
+//                     addProduct(
+//                       product.id,
+//                       gift_id,
+//                       0,
+//                       product?.price?.[currentCity] ?? 0,
+//                       currentCity
+//                     );
+//                   }}
+//                   options={Build(product.present, localActive)}
+//                 />
+//               )}
+//             </ul>
+//             {BasketData.get(product?.id ?? 0)?.gift_prod_id && (
+//               <Flex vertical>
+//                 <Text>
+//                   {`${t("v-podarok")}:  ${
+//                     product?.present.find(
+//                       (item) =>
+//                         item.id === BasketData.get(product.id)?.gift_prod_id
+//                     )?.name_product
+//                   }`}
+//                 </Text>
+//                 <Button 
+//                   icon={<FrownTwoTone />}
+//                   onClick={() => {
+//                     removeGiftProduct(product?.id ?? -1);
+//                     addProduct(
+//                       product?.id ?? -1,
+//                       null,
+//                       0,
+//                       product?.price?.[currentCity] ?? 0,
+//                       currentCity
+//                     );
+//                     setSelectPresent(-1);
+//                   }}
+//                 >
+//                     Мне не нужен подарок
+//                 </Button>
+//               </Flex>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
 
 export default CardPresent;

@@ -7,6 +7,7 @@ import useTheme from "@/shared/hook/useTheme";
 import { Footer } from "@/features/Footer";
 import { iCity } from "@/shared/types/city";
 import { Suspense } from "react";
+import { FooterMobile } from "@/features/FooterMobile";
 
 const ReviewsPage = ({
   params,
@@ -41,6 +42,7 @@ const ReviewsPage = ({
             </Suspense>
           </section>
           <Footer params={params}/>
+          <FooterMobile params={params} />
         </Layout>
       </ConfigProvider>
     </>
