@@ -13,6 +13,7 @@ import { Discount } from "@/entities/Discount";
 import useBasketStore from "@/_app/store/basket";
 import { KaspiCredit } from "@/entities/Credit";
 import { revalidateConfig } from "@/shared/config/revalidateConfig";
+import { shallow } from "zustand/shallow";
 
 const { Text, Link } = Typography;
 
@@ -105,9 +106,9 @@ const ConstInfo = ({
 }) => {
   // const City = useCityStore((state) => state.currentCity);
 
-  const { addProduct } = useBasketStore((store) => {
-    return { addProduct: store.addProduct };
-  });
+  const [addProduct, BasketData] = useBasketStore((store) => [store.addProduct, store.BasketData],shallow);
+
+  const currentGiftSelect = BasketData.get(product?.id!)?.gift_prod_id;
 
   const t = useTranslations();
 
@@ -132,7 +133,7 @@ const ConstInfo = ({
           onClick={() =>
             addProduct(
               product.id,
-              -1,
+              currentGiftSelect ? currentGiftSelect : -1,
               1,
               product.price?.[currentCity] ? product.price?.[currentCity] : -1,
               currentCity
