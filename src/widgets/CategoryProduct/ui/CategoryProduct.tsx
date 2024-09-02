@@ -208,7 +208,7 @@ function CategoryProduct({
         >
           {/* Если продуктов нет то пишем товар закончился */}
           {products && products.length === 0 && <div>Товар закончился</div>}
-          <ul>
+          
             {products?.map((product, index) => {
               return (
                 <ProductCartPreview
@@ -220,7 +220,7 @@ function CategoryProduct({
                 />
               );
             })}
-          </ul>
+          
         </div>
       </div>
       {/* </div> */}
